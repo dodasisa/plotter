@@ -27,6 +27,7 @@
 
 Robot::Robot(Config &config)
 {
+	cerr << "Robot::Robot" << endl;
 	int errorCount=0;
 	mReady=FALSE;
 	mName=config.GetValue("Name");
@@ -65,6 +66,7 @@ Robot::Robot(Config &config)
 }
 Robot::~Robot()
 {
+	cerr << "Robot::~Robot" << endl;
 	for (vector<Camera*>::iterator cameraIterator = cameras.begin(); cameraIterator != cameras.end(); ++cameraIterator)
 	{
 		Camera *camera = *cameraIterator;
