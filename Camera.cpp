@@ -26,17 +26,21 @@
 
 Camera::Camera()
 {
+	cerr << "Camera::Camera" << endl;
 	mReady=FALSE;
 }
 Camera::~Camera()
 {
+	cerr << "Camera::~Camera" << endl;
 	mReady=FALSE;
 }
 
 int Camera::Init(string name)
 {
+	cerr << "Camera::Init" << endl;
 	mName=name;
 	std::cout << "Camera named " << mName  << std::endl;
+/*
 	try{
 		mReady=camera.open();
 	}
@@ -45,6 +49,7 @@ int Camera::Init(string name)
 		mReady=false;
 	}
 	if (!mReady) std::cerr << "Error opening the camera " << mName << std::endl;
+	*/
 	return mReady;
 }
 
