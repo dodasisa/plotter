@@ -65,7 +65,21 @@ Robot::Robot(Config &config)
 }
 Robot::~Robot()
 {
-	// TODO: Must delete the dynamically created cameras, leds and vectors
+	for (vector<Camera>::iterator cameraIterator = cameras.begin(); cameraIterator != cameras.end(); ++cameraIterator)
+	{
+		Camera *camera = *cameraIterator;
+		delete(camera);
+	}
+	for (vector<Led>::iterator ledIterator = leds.begin(); ledIterator != leds.end(); ++ledIterator)
+	{
+		Led *led = *ledIterator;
+		delete(led);
+	}
+	for (vector<Servo>::iterator servoIterator = servos.begin(); servoIterator != servos.end(); ++servoIterator)
+	{
+		Servo *servo = *servoIterator;
+		delete(servo);
+	}
 	mReady=false;
 }
 int Robot::IsReady()
