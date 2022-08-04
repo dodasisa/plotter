@@ -1,27 +1,26 @@
-CC = g++
-CFLAGS  = -g -Wall -I/usr/local/include
-CLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util
+CC=gcc
+CXX=g++
+RM=rm -f
+CPPFLAGS=-g -Wall -I/usr/local/include
+LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util
+SRCS=main.cpp Led.cpp Camera.cpp Servo.cpp Robot.cpp Config.cpp Component.cpp
+OBJS=$(subst .cpp,.0,$(SRCS))
 
-plotter: main.o Led.o Camera.o Servo.o Robot.o Config.o Component.o
-	$(CC) $(CFLAGS) -o plotter main.o Led.o Camera.o Servo.o Robot.o Config.o Component.o $(CLIBS)
+all: plotter
 
-main.o: main.cpp Led.hpp Camera.hpp Servo.hpp Robot.hpp Component.hpp
-	$(CC) $(CFLAGS) -c main.cpp
-	
-Led.o: Led.hpp Led.cpp
-	$(CC) $(CFLAGS) -c Led.cpp
-	
-Camera.o: Camera.hpp Camera.cpp
-	$(CC) $(CFLAGS) -c Camera.cpp
-	
-Servo.o: Servo.hpp Servo.cpp
-	$(CC) $(CFLAGS) -c Servo.cpp
-	
-Robot.o: Robot.hpp Robot.cpp
-	$(CC) $(CFLAGS) -c Robot.cpp
-	
-Config.o: Config.hpp Config.cpp
-	$(CC) $(CFLAGS) -c Config.cpp
+plotter: $(OBJS)
+	$(CXX) $(CPPFLAGS) -o plotter $(OBJS) $(LDLIBS)
 
-Component.o: Component.hpp Component.cpp
-	$(CC) $(CFLAGS) -c Component.cpp
+depend: .depend
+
+.depend: $(SRCS)
+	$(RM) ./.depend
+	$(CXX) $(CPPFLAFS) -MM $^>>./.depend;
+
+clean:
+	$(RM) $(OBJS)
+
+distclean: clean
+	$(RM) *~ .depend
+
+include .depend
