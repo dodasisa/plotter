@@ -40,15 +40,15 @@ Robot::Robot(Config &config)
 		{
 			case camera:
 				cameras.push_back(new Camera());
-				if (cameras.back().Init(component.GetName()) == ERROR) errorCount++;
+				if (cameras.back()->Init(component.GetName()) == ERROR) errorCount++;
 				break;
 			case led:
 				leds.push_back(new Led());
-				if (leds.back().Init(component.GetName(), component.GetPin()) == ERROR) errorCount++;
+				if (leds.back()->Init(component.GetName(), component.GetPin()) == ERROR) errorCount++;
 			break;
 			case servo:
 				servos.push_back(new Servo());
-				if (servos.back().Init(component.GetName()) == ERROR) errorCount++;
+				if (servos.back()->Init(component.GetName()) == ERROR) errorCount++;
 				break;
 			break;
 			case unknown:
@@ -65,17 +65,17 @@ Robot::Robot(Config &config)
 }
 Robot::~Robot()
 {
-	for (vector<Camera>::iterator cameraIterator = cameras.begin(); cameraIterator != cameras.end(); ++cameraIterator)
+	for (vector<Camera*>::iterator cameraIterator = cameras.begin(); cameraIterator != cameras.end(); ++cameraIterator)
 	{
 		Camera *camera = *cameraIterator;
 		delete(camera);
 	}
-	for (vector<Led>::iterator ledIterator = leds.begin(); ledIterator != leds.end(); ++ledIterator)
+	for (vector<Led*>::iterator ledIterator = leds.begin(); ledIterator != leds.end(); ++ledIterator)
 	{
 		Led *led = *ledIterator;
 		delete(led);
 	}
-	for (vector<Servo>::iterator servoIterator = servos.begin(); servoIterator != servos.end(); ++servoIterator)
+	for (vector<Servo*>::iterator servoIterator = servos.begin(); servoIterator != servos.end(); ++servoIterator)
 	{
 		Servo *servo = *servoIterator;
 		delete(servo);
