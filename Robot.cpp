@@ -65,6 +65,7 @@ Robot::Robot(Config &config)
 }
 Robot::~Robot()
 {
+	// TODO: Must delete the dynamically created cameras, leds and vectors
 	mReady=false;
 }
 int Robot::IsReady()
