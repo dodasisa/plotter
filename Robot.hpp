@@ -36,9 +36,9 @@ class Robot
 	private:
 	int mReady;
 	string mName;
-	vector<Camera> cameras;
-	vector<Led> leds;
-	vector<Servo> servos;
+	vector<Camera*> cameras;
+	vector<Led*> leds;
+	vector<Servo*> servos;
 	
 	public:
 	Robot(Config &config);
