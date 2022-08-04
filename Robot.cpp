@@ -39,15 +39,15 @@ Robot::Robot(Config &config)
 		switch (component.GetType())
 		{
 			case camera:
-				cameras.push_back(Camera());
+				cameras.push_back(new Camera());
 				if (cameras.back().Init(component.GetName()) == ERROR) errorCount++;
 				break;
 			case led:
-				leds.push_back(Led());
+				leds.push_back(new Led());
 				if (leds.back().Init(component.GetName(), component.GetPin()) == ERROR) errorCount++;
 			break;
 			case servo:
-				servos.push_back(Servo());
+				servos.push_back(new Servo());
 				if (servos.back().Init(component.GetName()) == ERROR) errorCount++;
 				break;
 			break;
