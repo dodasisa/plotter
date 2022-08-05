@@ -34,17 +34,19 @@ using namespace std;
 
 class Config
 {
-	private:
+private:
 	string mFileName;
 	int Read();
 	string Trim(string text);
-	
-	public:
+	int mState;
+
+public:
 	Config(string fileName);
 	~Config();
-	map<string,string> data;
-	vector<Component> components;
+	map<string, string> data;
+	vector<Component*> components;
 	string GetValue(string key);
+	int IsValid();
 };
 
 #endif
