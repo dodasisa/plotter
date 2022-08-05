@@ -53,10 +53,12 @@ int Config::Read()
 	string inputLine;
 	string line;
 	ifstream stream(mFileName);
+	int lineNumber = 0;
 	if (stream.is_open())
 	{
 		while (getline(stream, inputLine))
 		{
+			lineNumber++;
 			string line = Trim(inputLine);
 			if (line.substr(0, 2) != "//" && line.substr(0, 1) != "#") { // skip the line; It is a comment
 				size_t pos = 0;
@@ -75,7 +77,7 @@ int Config::Read()
 						if ((pos = line.find("(")) != string::npos) {
 							Component* component = new Component(token, value);
 							if (component->GetType() == unknown) {
-								cerr << "Unknown component type" << endl;
+								cerr << "Config line " << lineNumber << ". Unknown component type" << endl;
 								mState = ERROR;
 							}
 							else
@@ -83,14 +85,14 @@ int Config::Read()
 						}
 						else
 						{
-							cerr << "Missing details" << endl;
+							cerr << "Config line " << lineNumber << ". Missing details" << endl;
 							mState = ERROR;
 						}
 					}
 				}
 				else
 				{
-					cerr << "Format error" << endl;
+					cerr << "Config line " << lineNumber << ". Format error" << endl;
 					mState = ERROR;
 				}
 			}
