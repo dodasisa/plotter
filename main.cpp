@@ -31,6 +31,10 @@
 
 int main(int argc, char **argv)
 {
+	if (argc > 1)
+		ConfigFile=argv[1];
+	else
+		ConfigFile="robot.cfg";
 	std::cerr << "main" << endl;
 	std::cout << "Starting plotter" << std::endl;
 	if (gpioInitialise() < 0)
@@ -38,7 +42,7 @@ int main(int argc, char **argv)
 		std::cout << "GPIO fails to initialise" << endl;
 		return EXIT_FAILURE;
 	}
-	Config config("robot.cfg");
+	Config config(ConfigFile);
 	std::cerr << "config contents " << config.components.size() << " components" << endl;
 	Robot robot(config);
 	if (!robot.IsReady()) 
