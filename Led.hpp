@@ -42,7 +42,6 @@ class Led
 	int Init(string name,int pin);
 	int On();
 	int Off();
-	int SetState(int state);
 	int GetState();
 	int Toggle();	
 	int GetPin();
