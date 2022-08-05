@@ -28,6 +28,8 @@
 Led::Led()
 {
 	std::cerr << "Led::Led" << endl;
+	mPin=0;
+	mState=OFF;
 }
 
 Led::~Led()
