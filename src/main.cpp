@@ -21,11 +21,7 @@
  * 
  */
 
-#include <stdio.h>
-#include <iostream>
-#include <pigpio.h>
-#include <string>
-
+#include "../inc/main.hpp"
 #include "../inc/Robot.hpp"
 #include "../inc/Config.hpp"
 
