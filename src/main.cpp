@@ -25,8 +25,21 @@
 #include "../inc/Robot.hpp"
 #include "../inc/Config.hpp"
 
+LoggerPtr logger(Logger::getLogger("robot"));
+
 int main(int argc, char **argv)
 {
+	try
+	{
+		BasicConfigurator::configure();
+		LOG4CXX_INFO(logger, "Starting robot.");
+	}
+	catch(Exception&)
+	{
+		std::cerr << "logger fails to start" << endl;
+		return EXIT_FAILURE;
+	}
+	
 	string configFile="robot.cfg";
 	if (argc > 1) configFile=argv[1];	
 	std::cerr << "main" << endl;
