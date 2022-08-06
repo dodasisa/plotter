@@ -41,7 +41,7 @@ class Robot
 	vector<Servo*> servos;
 	
 	public:
-	Robot(Config &config);
+	Robot(Config* config);
 	~Robot();
 	int IsReady();
 	int Run();

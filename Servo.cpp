@@ -28,7 +28,7 @@
 Servo::Servo()
 {
 	std::cerr << "Servo::Servo" << endl;
-	mReady=TRUE;
+	mReady = FALSE;
 }
 Servo::~Servo()
 {

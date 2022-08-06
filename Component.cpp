@@ -1,7 +1,7 @@
 /*
  * Component.cpp
  * 
- * Copyright 2022  <david@raspberrypi>
+ * Copyright 2022  <david.lopez.velazquez@gmail.com>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,28 +23,38 @@
  
 #include "Component.hpp"
 
-Component::Component(string name,string config)
+Component::Component(string name, string config)
 {
-	mName=name;
+	mType = unknown;
+	mName = name;
 	size_t pos = 0;
+	if ((pos = config.find("(")) == string::npos) 
+	{
+		cerr << "Missing configuration info for Component " << name << endl;
+		return;
+	}
 	while ((pos = config.find(".")) != string::npos)
 	{
-		config.erase(0,pos+1);
+		config.erase(0, pos + 1);
 		size_t pos2 = 0;
 		if ((pos2 = config.find("(")) != string::npos)
 		{
-			string token=config.substr(0,pos2);
-			config.erase(0,pos2+1);
+			string token = config.substr(0, pos2);
+			config.erase(0, pos2 + 1);
 			size_t pos3 = 0;
 			if ((pos3 = config.find(")")) != string::npos)
 			{
-				string value=config.substr(0,pos3);
-				if (Apply(token,value)==ERROR)
+				string value = config.substr(0, pos3);
+				if (Apply(token, value) == ERROR)
 				{
 					cerr << "Cannot handle token " << token << " and value " << value << endl;
 				}
 			}
+			else
+				cerr << "Wrong configuration info for Component. Missing ) ?" << endl;
 		}
+		else
+			cerr << "Missing configuration info for Component" << endl;
 	}
 }
 
@@ -54,15 +64,18 @@ Component::~Component()
 
 int Component::SetType(string type)
 {
-	mType=unknown;
-	if (type=="led")
-		mType=led;
-	if (type=="servo")
-		mType=servo;
-	if (type=="camera")
-		mType=camera;
-	if (mType==unknown)
+	mType = unknown;
+	if (type == "led")
+		mType = led;
+	if (type == "servo")
+		mType = servo;
+	if (type == "camera")
+		mType = camera;
+	if (mType == unknown)
+	{
+		cerr << "Unknown type of component" << endl;
 		return ERROR;
+	}
 	else
 		return OK;
 }
@@ -75,11 +88,11 @@ int Component::SetPin(string pin)
 
 int Component::Apply(string token, string value)
 {
-	if (token=="type")
+	if (token == "type")
 		return SetType(value);
-	if (token=="pin")
+	if (token == "pin")
 		return SetPin(value);
-	return ERROR;	
+	return ERROR;
 }
 
 ComponentType Component::GetType()

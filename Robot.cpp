@@ -25,64 +25,63 @@
 #include "Robot.hpp"
 #include "Constants.hpp"
 
-Robot::Robot(Config &config)
+Robot::Robot(Config* config)
 {
 	cerr << "Robot::Robot" << endl;
-	int errorCount=0;
-	mReady=FALSE;
-	mName=config.GetValue("Name");
+	int errorCount = 0;
+	mReady = FALSE;
+	mName = config->GetValue("Name");
 	std::cout << "Starting Robot " << mName << std::endl;
-	std::cout << "Found " << config.components.size() << " components in the config file" << endl;
-	vector<Component>::iterator componentIterator;
-	for (componentIterator = config.components.begin(); componentIterator != config.components.end(); ++componentIterator)
+	std::cout << "Found " << config->components.size() << " components in the config file" << endl;
+	vector<Component*>::iterator componentIterator;
+	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
 	{
-		Component component = *componentIterator;
-		switch (component.GetType())
+		Component* component = *componentIterator;
+		switch (component->GetType())
 		{
-			case camera:
-				cameras.push_back(new Camera());
-				if (cameras.back()->Init(component.GetName()) == ERROR) errorCount++;
-				break;
-			case led:
-				leds.push_back(new Led());
-				if (leds.back()->Init(component.GetName(), component.GetPin()) == ERROR) errorCount++;
+		case camera:
+			cameras.push_back(new Camera());
+			if (cameras.back()->Init(component->GetName()) == ERROR) errorCount++;
 			break;
-			case servo:
-				servos.push_back(new Servo());
-				if (servos.back()->Init(component.GetName()) == ERROR) errorCount++;
-				break;
+		case led:
+			leds.push_back(new Led());
+			if (leds.back()->Init(component->GetName(), component->GetPin()) == ERROR) errorCount++;
 			break;
-			case unknown:
-			default:
+		case servo:
+			servos.push_back(new Servo());
+			if (servos.back()->Init(component->GetName()) == ERROR) errorCount++;
+			break;
+		case unknown:
+		default:
 			break;
 		}
 	}
-	
-//	if (!eye.Init("Eyes")) errorCount++;
-//	if (!led.Init("ReadyIndicator",5)) errorCount++;
-//	if (!shoulder.Init("Shoulder")) errorCount++;
-//	if (!elbow.Init("Elbow")) errorCount++;
-	if (errorCount==0) mReady=TRUE;
+
+	//	if (!eye.Init("Eyes")) errorCount++;
+	//	if (!led.Init("ReadyIndicator",5)) errorCount++;
+	//	if (!shoulder.Init("Shoulder")) errorCount++;
+	//	if (!elbow.Init("Elbow")) errorCount++;
+	if (errorCount == 0) mReady = TRUE;
 }
 Robot::~Robot()
 {
 	cerr << "Robot::~Robot" << endl;
 	for (vector<Camera*>::iterator cameraIterator = cameras.begin(); cameraIterator != cameras.end(); ++cameraIterator)
 	{
-		Camera *camera = *cameraIterator;
+		Camera* camera = *cameraIterator;
 		delete(camera);
 	}
 	for (vector<Led*>::iterator ledIterator = leds.begin(); ledIterator != leds.end(); ++ledIterator)
 	{
-		Led *led = *ledIterator;
+		Led* led = *ledIterator;
 		delete(led);
 	}
 	for (vector<Servo*>::iterator servoIterator = servos.begin(); servoIterator != servos.end(); ++servoIterator)
 	{
-		Servo *servo = *servoIterator;
+		Servo* servo = *servoIterator;
 		delete(servo);
 	}
-	mReady=false;
+	mReady = false;
 }
 int Robot::IsReady()
 {

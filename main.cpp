@@ -24,13 +24,15 @@
 #include <stdio.h>
 #include <iostream>
 #include <pigpio.h>
-
+#include <string>
 
 #include "Robot.hpp"
 #include "Config.hpp"
 
 int main(int argc, char **argv)
 {
+	string configFile="robot.cfg";
+	if (argc > 1) configFile=argv[1];	
 	std::cerr << "main" << endl;
 	std::cout << "Starting plotter" << std::endl;
 	if (gpioInitialise() < 0)
@@ -38,17 +40,19 @@ int main(int argc, char **argv)
 		std::cout << "GPIO fails to initialise" << endl;
 		return EXIT_FAILURE;
 	}
-	Config config("robot.cfg");
-	std::cerr << "config contents " << config.components.size() << " components" << endl;
+	Config* config=new Config(configFile);
+	std::cerr << "config contents " << config->components.size() << " components" << endl;
 	Robot robot(config);
 	if (!robot.IsReady()) 
 	{
 		std::cout << "Robot fails to start" << endl;
 		gpioTerminate();
+		delete(config);
 		return EXIT_FAILURE;
 	}
 	if (robot.Run() ==  ERROR){
 		std::cout << "Robot exits with error" << endl;
+		delete(config);
 		gpioTerminate();
 		return EXIT_FAILURE;
 	}
@@ -56,6 +60,7 @@ int main(int argc, char **argv)
 
     std::cout << "Ending plotter" << std::endl;
     gpioTerminate();
+    delete(config);
     std::cout << "Done." << std::endl;
 	return EXIT_SUCCESS;
 }
