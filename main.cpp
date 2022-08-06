@@ -40,17 +40,19 @@ int main(int argc, char **argv)
 		std::cout << "GPIO fails to initialise" << endl;
 		return EXIT_FAILURE;
 	}
-	Config config(configFile);
-	std::cerr << "config contents " << config.components.size() << " components" << endl;
+	Config* config=new Config(configFile);
+	std::cerr << "config contents " << config->components.size() << " components" << endl;
 	Robot robot(config);
 	if (!robot.IsReady()) 
 	{
 		std::cout << "Robot fails to start" << endl;
 		gpioTerminate();
+		delete(config);
 		return EXIT_FAILURE;
 	}
 	if (robot.Run() ==  ERROR){
 		std::cout << "Robot exits with error" << endl;
+		delete(config);
 		gpioTerminate();
 		return EXIT_FAILURE;
 	}
@@ -58,6 +60,7 @@ int main(int argc, char **argv)
 
     std::cout << "Ending plotter" << std::endl;
     gpioTerminate();
+    delete(config);
     std::cout << "Done." << std::endl;
 	return EXIT_SUCCESS;
 }
