@@ -41,6 +41,11 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	Config* config=new Config(configFile);
+	if (config->IsValid()==ERROR)
+	{
+		std::cerr << "The config file " << configFile << " has errors" << endl;
+		return EXIT_FAILURE;
+	}
 	std::cerr << "config contents " << config->components.size() << " components" << endl;
 	Robot robot(config);
 	if (!robot.IsReady()) 

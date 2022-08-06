@@ -74,7 +74,7 @@ int Config::Read()
 					{
 						value.erase(0, componentTag.length());
 						size_t pos3 = 0;
-						if ((pos = line.find("(")) != string::npos) {
+						if ((pos3 = line.find("(")) != string::npos) {
 							Component* component = new Component(token, value);
 							if (component->GetType() == unknown) {
 								cerr << "Config line " << lineNumber << ". Unknown component type" << endl;
@@ -123,7 +123,7 @@ string Config::Trim(string text)
 		return text;
 	size_t start = 0;
 	size_t end = text.size() - 1;
-	for (int i = 0; i <= end; i++)
+	for (size_t i = 0; i <= end; i++)
 	{
 		if (text[i] != ' ')
 		{
