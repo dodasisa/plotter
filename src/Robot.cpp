@@ -22,8 +22,8 @@
  */
 
 #include <iostream>
-#include "Robot.hpp"
-#include "Constants.hpp"
+#include "../inc/Robot.hpp"
+#include "../inc/Constants.hpp"
 
 Robot::Robot(Config* config)
 {

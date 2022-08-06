@@ -26,8 +26,8 @@
 #include <pigpio.h>
 #include <string>
 
-#include "Robot.hpp"
-#include "Config.hpp"
+#include "../inc/Robot.hpp"
+#include "../inc/Config.hpp"
 
 int main(int argc, char **argv)
 {

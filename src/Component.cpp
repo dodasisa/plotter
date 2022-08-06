@@ -21,7 +21,7 @@
  * 
  */
  
-#include "Component.hpp"
+#include "../inc/Component.hpp"
 
 Component::Component(string name, string config)
 {

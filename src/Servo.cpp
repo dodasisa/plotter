@@ -1,5 +1,5 @@
 /*
- * Camera.cpp
+ * Servo.cpp
  * 
  * Copyright 2022  <david.lopez.velazquez@gmail.com>
  * 
@@ -22,41 +22,27 @@
  */
 
 #include <iostream>
-#include "Camera.hpp"
+#include "../inc/Servo.hpp"
+#include "../inc/Constants.hpp"
 
-Camera::Camera()
+Servo::Servo()
 {
-	cerr << "Camera::Camera" << endl;
-	mReady=FALSE;
+	std::cerr << "Servo::Servo" << endl;
+	mReady = FALSE;
 }
-Camera::~Camera()
+Servo::~Servo()
 {
-	cerr << "Camera::~Camera" << endl;
+	std::cerr << "Servo::~Servo" << endl;
 	mReady=FALSE;
+	std::cout << "Stopping servo " << mName << std::endl;
 }
 
-int Camera::Init(string name)
+int Servo::Init(string name)
 {
-	cerr << "Camera::Init" << endl;
+	std::cerr << "Servo::Init" << endl;
 	mName=name;
-	std::cout << "Camera named " << mName  << std::endl;
-/*
-	try{
-		mReady=camera.open();
-	}
-	catch (int e)
-	{
-		mReady=false;
-	}
-	if (!mReady) std::cerr << "Error opening the camera " << mName << std::endl;
-	*/
+	mReady=TRUE;
+	std::cout << "Instance servo named " << mName << std::endl;
 	return mReady;
 }
 
-int Camera::Camera::Shot()
-{
-	if (!mReady)
-		return FALSE;
-	camera.grab();
-	return true;
-}

@@ -22,8 +22,8 @@
  */
 
 #include <iostream>
-#include "Led.hpp"
-#include "Constants.hpp"
+#include "../inc/Led.hpp"
+#include "../inc/Constants.hpp"
 
 Led::Led()
 {
