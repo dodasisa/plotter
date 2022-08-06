@@ -3,24 +3,21 @@ CXX=g++
 RM=rm -f
 CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util
-SRCS=Led.cpp Camera.cpp Servo.cpp Robot.cpp Config.cpp Component.cpp main.cpp 
-OBJS=$(subst .cpp,.o,$(SRCS))
+SRCS=src/Led.cpp src/Camera.cpp src/Servo.cpp src/Robot.cpp src/Config.cpp src/Component.cpp src/main.cpp 
+OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
-all: plotter
+all: robot
 
-plotter: $(OBJS)
-	$(CXX) $(CPPFLAGS) -o plotter $(OBJS) $(LDLIBS)
+robot: $(OBJS)
+	$(CXX) $(CPPFLAGS) -o robot $(OBJS) $(LDLIBS)
 
-depend: .depend
-
-.depend: $(SRCS)
-	$(RM) ./.depend
-	$(CXX) $(CPPFLAFS) -MM $^>>./.depend;
+obj/%.o : src/%.cpp
+	@echo $<
+	$(CXX) $(CPPFLAFS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) plotter
+	$(RM) $(OBJS) robot
 
 distclean: clean
-	$(RM) *~ .depend
+	$(RM)
 
-include .depend

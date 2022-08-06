@@ -22,8 +22,8 @@
  */
 
 #include <iostream>
-#include "Servo.hpp"
-#include "Constants.hpp"
+#include "../inc/Servo.hpp"
+#include "../inc/Constants.hpp"
 
 Servo::Servo()
 {

@@ -21,8 +21,8 @@
  * 
  */
 
-#include "Config.hpp"
-#include "Constants.hpp"
+#include "../inc/Config.hpp"
+#include "../inc/Constants.hpp"
 
 Config::Config(string fileName)
 {

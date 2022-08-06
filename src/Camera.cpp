@@ -22,7 +22,7 @@
  */
 
 #include <iostream>
-#include "Camera.hpp"
+#include "../inc/Camera.hpp"
 
 Camera::Camera()
 {
