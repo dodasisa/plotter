@@ -1,4 +1,4 @@
-MODULES = BaseComponent Led Camera Servo Robot Config Component main
+MODULES = basecomponent Led Camera Servo Robot Config Component main
 
 SRCS=$(patsubst %,src/%.cpp,$(MODULES))
 INCS=$(patsubst %,inc/%.hpp,$(MODULES)) inc/Constants.hpp

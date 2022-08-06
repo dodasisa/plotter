@@ -25,12 +25,13 @@
 #define __CAMERA__
 #include <string>
 #include <raspicam/raspicam.h>
+#include "basecomponent.hpp"
 #include "Constants.hpp"
 
 using namespace std;
 using namespace raspicam;
 
-class Camera
+class Camera : public BaseComponent
 {
 	private:
 	int mReady;

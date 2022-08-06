@@ -22,7 +22,7 @@
  */
 
 
-#include "basecomponent.hpp"
+#include "../inc/basecomponent.hpp"
 
 
 BaseComponent::BaseComponent()

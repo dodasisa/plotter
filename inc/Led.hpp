@@ -25,9 +25,11 @@
 #define __LED__
 #include <string>
 #include <pigpio.h>
+#include "basecomponent.hpp"
+
 using namespace std;
 
-class Led
+class Led : public BaseComponent
 {
 	private:
 	int32_t mState;
