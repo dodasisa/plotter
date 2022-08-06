@@ -26,20 +26,20 @@
 #include <string>
 #include <raspicam/raspicam.h>
 #include "basecomponent.hpp"
-#include "Constants.hpp"
 
-using namespace std;
+
 using namespace raspicam;
 
 class Camera : public BaseComponent
 {
 	private:
-	int mReady;
-	string mName;
-	RaspiCam camera;
+	RaspiCam mCamera;
 	
 	public:
-	Camera();
+	Camera() : BaseComponent(camera)
+	{
+		SetReady(FALSE);
+	};
 	~Camera();
 	int Init(string name);
 

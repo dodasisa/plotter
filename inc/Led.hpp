@@ -32,19 +32,19 @@ using namespace std;
 class Led : public BaseComponent
 {
 	private:
-	int32_t mState;
 	int mPin;
-	string mName;
-	
 	
 	public:
-	Led();
+	Led() : BaseComponent(led)
+	{
+		mPin=0;
+		SetState(OFF);
+	};
 	~Led();
 
 	int Init(string name,int pin);
 	int On();
 	int Off();
-	int GetState();
 	int Toggle();	
 	int GetPin();
 };

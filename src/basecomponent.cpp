@@ -25,14 +25,51 @@
 #include "../inc/basecomponent.hpp"
 
 
-BaseComponent::BaseComponent()
+BaseComponent::BaseComponent(ComponentType type)
 {
-	
+	SetType(type);
 }
 
-
+BaseComponent::BaseComponent()
+{
+	SetType(unknown);
+}
 BaseComponent::~BaseComponent()
 {
 	
 }
+
+int BaseComponent::GetReady()
+{
+	return mReady;
+}
+int BaseComponent::GetState()
+{
+	return mState;
+}
+string BaseComponent::GetName()
+{
+	return mName;
+}
+ComponentType BaseComponent::GetType()
+{
+	return mType;
+}
+void BaseComponent::SetReady(int ready)
+{
+	mReady=ready;
+}
+void BaseComponent::SetState(int state)
+{
+	mState=state;
+}
+void BaseComponent::SetName(string name)
+{
+	mName=name;
+}
+void BaseComponent::SetType(ComponentType type)
+{
+	mType=type;
+}
+
 

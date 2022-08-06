@@ -24,15 +24,29 @@
 
 #ifndef BASECOMPONENT_HPP
 #define BASECOMPONENT_HPP
-
+#include <string>
+#include "Constants.hpp"
+using namespace std;
 class BaseComponent
 {
 	public:
 		BaseComponent();
+		BaseComponent(ComponentType type);
 		virtual ~BaseComponent();
+		int GetReady();
+		void SetReady(int ready);
+		string GetName();
+		void SetName(string name);
+		int GetState();
+		void SetState(int state);
+		ComponentType GetType();
+		void SetType(ComponentType type);
 	
 	private:
-		/* add your private declarations */
+		int mReady;
+		int mState;
+		string mName;
+		ComponentType mType;
 };
 
 #endif /* BASECOMPONENT_HPP */ 

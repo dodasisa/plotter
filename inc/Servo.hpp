@@ -23,7 +23,6 @@
  
 #ifndef __SERVO__
 #define __SERVO__
-#include <string>
 #include "basecomponent.hpp"
 
 using namespace std;
@@ -31,11 +30,12 @@ using namespace std;
 class Servo : public BaseComponent
 {
 	private:
-	int mReady;
-	string mName;
 	
 	public:
-	Servo();
+	Servo() : BaseComponent(servo)
+	{
+		SetReady(FALSE);
+	};
 	~Servo();
 	int Init(string name);
 };

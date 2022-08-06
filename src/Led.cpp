@@ -25,29 +25,23 @@
 #include "../inc/Led.hpp"
 #include "../inc/Constants.hpp"
 
-Led::Led()
-{
-	std::cerr << "Led::Led" << endl;
-	mPin=0;
-	mState=OFF;
-}
 
 Led::~Led()
 {
 	std::cerr << "Led::~Led" << endl;
 	Off();
-	std::cout << "Stopping led " << mName << std::endl;
+	std::cout << "Stopping led " << GetName() << std::endl;
 }
 
 int Led::Init(string name,int pin)
 {
 	std::cerr << "Led::Init" << endl;
-	mName=name;	
+	SetName(name);	
 	mPin=pin;
 	
 	gpioSetMode(mPin,PI_OUTPUT);
-	mState=Off();
-	std::cout << "Led named " << mName << ". Using pin " << mPin << ". State is " << mState << std::endl;
+	SetState(Off());
+	std::cout << "Led named " << GetName() << ". Using pin " << mPin << ". State is " << GetState() << std::endl;
 	
 	return OK;
 }
@@ -55,27 +49,23 @@ int Led::Init(string name,int pin)
 int Led::On()
 {
 	std::cerr << "Led::On" << endl;
-	mState=ON;
+	SetState(ON);
 	//std::cout << "Led " << mName <<".ON" << std::endl;
 	//gpioWrite(mPin,PI_HIGH);
-	return mState;
+	return GetState();
 }
 int Led::Off()
 {
 	std::cerr << "Led::Off" << endl;
-	mState=OFF;
+	SetState(OFF);
 	//std::cout << "Led " << mName <<".OFF" << std::endl;
 	//gpioWrite(mPin,PI_LOW);
-	return mState;
-}
-int Led::GetState()
-{
-	return mState;
+	return GetState();
 }
 
 int Led::Toggle()
 {
-	if (mState==ON)
+	if (GetState()==ON)
 		return Off();
 	else
 		return On();

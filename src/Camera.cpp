@@ -24,25 +24,20 @@
 #include <iostream>
 #include "../inc/Camera.hpp"
 
-Camera::Camera()
-{
-	cerr << "Camera::Camera" << endl;
-	mReady=FALSE;
-}
 Camera::~Camera()
 {
-	cerr << "Camera::~Camera" << endl;
-	mReady=FALSE;
+	std::cerr << "Camera::~Camera" << endl;
+	std::cout << "Stopping camera " << GetName() << std::endl;
 }
 
 int Camera::Init(string name)
 {
 	cerr << "Camera::Init" << endl;
-	mName=name;
-	std::cout << "Camera named " << mName  << std::endl;
+	SetName(name);
+	std::cout << "Camera named " << GetName()  << std::endl;
 /*
 	try{
-		mReady=camera.open();
+		mReady=mCamera.open();
 	}
 	catch (int e)
 	{
@@ -50,13 +45,13 @@ int Camera::Init(string name)
 	}
 	if (!mReady) std::cerr << "Error opening the camera " << mName << std::endl;
 	*/
-	return mReady;
+	return GetReady();
 }
 
-int Camera::Camera::Shot()
+int Camera::Shot()
 {
-	if (!mReady)
+	if (!GetReady())
 		return FALSE;
-	camera.grab();
+	mCamera.grab();
 	return true;
 }

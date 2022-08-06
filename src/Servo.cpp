@@ -25,24 +25,19 @@
 #include "../inc/Servo.hpp"
 #include "../inc/Constants.hpp"
 
-Servo::Servo()
-{
-	std::cerr << "Servo::Servo" << endl;
-	mReady = FALSE;
-}
 Servo::~Servo()
 {
 	std::cerr << "Servo::~Servo" << endl;
-	mReady=FALSE;
-	std::cout << "Stopping servo " << mName << std::endl;
+	SetReady(FALSE);
+	std::cout << "Stopping servo " << GetName() << std::endl;
 }
 
 int Servo::Init(string name)
 {
 	std::cerr << "Servo::Init" << endl;
-	mName=name;
-	mReady=TRUE;
-	std::cout << "Instance servo named " << mName << std::endl;
-	return mReady;
+	SetName(name);
+	SetReady(TRUE);
+	std::cout << "Instance servo named " << GetName() << std::endl;
+	return GetReady();
 }
 
