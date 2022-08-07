@@ -25,20 +25,24 @@
 #define __ROBOT__
 #include <string>
 #include <vector>
+#include "basecomponent.hpp"
 #include "Camera.hpp"
 #include "Led.hpp"
 #include "Servo.hpp"
 #include "Config.hpp"
-using namespace std;
+#include "log4cxx/logger.h"
+
 
 class Robot
 {
 	private:
+	static log4cxx::LoggerPtr logger;
 	int mReady;
-	string mName;
-	vector<Camera*> cameras;
-	vector<Led*> leds;
-	vector<Servo*> servos;
+	std::string mName;
+	vector<BaseComponent*> components;
+	//vector<Camera*> cameras;
+	//vector<Led*> leds;
+	//vector<Servo*> servos;
 	
 	public:
 	Robot(Config* config);

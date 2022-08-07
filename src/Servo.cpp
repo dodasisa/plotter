@@ -25,19 +25,24 @@
 #include "../inc/Servo.hpp"
 #include "../inc/Constants.hpp"
 
+using namespace std;
+using namespace log4cxx;
+
+LoggerPtr Servo::logger(Logger::getLogger("plotter.robot.servo"));
+
 Servo::~Servo()
 {
-	std::cerr << "Servo::~Servo" << endl;
+	LOG4CXX_TRACE(logger, "Servo destructor");
 	SetReady(FALSE);
-	std::cout << "Stopping servo " << GetName() << std::endl;
+	
 }
 
 int Servo::Init(string name)
 {
-	std::cerr << "Servo::Init" << endl;
+	
 	SetName(name);
 	SetReady(TRUE);
-	std::cout << "Instance servo named " << GetName() << std::endl;
+	LOG4CXX_DEBUG(logger, "Instance servo named " << GetName() );
 	return GetReady();
 }
 

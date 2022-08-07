@@ -25,40 +25,41 @@
 #include "../inc/Led.hpp"
 #include "../inc/Constants.hpp"
 
+using namespace std;
+using namespace log4cxx;
+
+LoggerPtr Led::logger(Logger::getLogger("plotter.robot.led"));
 
 Led::~Led()
 {
-	std::cerr << "Led::~Led" << endl;
+	LOG4CXX_TRACE(logger, "Led destructor");
 	Off();
-	std::cout << "Stopping led " << GetName() << std::endl;
 }
 
 int Led::Init(string name,int pin)
 {
-	std::cerr << "Led::Init" << endl;
+	
 	SetName(name);	
 	mPin=pin;
 	
 	gpioSetMode(mPin,PI_OUTPUT);
 	SetState(Off());
-	std::cout << "Led named " << GetName() << ". Using pin " << mPin << ". State is " << GetState() << std::endl;
-	
+
+	LOG4CXX_DEBUG(logger, "Instance led named " << GetName() << ". Using pin " << mPin << ". State is " << GetState() );
 	return OK;
 }
 
 int Led::On()
 {
-	std::cerr << "Led::On" << endl;
+	LOG4CXX_TRACE(logger, "Led ON");
 	SetState(ON);
-	//std::cout << "Led " << mName <<".ON" << std::endl;
 	//gpioWrite(mPin,PI_HIGH);
 	return GetState();
 }
 int Led::Off()
 {
-	std::cerr << "Led::Off" << endl;
+	LOG4CXX_TRACE(logger, "Led OFF");
 	SetState(OFF);
-	//std::cout << "Led " << mName <<".OFF" << std::endl;
 	//gpioWrite(mPin,PI_LOW);
 	return GetState();
 }

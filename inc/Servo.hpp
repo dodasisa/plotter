@@ -24,12 +24,12 @@
 #ifndef __SERVO__
 #define __SERVO__
 #include "basecomponent.hpp"
-
-using namespace std;
+#include "log4cxx/logger.h"
 
 class Servo : public BaseComponent
 {
 	private:
+	static log4cxx::LoggerPtr logger;
 	
 	public:
 	Servo() : BaseComponent(servo)
@@ -37,7 +37,7 @@ class Servo : public BaseComponent
 		SetReady(FALSE);
 	};
 	~Servo();
-	int Init(string name);
+	int Init(std::string name);
 };
 
 #endif
