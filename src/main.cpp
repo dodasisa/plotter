@@ -25,57 +25,76 @@
 #include "../inc/Robot.hpp"
 #include "../inc/Config.hpp"
 
-LoggerPtr logger(Logger::getLogger("robot"));
+LoggerPtr logger(Logger::getLogger("plotter"));
 
 int main(int argc, char **argv)
 {
+	int state=OK;
+	/*
 	try
 	{
-		BasicConfigurator::configure();
-		LOG4CXX_INFO(logger, "Starting robot.");
+		PropertyConfigurator::configure("log4cxx.properties");
 	}
 	catch(Exception&)
 	{
-		std::cerr << "logger fails to start" << endl;
-		return EXIT_FAILURE;
+		std::cerr << "logger fails to start using log4cxx.cfg" << endl;
+		state=ERROR;
 	}
+	*/
+	//if (state==ERROR){
+		try
+		{
+			BasicConfigurator::configure();
+		}
+		catch(Exception&)
+		{
+			std::cerr << "logger fails to start using basic configuration" << endl;
+			return EXIT_FAILURE;
+		}
+	//}
 	
-	string configFile="robot.cfg";
-	if (argc > 1) configFile=argv[1];	
-	std::cerr << "main" << endl;
-	std::cout << "Starting plotter" << std::endl;
+	LOG4CXX_INFO(logger, "Starting robot." << " Version " << VERSION);
+	string configFile="cfg/robot.cfg";
+	if (argc > 1) configFile=argv[1];
+	LOG4CXX_INFO(logger, "Using configuration file " + configFile);
+	
+
 	if (gpioInitialise() < 0)
 	{
-		std::cout << "GPIO fails to initialise" << endl;
+		LOG4CXX_ERROR(logger, "GPIO fails to initialise.");
 		return EXIT_FAILURE;
 	}
 	Config* config=new Config(configFile);
 	if (config->IsValid()==ERROR)
 	{
-		std::cerr << "The config file " << configFile << " has errors" << endl;
+		LOG4CXX_ERROR(logger, "The config file has errors.");
 		return EXIT_FAILURE;
 	}
-	std::cerr << "config contents " << config->components.size() << " components" << endl;
+	if (config->components.size()==0)
+	{
+		LOG4CXX_ERROR(logger, "No components found in the config file.");
+		return EXIT_FAILURE;
+	}
+	LOG4CXX_INFO(logger, config->components.size() << " components found.");
 	Robot robot(config);
 	if (!robot.IsReady()) 
 	{
-		std::cout << "Robot fails to start" << endl;
+		LOG4CXX_ERROR(logger, "Robot fails to start.");
 		gpioTerminate();
 		delete(config);
 		return EXIT_FAILURE;
 	}
 	if (robot.Run() ==  ERROR){
-		std::cout << "Robot exits with error" << endl;
+		LOG4CXX_ERROR(logger, "Robot exits with error.");
 		delete(config);
 		gpioTerminate();
 		return EXIT_FAILURE;
 	}
 	time_sleep(5.0);
 
-    std::cout << "Ending plotter" << std::endl;
+	LOG4CXX_INFO(logger, "Stopping robot.");
     gpioTerminate();
     delete(config);
-    std::cout << "Done." << std::endl;
 	return EXIT_SUCCESS;
 }
 
