@@ -24,15 +24,19 @@
 #include <iostream>
 #include "../inc/Robot.hpp"
 #include "../inc/Constants.hpp"
+using namespace log4cxx;
+using namespace std;
+
+LoggerPtr Robot::logger(Logger::getLogger("plotter.robot"));
 
 Robot::Robot(Config* config)
 {
-	cerr << "Robot::Robot" << endl;
+	LOG4CXX_TRACE(logger, "Robot constructor");
 	int errorCount = 0;
 	mReady = FALSE;
 	mName = config->GetValue("Name");
-	std::cout << "Starting Robot " << mName << std::endl;
-	std::cout << "Found " << config->components.size() << " components in the config file" << endl;
+	LOG4CXX_INFO(logger, "Starting Robot " << mName);
+	LOG4CXX_DEBUG(logger, "Found " << config->components.size() << " components in the config file");
 	vector<Component*>::iterator componentIterator;
 	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
 	{
@@ -40,46 +44,33 @@ Robot::Robot(Config* config)
 		switch (component->GetType())
 		{
 		case camera:
-			cameras.push_back(new Camera());
-			if (cameras.back()->Init(component->GetName()) == ERROR) errorCount++;
+			components.push_back(new Camera());
+			if (components.back()->Init(component->GetName()) == ERROR) errorCount++;
 			break;
 		case led:
-			leds.push_back(new Led());
-			if (leds.back()->Init(component->GetName(), component->GetPin()) == ERROR) errorCount++;
+			components.push_back(new Led());
+			if (components.back()->Init(component->GetName(), component->GetPin()) == ERROR) errorCount++;
 			break;
 		case servo:
-			servos.push_back(new Servo());
-			if (servos.back()->Init(component->GetName()) == ERROR) errorCount++;
+			components.push_back(new Servo());
+			if (components.back()->Init(component->GetName()) == ERROR) errorCount++;
 			break;
 		case unknown:
 		default:
 			break;
 		}
+		LOG4CXX_TRACE(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
 	}
 
-	//	if (!eye.Init("Eyes")) errorCount++;
-	//	if (!led.Init("ReadyIndicator",5)) errorCount++;
-	//	if (!shoulder.Init("Shoulder")) errorCount++;
-	//	if (!elbow.Init("Elbow")) errorCount++;
 	if (errorCount == 0) mReady = TRUE;
 }
 Robot::~Robot()
 {
-	cerr << "Robot::~Robot" << endl;
-	for (vector<Camera*>::iterator cameraIterator = cameras.begin(); cameraIterator != cameras.end(); ++cameraIterator)
+	LOG4CXX_TRACE(logger, "Robot destructor");
+	for (vector<BaseComponent*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
 	{
-		Camera* camera = *cameraIterator;
-		delete(camera);
-	}
-	for (vector<Led*>::iterator ledIterator = leds.begin(); ledIterator != leds.end(); ++ledIterator)
-	{
-		Led* led = *ledIterator;
-		delete(led);
-	}
-	for (vector<Servo*>::iterator servoIterator = servos.begin(); servoIterator != servos.end(); ++servoIterator)
-	{
-		Servo* servo = *servoIterator;
-		delete(servo);
+		BaseComponent* component = *componentIterator;
+		delete(component);
 	}
 	mReady = false;
 }

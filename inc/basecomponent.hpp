@@ -33,6 +33,10 @@ class BaseComponent
 		BaseComponent();
 		BaseComponent(ComponentType type);
 		virtual ~BaseComponent();
+
+		virtual int Init(std::string name);
+		virtual int Init(std::string name,int pin);
+
 		int GetReady();
 		void SetReady(int ready);
 		string GetName();

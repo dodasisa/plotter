@@ -24,17 +24,21 @@
 #include <iostream>
 #include "../inc/Camera.hpp"
 
+using namespace std;
+using namespace log4cxx;
+using namespace raspicam;
+
+LoggerPtr Camera::logger(Logger::getLogger("plotter.robot.camera"));
+
 Camera::~Camera()
 {
-	std::cerr << "Camera::~Camera" << endl;
-	std::cout << "Stopping camera " << GetName() << std::endl;
+	LOG4CXX_TRACE(logger, "Camera destructor");
 }
 
 int Camera::Init(string name)
 {
-	cerr << "Camera::Init" << endl;
 	SetName(name);
-	std::cout << "Camera named " << GetName()  << std::endl;
+	LOG4CXX_DEBUG(logger, "Instance Camera named " << GetName() );
 /*
 	try{
 		mReady=mCamera.open();
@@ -45,6 +49,7 @@ int Camera::Init(string name)
 	}
 	if (!mReady) std::cerr << "Error opening the camera " << mName << std::endl;
 	*/
+	SetReady(OK);
 	return GetReady();
 }
 

@@ -26,14 +26,13 @@
 #include <string>
 #include <raspicam/raspicam.h>
 #include "basecomponent.hpp"
-
-
-using namespace raspicam;
+#include "log4cxx/logger.h"
 
 class Camera : public BaseComponent
 {
 	private:
-	RaspiCam mCamera;
+	raspicam::RaspiCam mCamera;
+	static log4cxx::LoggerPtr logger;
 	
 	public:
 	Camera() : BaseComponent(camera)

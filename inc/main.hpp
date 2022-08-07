@@ -23,12 +23,14 @@
  
 #ifndef __MAIN__
 #define __MAIN__
+#define VERSION 1.1
 #include <stdio.h>
 #include <iostream>
 #include <pigpio.h>
 #include <string>
 #include "log4cxx/logger.h"
 #include "log4cxx/basicconfigurator.h"
+#include "log4cxx/propertyconfigurator.h"
 #include "log4cxx//helpers/exception.h"
 using namespace log4cxx;
 using namespace log4cxx::helpers;

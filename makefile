@@ -1,4 +1,4 @@
-MODULES = basecomponent Led Camera Servo Robot Config Component main
+MODULES = basecomponent Button Led Camera Servo Robot I2Cmanager ImageHandler Config Component main
 
 SRCS=$(patsubst %,src/%.cpp,$(MODULES))
 INCS=$(patsubst %,inc/%.hpp,$(MODULES)) inc/Constants.hpp

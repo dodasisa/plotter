@@ -26,13 +26,13 @@
 #include <string>
 #include <pigpio.h>
 #include "basecomponent.hpp"
-
-using namespace std;
+#include "log4cxx/logger.h"
 
 class Led : public BaseComponent
 {
 	private:
 	int mPin;
+	static log4cxx::LoggerPtr logger;
 	
 	public:
 	Led() : BaseComponent(led)
@@ -42,7 +42,7 @@ class Led : public BaseComponent
 	};
 	~Led();
 
-	int Init(string name,int pin);
+	int Init(std::string name,int pin);
 	int On();
 	int Off();
 	int Toggle();	
