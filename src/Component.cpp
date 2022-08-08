@@ -20,91 +20,76 @@
  * 
  * 
  */
- 
+
+
 #include "../inc/Component.hpp"
 
-Component::Component(string name, string config)
+Component::Component(ComponentType type)
 {
-	mType = unknown;
-	mName = name;
-	size_t pos = 0;
-	if ((pos = config.find("(")) == string::npos) 
-	{
-		cerr << "Missing configuration info for Component " << name << endl;
-		return;
-	}
-	while ((pos = config.find(".")) != string::npos)
-	{
-		config.erase(0, pos + 1);
-		size_t pos2 = 0;
-		if ((pos2 = config.find("(")) != string::npos)
-		{
-			string token = config.substr(0, pos2);
-			config.erase(0, pos2 + 1);
-			size_t pos3 = 0;
-			if ((pos3 = config.find(")")) != string::npos)
-			{
-				string value = config.substr(0, pos3);
-				if (Apply(token, value) == ERROR)
-				{
-					cerr << "Cannot handle token " << token << " and value " << value << endl;
-				}
-			}
-			else
-				cerr << "Wrong configuration info for Component. Missing ) ?" << endl;
-		}
-		else
-			cerr << "Missing configuration info for Component" << endl;
-	}
+	SetType(type);
 }
 
+Component::Component()
+{
+	SetType(unknown);
+}
 Component::~Component()
 {
+	
 }
 
-int Component::SetType(string type)
+int Component::GetReady()
 {
-	mType = unknown;
-	if (type == "led")
-		mType = led;
-	if (type == "servo")
-		mType = servo;
-	if (type == "camera")
-		mType = camera;
-	if (mType == unknown)
-	{
-		cerr << "Unknown type of component" << endl;
-		return ERROR;
-	}
-	else
-		return OK;
+	return mReady;
 }
-
-int Component::SetPin(string pin)
+int Component::GetState()
 {
-	mPin = atoi(pin.c_str());
-	return OK;
-}
-
-int Component::Apply(string token, string value)
-{
-	if (token == "type")
-		return SetType(value);
-	if (token == "pin")
-		return SetPin(value);
-	return ERROR;
-}
-
-ComponentType Component::GetType()
-{
-	return mType;
+	return mState;
 }
 string Component::GetName()
 {
 	return mName;
 }
-
+ComponentType Component::GetType()
+{
+	return mType;
+}
 int Component::GetPin()
 {
 	return mPin;
 }
+void Component::SetReady(int ready)
+{
+	mReady=ready;
+}
+void Component::SetState(int state)
+{
+	mState=state;
+}
+void Component::SetName(string name)
+{
+	mName=name;
+}
+void Component::SetType(ComponentType type)
+{
+	mType=type;
+}
+void Component::SetPin(int pin)
+{
+	mPin=pin;
+}
+
+int Component::InitName(std::string name)
+{
+	mName=name;
+	return 0;
+}
+
+int Component::InitNamePin(std::string name,int pin)
+{
+	mName=name;
+	mPin=pin;
+	return 0;
+}
+
+

@@ -27,7 +27,7 @@
 
 #include <string>
 #include <pigpio.h>
-#include "basecomponent.hpp"
+#include "Component.hpp"
 #include "log4cxx/logger.h"
 
 /*! \class Button
@@ -35,14 +35,14 @@
  *  \see BaseComponent
  *  The constructor calls the base class with the type button.
  */ 
-class Button: public BaseComponent
+class Button: public Component
 {
 	public:
 		/*! 
 		* Default constructor
 		* Sets the component type to button
 		*/ 
-		Button() : BaseComponent(button)
+		Button() : Component(button)
 		{
 		}
 		

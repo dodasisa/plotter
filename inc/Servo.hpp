@@ -23,7 +23,7 @@
  
 #ifndef __SERVO__
 #define __SERVO__
-#include "basecomponent.hpp"
+#include "Component.hpp"
 #include "log4cxx/logger.h"
 
 /*! \class Servo
@@ -31,7 +31,7 @@
  *  \see BaseComponent
  *  The constructor calls the base class with the type servo.
  */ 
-class Servo : public BaseComponent
+class Servo : public Component
 {
 	private:
 	static log4cxx::LoggerPtr logger;
@@ -41,7 +41,7 @@ class Servo : public BaseComponent
 	* Default constructor
 	* Sets the component type to servo
 	*/ 
-	Servo() : BaseComponent(servo)
+	Servo() : Component(servo)
 	{
 		SetReady(FALSE);
 	};
