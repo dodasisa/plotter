@@ -47,25 +47,49 @@ Robot::Robot(Config* config)
 	{
 		ComponentParameters* component = *componentIterator;
 		/// Creates an component derived from Component and adds it to its components vector.
+		Led* ledHolder;
+		Camera* cameraHolder;
+		Servo* servoHolder;
+		int testState;
 		switch (component->GetType())
 		{
 		case camera:
-			components.push_back(new Camera());
-			if (components.back()->InitName(component->GetName()) == ERROR) errorCount++;
+			cameraHolder=new Camera();
+			testState=cameraHolder->InitName(component->GetName());
+			components.push_back(cameraHolder);
+			
+			if (testState==ERROR) 
+			{
+				errorCount++;
+				LOG4CXX_ERROR(logger, "CAMERA>InitName returns ERROR");
+			}
 			break;
 		case led:
-			components.push_back(new Led());
-			if (components.back()->InitNamePin(component->GetName(), component->GetPin()) == ERROR) errorCount++;
+			ledHolder=new Led();
+			testState=ledHolder->InitNamePin(component->GetName(), component->GetPin());	
+					
+			components.push_back(ledHolder);
+			if (testState==ERROR) 
+			{
+				errorCount++;
+				LOG4CXX_ERROR(logger, "LED>InitNamePin returns ERROR");
+			}
 			break;
 		case servo:
-			components.push_back(new Servo());
-			if (components.back()->InitName(component->GetName()) == ERROR) errorCount++;
+			servoHolder=new Servo();
+			testState=servoHolder->InitName(component->GetName());
+			components.push_back(servoHolder);
+			if (testState==ERROR) 
+			{
+				errorCount++;
+				LOG4CXX_ERROR(logger, "SERVO>InitName returns ERROR");
+			}
 			break;
 		case unknown:
 		default:
 			break;
 		}
-		LOG4CXX_TRACE(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
+		LOG4CXX_DEBUG(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
 	}
 	/// if any of the created components reports an error, the state if the robot is set to 0. Main() must stop.
 	if (errorCount == 0) mReady = TRUE;

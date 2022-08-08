@@ -30,7 +30,7 @@
 
 /*! \class Camera
  *  \brief Component that controls the raspberry PI camera
- *  \see BaseComponent
+ *  \see Component
  *  The constructor calls the base class with the type camera.
  */ 
 class Camera : public Component
