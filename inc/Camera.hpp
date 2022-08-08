@@ -25,7 +25,7 @@
 #define __CAMERA__
 #include <string>
 #include <raspicam/raspicam.h>
-#include "basecomponent.hpp"
+#include "Component.hpp"
 #include "log4cxx/logger.h"
 
 /*! \class Camera
@@ -33,7 +33,7 @@
  *  \see BaseComponent
  *  The constructor calls the base class with the type camera.
  */ 
-class Camera : public BaseComponent
+class Camera : public Component
 {
 	private:
 	raspicam::RaspiCam mCamera;
@@ -44,7 +44,7 @@ class Camera : public BaseComponent
 	* Default constructor
 	* Sets the component type to camera
 	*/ 
-	Camera() : BaseComponent(camera)
+	Camera() : Component(camera)
 	{
 		SetReady(FALSE);
 	};

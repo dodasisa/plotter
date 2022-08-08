@@ -21,61 +21,98 @@
  * 
  */
 
-#ifndef __COMPONENT__
-#define __COMPONENT__
 
-#include "Constants.hpp"
+#ifndef COMPONENT_HPP
+#define COMPONENT_HPP
 #include <string>
-#include <iostream>
-
+#include "Constants.hpp"
 using namespace std;
 
 /*! \class Component
- *  \brief Component that stores the configuration of any component
- *  \see BaseComponent
- *  Simply stores the parameters grabbed from the config file for one component
- *  This class is used by Robot to build the actual components
+ *  \brief Base class for components managed by the robot
+ * 
+ * The constructor stores the component type if given.
+ * If no type given, sets to unknown.
  */ 
 class Component
 {
-	private:
-	string mName;
-	ComponentType mType;
-	int mPin;
-	
-	int Apply(string token, string value);
-	int SetType(string type);
-	int SetPin(string pin);
-		
 	public:
-	/*! 
-	* Default constructor
-	* \param name Name of the current component
-	* \param config Text containing the parameters to be parsed
-	* Parses the information coming in the config string, and stores under the given name
-	*/ 
-	Component(string name,string config);
+		/*! 
+		* Default constructor
+		* Sets the component type to unknown
+		*/ 
+		Component();
+		/*! Constructor konwing the type
+		 * @param type The type of component, a value of the enum ComponentType
+		 */ 		 
+		Component(ComponentType type);
+		/*! 
+		* Destructor
+		*/
+		virtual ~Component();
+		/*! 
+		* Initializes the Component setting its name
+		* @param name Name of the component, left side of the line in the configuration file
+		*/
+		int InitName(std::string name);
+		/*! 
+		* Initializes the Component setting its name and its pin number
+		* @param name Name of the component, left side of the line in the configuration file
+		* @param pin Pin number where this component is connected
+		*/
+		int InitNamePin(std::string name,int pin);
+		/*! 
+		* Returns the state of the component. If ok 0, if error 1.
+		*/
+		int GetReady();
+		/*! 
+		* Sets the status of the component
+		* @param ready State to set, if ok 0, if not 1
+		*/
+		void SetReady(int ready);
+		/*! 
+		* Returns the name of the component.
+		*/
+		string GetName();
+		/*! 
+		* Sets the name of the component
+		* @param name Name to assign
+		*/
+		void SetName(string name);
+		/*! 
+		* Returns the state of the component; ON or OFF.
+		*/
+		int GetState();
+		/*! 
+		* Sets the state of the component
+		* @param state State to set, ON or OFF
+		*/
+		void SetState(int state);
+		/*! 
+		* Returns the type of the component; led, servo, camera, button or unknown.
+		*/
+		ComponentType GetType();
+		/*! 
+		* Sets the type of the component; led, servo, camera, button or unknown.
+		* @param type One of the values of the enum ComponentType
+		*/
+		void SetType(ComponentType type);
+		/*! 
+		* Returns the pin number of the component.
+		*/
+		int GetPin();
+		/*! 
+		* Sets the pin number of the component
+		* @param pin Pin number
+		*/
+		void SetPin(int pin);
 	
-	/*! 
-	* Destructor
-	*/
-	~Component();
-	
-	/*! Returns the type of component.
-	 * One of the values pof the enum ComponentType
-	 */
-	ComponentType GetType();
-	
-	/*! 
-	 * Returns the name of component.
-	 */
-	string GetName();
-	
-	/*! 
-	 * Returns the pin of the component, if any.
-	 */
-	int GetPin();
+	private:
+		int mReady;
+		int mState;
+		int mPin;
+		string mName;
+		ComponentType mType;
 };
 
-
-#endif
+#endif /* COMPONENT_HPP */ 

@@ -28,7 +28,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
-#include "Component.hpp"
+#include "ComponentParameters.hpp"
 #include "log4cxx/logger.h"
 
 using namespace std;
@@ -52,7 +52,7 @@ private:
 public:
 	Config(string fileName); 			///< Config constructor. Calls Read() and returns its value.
 	~Config();							///< Destructor. Calls the destructor of every Component configuration details.
-	vector<Component*> components;		///< Vector of components configuration data found in the cfg file.
+	vector<ComponentParameters*> components;		///< Vector of components configuration data found in the cfg file.
 	string GetValue(string key);		///< cfg data is stored in a map<key,value>. This returns the value of one key.
 	int IsValid();						///< Returns 0 if errors found, 1 if the config file is correct.
 };

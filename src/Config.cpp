@@ -47,9 +47,9 @@ Config::~Config()
 {
 	LOG4CXX_TRACE(logger, "Config destructor");
 	/// Loops through the Component's vector, component configuration detail, not the component itself,
-	for (vector<Component*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
+	for (vector<ComponentParameters*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
 	{
-		Component* component = *componentIterator;
+		ComponentParameters* component = *componentIterator;
 		/// and deletes them.
 		delete(component);
 	}
@@ -96,7 +96,7 @@ int Config::Read()
 						value.erase(0, componentTag.length());
 						size_t pos3 = 0;
 						if ((pos3 = line.find("(")) != string::npos) {
-							Component* component = new Component(token, value);
+							ComponentParameters* component = new ComponentParameters(token, value);
 							/// An unknown or missing .variable means error.
 							if (component->GetType() == unknown) {
 								LOG4CXX_ERROR(logger, "Config line " << lineNumber << ". Unknown component type");

@@ -25,7 +25,7 @@
 #define __ROBOT__
 #include <string>
 #include <vector>
-#include "basecomponent.hpp"
+#include "Component.hpp"
 #include "Camera.hpp"
 #include "Led.hpp"
 #include "Servo.hpp"
@@ -46,7 +46,7 @@ class Robot
 	static log4cxx::LoggerPtr logger;
 	int mReady;
 	std::string mName;
-	vector<BaseComponent*> components;
+	vector<Component*> components;
 	
 	public:
 	Robot(Config* config);				///< Constructor. Takes a pointer to a valid Config object

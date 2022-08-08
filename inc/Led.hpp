@@ -25,7 +25,7 @@
 #define __LED__
 #include <string>
 #include <pigpio.h>
-#include "basecomponent.hpp"
+#include "Component.hpp"
 #include "log4cxx/logger.h"
 
 /*! \class Led
@@ -33,7 +33,7 @@
  *  \see BaseComponent
  *  The constructor calls the base class with the type led.
  */ 
-class Led : public BaseComponent
+class Led : public Component
 {
 	private:
 	static log4cxx::LoggerPtr logger;
@@ -43,7 +43,7 @@ class Led : public BaseComponent
 		* Default constructor
 		* Sets the component type to led
 		*/ 
-	Led() : BaseComponent(led)
+	Led() : Component(led)
 	{
 		SetPin(0);
 		SetState(OFF);

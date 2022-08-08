@@ -41,12 +41,12 @@ Robot::Robot(Config* config)
 	mName = config->GetValue("Name");
 	LOG4CXX_INFO(logger, "Starting Robot " << mName);
 	LOG4CXX_DEBUG(logger, "Found " << config->components.size() << " components in the config file");
-	vector<Component*>::iterator componentIterator;
+	vector<ComponentParameters*>::iterator componentIterator;
 	/// Loops every Component defined in the Config class.
 	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
 	{
-		Component* component = *componentIterator;
-		/// Creates an component derived from BaseComponent and adds it to its components vector.
+		ComponentParameters* component = *componentIterator;
+		/// Creates an component derived from Component and adds it to its components vector.
 		switch (component->GetType())
 		{
 		case camera:
@@ -78,9 +78,9 @@ Robot::~Robot()
 {
 	LOG4CXX_TRACE(logger, "Robot destructor");
 	/// calls the destructor of every component present in the components vector
-	for (vector<BaseComponent*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
+	for (vector<Component*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
 	{
-		BaseComponent* component = *componentIterator;
+		Component* component = *componentIterator;
 		delete(component);
 	}
 	mReady = false;
