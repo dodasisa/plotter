@@ -25,14 +25,23 @@
 #ifndef I2CMANAGER_HPP
 #define I2CMANAGER_HPP
 
+/*! \class I2Cmanager
+ *  \brief Component that manages the communication with other microcontrollers
+ */ 
 class I2Cmanager
 {
 	public:
+		/*! 
+		* Constructor
+		*/
 		I2Cmanager();
-		virtual ~I2Cmanager();
+		
+		/*! 
+		* Destructor
+		*/
+		~I2Cmanager();
 	
 	private:
-		/* add your private declarations */
 };
 
 #endif /* I2CMANAGER_HPP */ 

@@ -1,5 +1,5 @@
 /*
- * Constants.hpp
+ ** @file Constants.hpp
  * 
  * Copyright 2022  <david.lopez.velazquez@gmail.com>
  * 
@@ -31,6 +31,18 @@
 #define FALSE 0
 #define OFF 0
 
-enum ComponentType {unknown,led,servo,camera};
+/**
+ * List of available component types.
+ * 
+ * Determines the components that derive from BaseComponent
+ * and can be put in the robot's component vector
+ */ 
+enum ComponentType {
+	unknown,	/**< type unknown. If a component has this value the full robot is faulty and must stop. */
+	led,		/**< type led */
+	servo,		/**< type servo */
+	camera,		/**< type raspicam */
+	button		/**< type button */
+	};
 
 #endif

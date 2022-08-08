@@ -30,4 +30,9 @@ ImageHandler::ImageHandler()
 	
 }
 
+ImageHandler::~ImageHandler()
+{
+	
+}
+
 

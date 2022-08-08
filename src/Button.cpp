@@ -1,5 +1,5 @@
 /*
- * button.cpp
+ * Button.cpp
  * 
  * Copyright 2022  <david@raspberrypi>
  * 
@@ -23,17 +23,34 @@
 
 
 #include "../inc/Button.hpp"
+using namespace log4cxx;
 
-
-Button::Button()
-	: BaseComponent()
-{
-	
-}
+LoggerPtr Button::logger(Logger::getLogger("plotter.robot.button"));
 
 
 Button::~Button()
 {
-	
+	LOG4CXX_TRACE(logger, "Button destructor");
 }
 
+int Button::InitNamePin(string name,int pin)
+{
+	
+	SetName(name);	
+	SetPin(pin);
+	
+	//gpioSetMode(mPin,PI_INPUT);
+
+	LOG4CXX_DEBUG(logger, "Instance button named " << GetName() << ". Using pin " << GetPin() );
+	return OK;
+}
+
+int Button::InitName(string name)
+{
+	
+	SetName(name);	
+	
+
+	LOG4CXX_DEBUG(logger, "Instance button named " << GetName() << ". Pin undefined" << GetPin() );
+	return OK;
+}

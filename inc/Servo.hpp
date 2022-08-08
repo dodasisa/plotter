@@ -26,18 +26,48 @@
 #include "basecomponent.hpp"
 #include "log4cxx/logger.h"
 
+/*! \class Servo
+ *  \brief Component that changes the position of a servo
+ *  \see BaseComponent
+ *  The constructor calls the base class with the type servo.
+ */ 
 class Servo : public BaseComponent
 {
 	private:
 	static log4cxx::LoggerPtr logger;
 	
 	public:
+	/*! 
+	* Default constructor
+	* Sets the component type to servo
+	*/ 
 	Servo() : BaseComponent(servo)
 	{
 		SetReady(FALSE);
 	};
+	
+	/*! 
+	* Destructor
+	*/
 	~Servo();
-	int Init(std::string name);
+	
+	/*! 
+	* Sets the name of the servo
+	* \param name Name to set as component name
+	* 
+	* Calls SetName with the given info
+	*/
+	int InitName(std::string name);
+	
+	/*! 
+	* Sets the name of the servo
+	* \param name Name to set as component name
+	* \param pin Pin number
+	* 
+	* Calls SetName with the given info
+	* Calls SetPin with the chosen pin
+	*/
+	int InitNamePin(std::string name,int pin);
 };
 
 #endif

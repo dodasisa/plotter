@@ -25,16 +25,47 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
+#include <string>
+#include <pigpio.h>
 #include "basecomponent.hpp"
+#include "log4cxx/logger.h"
 
+/*! \class Button
+ *  \brief Component that listen the status of a physical button
+ *  \see BaseComponent
+ *  The constructor calls the base class with the type button.
+ */ 
 class Button: public BaseComponent
 {
 	public:
-		Button();
-		virtual ~Button();
-	
+		/*! 
+		* Default constructor
+		* Sets the component type to button
+		*/ 
+		Button() : BaseComponent(button)
+		{
+		}
+		
+		/*! 
+		* Destructor
+		*/
+		~Button();
+		
+		/*! 
+		* @brief Initializes the button setting its name
+		* @param name Name of the button
+		*/
+		int InitName(std::string name);
+		
+		/*! 
+		* @brief Initializes the button setting its name and its pin
+		* @param name Name of the button
+		* @param pin Pin number
+		*/
+		int InitNamePin(std::string name,int pin);
+		
 	private:
-		/* add your private declarations */
+		static log4cxx::LoggerPtr logger;
 };
 
 #endif /* BUTTON_HPP */ 

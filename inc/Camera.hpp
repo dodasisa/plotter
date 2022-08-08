@@ -28,6 +28,11 @@
 #include "basecomponent.hpp"
 #include "log4cxx/logger.h"
 
+/*! \class Camera
+ *  \brief Component that controls the raspberry PI camera
+ *  \see BaseComponent
+ *  The constructor calls the base class with the type camera.
+ */ 
 class Camera : public BaseComponent
 {
 	private:
@@ -35,13 +40,40 @@ class Camera : public BaseComponent
 	static log4cxx::LoggerPtr logger;
 	
 	public:
+	/*! 
+	* Default constructor
+	* Sets the component type to camera
+	*/ 
 	Camera() : BaseComponent(camera)
 	{
 		SetReady(FALSE);
 	};
+	
+	/*! 
+	* Destructor
+	*/
 	~Camera();
-	int Init(string name);
+	
+	/*! 
+	* Tries to open the camera using the raspicam.open() method
+	* \param name Name to set as component name
+	* 
+	* Calls SetName with the given info
+	*/
+	int InitName(string name);
+	
+	/*! 
+	* Tries to open the camera using the raspicam.open() method
+	* \param name Name to set as component name
+	* \param pin Pin number. Not required
+	* 
+	* Calls SetName with the given info
+	*/
+	int InitNamePin(string name,int pin);
 
+	/*! 
+	* Calls the raspicam.grab() method
+	*/
 	int Shot();
 };
 

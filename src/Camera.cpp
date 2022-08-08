@@ -35,9 +35,28 @@ Camera::~Camera()
 	LOG4CXX_TRACE(logger, "Camera destructor");
 }
 
-int Camera::Init(string name)
+int Camera::InitName(string name)
 {
 	SetName(name);
+	LOG4CXX_DEBUG(logger, "Instance Camera named " << GetName() );
+/*
+	try{
+		mReady=mCamera.open();
+	}
+	catch (int e)
+	{
+		mReady=false;
+	}
+	if (!mReady) std::cerr << "Error opening the camera " << mName << std::endl;
+	*/
+	SetReady(OK);
+	return GetReady();
+}
+
+int Camera::InitNamePin(string name, int pin)
+{
+	SetName(name);
+	SetPin(pin);
 	LOG4CXX_DEBUG(logger, "Instance Camera named " << GetName() );
 /*
 	try{

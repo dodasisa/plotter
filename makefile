@@ -12,6 +12,11 @@ OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
 all: robot
 
+.PHONY: docs
+
+docs:
+	@doxygen ./Doxyfile
+
 robot: $(OBJS)
 	$(CXX) $(CPPFLAGS) -o robot $(OBJS) $(LDLIBS)
 
@@ -21,6 +26,9 @@ obj/%.o : src/%.cpp
 
 clean:
 	$(RM) $(OBJS) robot
+
+cleandocs:
+	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*
 
 distclean: clean
 	$(RM)

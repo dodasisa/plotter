@@ -36,16 +36,24 @@ Led::~Led()
 	Off();
 }
 
-int Led::Init(string name,int pin)
+int Led::InitNamePin(string name,int pin)
 {
 	
 	SetName(name);	
-	mPin=pin;
+	SetPin(pin);
 	
-	gpioSetMode(mPin,PI_OUTPUT);
+	gpioSetMode(GetPin(),PI_OUTPUT);
 	SetState(Off());
 
-	LOG4CXX_DEBUG(logger, "Instance led named " << GetName() << ". Using pin " << mPin << ". State is " << GetState() );
+	LOG4CXX_DEBUG(logger, "Instance led named " << GetName() << ". Using pin " << GetPin() << ". State is " << GetState() );
+	return OK;
+}
+
+int Led::InitName(string name)
+{
+	
+	SetName(name);	
+	LOG4CXX_DEBUG(logger, "Instance led named " << GetName() << ". No pin defined");
 	return OK;
 }
 
@@ -72,8 +80,4 @@ int Led::Toggle()
 		return On();
 }	
 
-int Led::GetPin()
-{
-	return mPin;
-}
 
