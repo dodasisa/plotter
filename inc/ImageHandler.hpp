@@ -25,13 +25,23 @@
 #ifndef IMAGEHANDLER_HPP
 #define IMAGEHANDLER_HPP
 
+/*! \class ImageHandler
+ *  \brief Component that gets converts one image in a list of altered versions 
+ */ 
 class ImageHandler
 {
 	public:
+		/*! 
+		* Constructor
+		*/
 		ImageHandler();
+		
+		/*! 
+		* Destructor
+		*/
+		~ImageHandler();
 			
 	private:
-		/* add your private declarations */
 };
 
 #endif /* IMAGEHANDLER_HPP */ 

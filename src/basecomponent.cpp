@@ -55,6 +55,10 @@ ComponentType BaseComponent::GetType()
 {
 	return mType;
 }
+int BaseComponent::GetPin()
+{
+	return mPin;
+}
 void BaseComponent::SetReady(int ready)
 {
 	mReady=ready;
@@ -70,6 +74,23 @@ void BaseComponent::SetName(string name)
 void BaseComponent::SetType(ComponentType type)
 {
 	mType=type;
+}
+void BaseComponent::SetPin(int pin)
+{
+	mPin=pin;
+}
+
+int BaseComponent::InitName(std::string name)
+{
+	mName=name;
+	return 0;
+}
+
+int BaseComponent::InitNamePin(std::string name,int pin)
+{
+	mName=name;
+	mPin=pin;
+	return 0;
 }
 
 

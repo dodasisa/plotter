@@ -37,7 +37,7 @@ Servo::~Servo()
 	
 }
 
-int Servo::Init(string name)
+int Servo::InitName(string name)
 {
 	
 	SetName(name);
@@ -46,3 +46,12 @@ int Servo::Init(string name)
 	return GetReady();
 }
 
+int Servo::InitNamePin(string name,int pin)
+{
+	
+	SetName(name);
+	SetPin(pin);
+	SetReady(TRUE);
+	LOG4CXX_DEBUG(logger, "Instance servo named " << GetName() );
+	return GetReady();
+}

@@ -30,6 +30,12 @@
 
 using namespace std;
 
+/*! \class Component
+ *  \brief Component that stores the configuration of any component
+ *  \see BaseComponent
+ *  Simply stores the parameters grabbed from the config file for one component
+ *  This class is used by Robot to build the actual components
+ */ 
 class Component
 {
 	private:
@@ -42,11 +48,32 @@ class Component
 	int SetPin(string pin);
 		
 	public:
+	/*! 
+	* Default constructor
+	* \param name Name of the current component
+	* \param config Text containing the parameters to be parsed
+	* Parses the information coming in the config string, and stores under the given name
+	*/ 
 	Component(string name,string config);
+	
+	/*! 
+	* Destructor
+	*/
 	~Component();
 	
+	/*! Returns the type of component.
+	 * One of the values pof the enum ComponentType
+	 */
 	ComponentType GetType();
+	
+	/*! 
+	 * Returns the name of component.
+	 */
 	string GetName();
+	
+	/*! 
+	 * Returns the pin of the component, if any.
+	 */
 	int GetPin();
 };
 

@@ -29,24 +29,32 @@
 #include <map>
 #include <vector>
 #include "Component.hpp"
+#include "log4cxx/logger.h"
 
 using namespace std;
 
+/*! \class Config
+ *  \brief Configuration class. Parses the config file
+ *  \param fileName The configuration path and file name
+ * 
+ * The constructor gets the configurarion file name, by default robot.cfg
+ */  
 class Config
 {
 private:
+	static log4cxx::LoggerPtr logger;
 	string mFileName;
 	int Read();
 	string Trim(string text);
 	int mState;
+	map<string, string> data;
 
 public:
-	Config(string fileName);
-	~Config();
-	map<string, string> data;
-	vector<Component*> components;
-	string GetValue(string key);
-	int IsValid();
+	Config(string fileName); 			///< Config constructor. Calls Read() and returns its value.
+	~Config();							///< Destructor. Calls the destructor of every Component configuration details.
+	vector<Component*> components;		///< Vector of components configuration data found in the cfg file.
+	string GetValue(string key);		///< cfg data is stored in a map<key,value>. This returns the value of one key.
+	int IsValid();						///< Returns 0 if errors found, 1 if the config file is correct.
 };
 
 #endif

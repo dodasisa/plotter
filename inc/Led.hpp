@@ -28,25 +28,70 @@
 #include "basecomponent.hpp"
 #include "log4cxx/logger.h"
 
+/*! \class Led
+ *  \brief Component that sets a led On and Off
+ *  \see BaseComponent
+ *  The constructor calls the base class with the type led.
+ */ 
 class Led : public BaseComponent
 {
 	private:
-	int mPin;
 	static log4cxx::LoggerPtr logger;
 	
 	public:
+	/*! 
+		* Default constructor
+		* Sets the component type to led
+		*/ 
 	Led() : BaseComponent(led)
 	{
-		mPin=0;
+		SetPin(0);
 		SetState(OFF);
 	};
+	
+	/*! 
+	* Destructor
+	*/
 	~Led();
 
-	int Init(std::string name,int pin);
+	/*! 
+	* Defines the name and the pin where the led is connected
+	* \param name Name to set as component name
+	* \param pin Pin number
+	* 
+	* Calls SetName with the given info
+	* Calls pigpio::gpioSetMode with the chosen pin and the mode pigpio.PI_OUTPUT
+	*/
+	int InitNamePin(std::string name,int pin);
+	
+	/*! 
+	* Defines the name and the pin where the led is connected
+	* \param name Name to set as component name
+	* 
+	* Calls SetName with the given info
+	*/
+	int InitName(std::string name);
+	
+	/*! 
+	* Set the led ON
+	* Calls pigpio::gpioWrite with the component pin and pigpio::PI_HIGH
+	*/
 	int On();
+	
+	/*! 
+	* Set the led OFF
+	* Calls pigpio::gpioWrite with the component pin and pigpio::PI_LOW
+	*/
 	int Off();
-	int Toggle();	
-	int GetPin();
+	
+	/*! 
+	* Set the led OFF if if state is ON, and ON if it is OFF
+	* Calls pigpio::gpioWrite with the component pin and pigpio::PI_LOW
+	* \see On()
+	* \see Off()
+	*/
+	int Toggle();
+	
 };
 
 #endif

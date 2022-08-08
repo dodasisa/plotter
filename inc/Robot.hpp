@@ -32,7 +32,14 @@
 #include "Config.hpp"
 #include "log4cxx/logger.h"
 
-
+/*! \class Robot
+ *  \brief Main class. Holds the components and the event loop.
+ *  \param config. A valid Config object.
+ * 
+ * The constructor gets the configuration, instanciates and initializes 
+ * all the components.
+ * If no error, Run can be called. Run() holds the event loop.
+ */  
 class Robot
 {
 	private:
@@ -40,15 +47,12 @@ class Robot
 	int mReady;
 	std::string mName;
 	vector<BaseComponent*> components;
-	//vector<Camera*> cameras;
-	//vector<Led*> leds;
-	//vector<Servo*> servos;
 	
 	public:
-	Robot(Config* config);
-	~Robot();
-	int IsReady();
-	int Run();
+	Robot(Config* config);				///< Constructor. Takes a pointer to a valid Config object
+	~Robot();							///< Destructor. Calls the destructor of every component
+	int GetReady();						///< Value is 1 if ready for Run(). If any error value is 0
+	int Run();							///< The loop to the main event loop
 };
 
 #endif
