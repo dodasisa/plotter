@@ -1,10 +1,13 @@
+2022-08-09  David  <david.lopez.velazquez@gmail.com>
+
+ * Version 1.2 Camera takes photos
+
+
 2022-08-07  David  <david.lopez.velazquez@gmail.com>
 
  * Version 1.1. Using a base class for all the components. Using Log4cxx
 
-
-
-2022-08-03    <david@raspberrypi>
+2022-08-03    <david.lopez.velazquez@gmail.com>
 
  * Version 1.0. Uploaded to https://github.com/dodasisa/plotter
  
