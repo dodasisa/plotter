@@ -1,10 +1,13 @@
-MODULES = Component Button Led Camera Servo Robot I2Cmanager ImageHandler Config ComponentParameters main
+TESTMODULES = Component Button Led Camera Servo Robot I2Cmanager ImageHandler Config ComponentParameters
+MODULES = $(TESTMODULES) main
+
 
 SRCS=$(patsubst %,src/%.cpp,$(MODULES))
 INCS=$(patsubst %,inc/%.hpp,$(MODULES)) inc/Constants.hpp
 CXXTEST=/home/david/projets/cxxtest
 TESTGEN=$(CXXTEST)/bin/cxxtestgen
 
+TESTSRCS=$(patsubst %,src/%.cpp,$(TESTMODULES))
 
 CC=gcc
 CXX=g++
@@ -13,15 +16,13 @@ CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util -llog4cxx
 OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
-bin: robot
-
-all: robot docs
+all: robot test
 
 test: test/runner
 	test/runner
 	
 test/runner: test/runner.cpp
-	$(CXX) -o test/runner -I$(CXXTEST) test/runner.cpp
+	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(LDLIBS)
 
 test/runner.cpp : test/RobotTestSuite.hpp
 	$(TESTGEN) --error-printer -o test/runner.cpp test/RobotTestSuite.hpp
@@ -44,6 +45,6 @@ clean:
 cleandocs:
 	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*
 
-distclean: clean
+distclean: clean cleandocs
 	$(RM)
 
