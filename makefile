@@ -2,6 +2,9 @@ MODULES = Component Button Led Camera Servo Robot I2Cmanager ImageHandler Config
 
 SRCS=$(patsubst %,src/%.cpp,$(MODULES))
 INCS=$(patsubst %,inc/%.hpp,$(MODULES)) inc/Constants.hpp
+CXXTEST=/home/david/projets/cxxtest
+TESTGEN=$(CXXTEST)/bin/cxxtestgen
+
 
 CC=gcc
 CXX=g++
@@ -10,7 +13,18 @@ CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util -llog4cxx
 OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
-all: robot
+bin: robot
+
+all: robot docs
+
+test: test/runner
+	test/runner
+	
+test/runner: test/runner.cpp
+	$(CXX) -o test/runner -I$(CXXTEST) test/runner.cpp
+
+test/runner.cpp : test/RobotTestSuite.hpp
+	$(TESTGEN) --error-printer -o test/runner.cpp test/RobotTestSuite.hpp
 
 .PHONY: docs
 
@@ -25,7 +39,7 @@ obj/%.o : src/%.cpp
 	$(CXX) $(CPPFLAFS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) robot
+	$(RM) $(OBJS) robot test/runner test/runner.cpp
 
 cleandocs:
 	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*
