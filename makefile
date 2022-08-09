@@ -1,3 +1,4 @@
+VERSION = 1.2
 TESTMODULES = Component Button Led Camera Servo Robot I2Cmanager ImageHandler Config ComponentParameters
 MODULES = $(TESTMODULES) main
 
@@ -16,7 +17,7 @@ CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util -llog4cxx
 OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
-all: robot test
+all: robot$(VERSION) test
 
 test: test/runner
 	test/runner
@@ -32,8 +33,8 @@ test/runner.cpp : test/RobotTestSuite.hpp
 docs:
 	@doxygen ./Doxyfile
 
-robot: $(OBJS)
-	$(CXX) $(CPPFLAGS) -o robot $(OBJS) $(LDLIBS)
+robot$(VERSION): $(OBJS)
+	$(CXX) $(CPPFLAGS) -o robot$(VERSION) $(OBJS) $(LDLIBS)
 
 obj/%.o : src/%.cpp
 	@echo $<
