@@ -22,6 +22,8 @@
  */
 
 #include <iostream>
+#include <fstream>
+
 #include "../inc/Camera.hpp"
 
 using namespace std;
@@ -63,5 +65,11 @@ int Camera::Shot()
 	if (!GetReady())
 		return FALSE;
 	mCamera.grab();
+	unsigned char *data=new unsigned char[  mCamera.getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB )];
+	mCamera.retrieve ( data,raspicam::RASPICAM_FORMAT_RGB );
+	ofstream outFile ( "raspicam_image.ppm",ios::binary );
+	outFile<<"P6\n"<<mCamera.getWidth() <<" "<<mCamera.getHeight() <<" 255\n";
+	outFile.write ( ( char* ) data, mCamera.getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
+	delete data;
 	return true;
 }
