@@ -44,6 +44,7 @@ class Robot
 {
 	private:
 	static log4cxx::LoggerPtr logger;
+	Camera* mEyes;
 	int mReady;
 	std::string mName;
 	vector<Component*> components;

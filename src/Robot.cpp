@@ -56,6 +56,7 @@ Robot::Robot(Config* config)
 		case camera:
 			cameraHolder=new Camera();
 			testState=cameraHolder->InitName(component->GetName());
+			mEyes=cameraHolder;
 			components.push_back(cameraHolder);
 			
 			if (testState==ERROR) 
@@ -125,5 +126,6 @@ int Robot::Run()
 {
 	if (!GetReady())
 		return ERROR;
+	mEyes->Shot();
 	return OK;
 }

@@ -25,6 +25,7 @@
 #define __CAMERA__
 #include <string>
 #include <raspicam/raspicam.h>
+
 #include "Component.hpp"
 #include "log4cxx/logger.h"
 
