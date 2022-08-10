@@ -29,20 +29,36 @@ LoggerPtr logger(Logger::getLogger("plotter"));
 
 int main(int argc, char **argv)
 {
-	int state=OK;
+	int opt;
+	string configFile="cfg/robot.cfg";
+	string logSetup="log4cxx.properties";
+	string logLevel="INFO";
+	while ((opt = getopt(argc, argv, "hc:l:e:")) != -1) 
+	{
+		switch (opt)
+		{
+			case 'h':
+				Usage();
+				return EXIT_SUCCESS;
+				break;
+			case 'c':
+				configFile=optarg;
+				break;
+			case 'l':
+				logSetup=optarg;
+				break;
+			case 'e':
+				logLevel=optarg;
+				break;
+			default:
+				Usage();
+				return EXIT_FAILURE;
+		}
+	}
 	
-	try
+	int state=OK;
+	if (logSetup == "BASIC")
 	{
-		PropertyConfigurator::configure("log4cxx.properties");
-	}
-	catch(Exception&)
-	{
-		std::cerr << "logger fails to start using log4cxx.cfg" << endl;
-		state=ERROR;
-		return EXIT_FAILURE;
-	}
-	/*
-	if (state==ERROR){
 		try
 		{
 			BasicConfigurator::configure();
@@ -53,10 +69,22 @@ int main(int argc, char **argv)
 			return EXIT_FAILURE;
 		}
 	}
-	*/ 
+	else
+	{
+		try
+		{
+			PropertyConfigurator::configure(logSetup);
+		}
+		catch(Exception&)
+		{
+			std::cerr << "logger fails to start using log4cxx.properties" << endl;
+			state=ERROR;
+			return EXIT_FAILURE;
+		}
+	}
 	
 	LOG4CXX_INFO(logger, "Starting robot." << " Version " << VERSION);
-	string configFile="cfg/robot.cfg";
+	
 	if (argc > 1) configFile=argv[1];
 	LOG4CXX_INFO(logger, "Using configuration file " + configFile);
 	
@@ -98,5 +126,16 @@ int main(int argc, char **argv)
     gpioTerminate();
     delete(config);
 	return EXIT_SUCCESS;
+}
+
+void Usage()
+{
+	cout << "Usage:" << endl;
+	cout << "\trobot" << VERSION << " [-h] [-c configFile] [-l logSetup] [-e (OFF|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)]" << endl;
+	cout << "Values by default are:" << endl;
+	cout << "\trobot" << VERSION << endl;
+	cout << "\t\t-c cfg/robot.cfg" << endl;
+	cout << "\t\t-l log4cxx.properties" << endl;
+	cout << "\t\t-e INFO" << endl;
 }
 

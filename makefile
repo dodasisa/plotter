@@ -17,7 +17,7 @@ CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util -llog4cxx
 OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
-all: robot$(VERSION) test
+all: robot$(VERSION)
 
 test: test/runner
 	test/runner

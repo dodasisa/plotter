@@ -128,6 +128,41 @@ int Robot::Run()
 {
 	if (!GetReady())
 		return ERROR;
+		
+	bool sleepMode=true;
+	while (sleepMode)
+	{
+		
+		sleep(5);
+	}
+	// 	start on sleep mode
+	// 	sleeping status led ON
+	// 	look if some file has changed (a touch is enough)
+	//	if no endloop
+	//	if yes
+	//		read content
+	//		if content STOP
+	//			return OK
+	//		else
+	// 			wake up
+	//  		wakeup status led ON
+	//			rise the head
+	//			smile
+	//			take a photo
+	//			focusing face
+	//			transform the image
+	//			vectorize
+	//			organize vectors
+	//			look down
+	//			start drawing
+	//			end drawing
+	//			rise the head
+	//			smile
+	//		endif
+	//		look down
+	//		go sleep mode
+	//	endloop
+	
 	mEyes->Shot();
 	return OK;
 }

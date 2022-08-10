@@ -39,6 +39,8 @@ class Camera : public Component
 	private:
 	raspicam::RaspiCam mCamera;
 	static log4cxx::LoggerPtr logger;
+	string ImagesFolder;
+	string PhotoName;
 	
 	public:
 	/*! 
@@ -68,6 +70,8 @@ class Camera : public Component
 	* Calls SetName with the given info
 	*/
 	int InitNamePin(string name,int pin);
+
+	void SetParameters(string folder,string photo);
 
 	/*! 
 	* Calls the raspicam.grab() method

@@ -73,12 +73,21 @@ int Camera::Shot()
 	mCamera.grab();
 	unsigned char *data=new unsigned char[  mCamera.getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB )];
 	
-	//mCamera.retrieve ( data,raspicam::RASPICAM_FORMAT_RGB );
-	mCamera.retrieve ( data,raspicam::RASPICAM_FORMAT_IGNORE );
-	ofstream outFile ( "raspicam_image.ppm",ios::binary );
+	string outimage=ImagesFolder + "/" + PhotoName + ".ppm";
+	LOG4CXX_DEBUG(logger, "Saving the photo to " << outimage );
+	
+	mCamera.retrieve ( data,raspicam::RASPICAM_FORMAT_RGB );
+	//mCamera.retrieve ( data,raspicam::RASPICAM_FORMAT_IGNORE );
+	ofstream outFile (outimage,ios::binary );
 	outFile<<"P6\n"<<mCamera.getWidth() <<" "<<mCamera.getHeight() <<" 255\n";
 	outFile.write ( ( char* ) data, mCamera.getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
 	
 	delete data;
 	return true;
+}
+
+void Camera::SetParameters(string folder,string photo)
+{
+	ImagesFolder=folder;
+	PhotoName=photo;
 }

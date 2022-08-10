@@ -25,6 +25,7 @@
 #define __ROBOT__
 #include <string>
 #include <vector>
+#include <unistd.h>
 #include "Component.hpp"
 #include "Camera.hpp"
 #include "Led.hpp"

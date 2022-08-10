@@ -27,6 +27,8 @@
 #include <iostream>
 #include <pigpio.h>
 #include <string>
+#include <unistd.h>
+#include <stdlib.h>
 #include "log4cxx/logger.h"
 #include "log4cxx/basicconfigurator.h"
 #include "log4cxx/propertyconfigurator.h"
@@ -34,5 +36,7 @@
 #include "Version.hpp"
 using namespace log4cxx;
 using namespace log4cxx::helpers;
+
+void Usage();
 
 #endif
