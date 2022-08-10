@@ -30,7 +30,7 @@ test/runner.cpp : test/RobotTestSuite.hpp
 
 .PHONY: docs
 
-docs:
+docs: Doxyfile
 	@doxygen ./Doxyfile
 
 robot$(VERSION): $(OBJS)
