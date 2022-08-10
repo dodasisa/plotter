@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 		LOG4CXX_ERROR(logger, "GPIO fails to initialise.");
 		return EXIT_FAILURE;
 	}
-	Config* config=new Config(configFile);
+	Config* config=new Config(configFile,false);
 	if (config->IsValid()==ERROR)
 	{
 		LOG4CXX_ERROR(logger, "The config file has errors.");

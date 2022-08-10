@@ -106,6 +106,15 @@ class Component
 		* @param pin Pin number
 		*/
 		void SetPin(int pin);
+		/*! 
+		* Writes nothing to the logs during the tests
+		*/
+		void SetTestMode();
+		/*! 
+		* Retrieves if on test mode
+		* @return true if test mode
+		*/
+		bool IsOnTestMode();
 	
 	private:
 		int mReady;
@@ -113,6 +122,7 @@ class Component
 		int mPin;
 		string mName;
 		ComponentType mType;
+		bool mTest;
 };
 
 #endif /* COMPONENT_HPP */ 

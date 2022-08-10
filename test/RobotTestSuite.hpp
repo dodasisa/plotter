@@ -20,11 +20,12 @@
  * 
  * 
  */
-
+#ifndef __TESTING__
+#define __TESTING__
 #include <cxxtest/TestSuite.h>
 #include "../inc/Config.hpp"
 #include "../inc/Robot.hpp"
-#define TESTING
+
 
 /*! \class MyTestSuite1
  *  \brief Test class
@@ -41,7 +42,7 @@ public:
      */ 
     void testConfig01(void) // missing file
     {
-        Config config("../cfg/missing.cfg");
+        Config config("../cfg/missing.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),false);
     }
     
@@ -51,7 +52,7 @@ public:
      */ 
     void testConfig02(void) // correct file
     {
-        Config config("/home/david/projets/plotter2/cfg/robot.cfg");
+        Config config("/home/david/projets/plotter2/cfg/robot.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),true);
     }
     
@@ -61,7 +62,7 @@ public:
      */ 
     void testConfig03(void) // comments
     {
-        Config config("/home/david/projets/plotter2/cfg/commentedConfig.cfg");
+        Config config("/home/david/projets/plotter2/cfg/commentedConfig.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),true);
     }
     
@@ -71,7 +72,7 @@ public:
      */ 
     void testConfig04(void) // Component without config
     {
-        Config config("/home/david/projets/plotter2/cfg/componentNoConfig.cfg");
+        Config config("/home/david/projets/plotter2/cfg/componentNoConfig.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),false);
     }
     
@@ -81,7 +82,7 @@ public:
      */
     void testConfig05(void) // Component without type
     {
-        Config config("/home/david/projets/plotter2/cfg/componentNoType.cfg");
+        Config config("/home/david/projets/plotter2/cfg/componentNoType.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),false);
     }
     
@@ -91,7 +92,7 @@ public:
      */
     void testConfig06(void) // Robot without name
     {
-        Config config("/home/david/projets/plotter2/cfg/noName.cfg");
+        Config config("/home/david/projets/plotter2/cfg/noName.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),true);
     }
     
@@ -101,7 +102,7 @@ public:
      */
     void testConfig07(void) // Truncated Component
     {
-        Config config("/home/david/projets/plotter2/cfg/truncatedComponent.cfg");
+        Config config("/home/david/projets/plotter2/cfg/truncatedComponent.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),true);
     }
     
@@ -111,7 +112,7 @@ public:
      */    
     void testConfig08(void) // Truncated Detail
     {
-        Config config("/home/david/projets/plotter2/cfg/truncatedDetail.cfg");
+        Config config("/home/david/projets/plotter2/cfg/truncatedDetail.cfg",true);
         TS_ASSERT_EQUALS(config.IsValid(),false);
     }
     
@@ -121,10 +122,11 @@ public:
      */  
     void testRobot01(void)
     {
-        Config* config=new Config("/home/david/projets/plotter2/cfg/robot.cfg");
+        Config* config=new Config("/home/david/projets/plotter2/cfg/robot.cfg",true);
         Robot robot(config);
         TS_ASSERT_EQUALS(robot.GetReady(),true);
         delete(config);
     }
 
 };
+#endif

@@ -30,6 +30,13 @@ using namespace log4cxx;
 
 LoggerPtr Servo::logger(Logger::getLogger("plotter.robot.servo"));
 
+
+Servo::Servo() : Component(servo)
+{
+	if (IsOnTestMode()) logger->setLevel(Level::getOff());
+	SetReady(FALSE);
+};
+	
 Servo::~Servo()
 {
 	LOG4CXX_TRACE(logger, "Servo destructor");

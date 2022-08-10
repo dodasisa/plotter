@@ -48,13 +48,17 @@ private:
 	string Trim(string text);
 	int mState;
 	map<string, string> data;
+	bool mTest;
 
 public:
-	Config(string fileName); 			///< Config constructor. Calls Read() and returns its value.
+	Config(string fileName,bool test);	///< Config constructor. Calls Read() and returns its value.
 	~Config();							///< Destructor. Calls the destructor of every Component configuration details.
 	vector<ComponentParameters*> components;		///< Vector of components configuration data found in the cfg file.
 	string GetValue(string key);		///< cfg data is stored in a map<key,value>. This returns the value of one key.
 	int IsValid();						///< Returns 0 if errors found, 1 if the config file is correct.
+
+	void SetTestMode();
+	bool IsOnTestMode();
 };
 
 #endif

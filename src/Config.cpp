@@ -27,8 +27,12 @@ using namespace log4cxx;
 
 LoggerPtr Config::logger(Logger::getLogger("plotter.config"));
 
-Config::Config(string fileName)
+Config::Config(string fileName,bool test)
 {
+	if (test) SetTestMode();
+	if (IsOnTestMode()){
+		logger->setLevel(Level::getOff());
+	}
 	mState = OK;
 	LOG4CXX_TRACE(logger, "Config constructor");
 	/// Stores the file name
@@ -175,10 +179,26 @@ string Config::Trim(string text)
 }
 /**
  * Gives the status of the Config object
- * If error 0.
- * If success 1.
+ * @return 0 if any error, 1 if success.
  */ 
 int Config::IsValid()
 {
 	return mState;
+}
+
+/**
+ * Writes nothing to the logs during the tests
+ */ 
+void Config::SetTestMode()
+{
+	mTest=true;
+}
+
+/**
+ * Retrieves if on test mode
+ * @return true if on est oin test mode
+ */ 
+bool Config::IsOnTestMode()
+{
+	return mTest;
 }

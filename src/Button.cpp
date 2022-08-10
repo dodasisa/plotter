@@ -28,6 +28,11 @@ using namespace log4cxx;
 LoggerPtr Button::logger(Logger::getLogger("plotter.robot.button"));
 
 
+Button::Button() : Component(button)
+{
+	if (IsOnTestMode()) logger->setLevel(Level::getOff());
+}
+
 Button::~Button()
 {
 	LOG4CXX_TRACE(logger, "Button destructor");

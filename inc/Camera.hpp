@@ -45,10 +45,7 @@ class Camera : public Component
 	* Default constructor
 	* Sets the component type to camera
 	*/ 
-	Camera() : Component(camera)
-	{
-		SetReady(FALSE);
-	};
+	Camera();
 	
 	/*! 
 	* Destructor

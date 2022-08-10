@@ -41,10 +41,7 @@ class Servo : public Component
 	* Default constructor
 	* Sets the component type to servo
 	*/ 
-	Servo() : Component(servo)
-	{
-		SetReady(FALSE);
-	};
+	Servo();
 	
 	/*! 
 	* Destructor

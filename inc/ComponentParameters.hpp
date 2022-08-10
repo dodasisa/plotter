@@ -27,6 +27,7 @@
 #include "Constants.hpp"
 #include <string>
 #include <iostream>
+#include "log4cxx/logger.h"
 
 using namespace std;
 
@@ -39,6 +40,7 @@ using namespace std;
 class ComponentParameters
 {
 	private:
+	static log4cxx::LoggerPtr logger;
 	string mName;
 	ComponentType mType;
 	int mPin;

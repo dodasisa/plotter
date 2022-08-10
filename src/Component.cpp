@@ -92,4 +92,13 @@ int Component::InitNamePin(std::string name,int pin)
 	return 0;
 }
 
+void Component::SetTestMode()
+{
+	mTest=true;
+}
+
+bool Component::IsOnTestMode()
+{
+	return mTest;
+}
 

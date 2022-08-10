@@ -22,8 +22,8 @@
  */
 
 
-#ifndef BUTTON_HPP
-#define BUTTON_HPP
+#ifndef ___BUTTON___
+#define ___BUTTON___
 
 #include <string>
 #include <pigpio.h>
@@ -37,14 +37,15 @@
  */ 
 class Button: public Component
 {
+	private:
+		static log4cxx::LoggerPtr logger;
+		
 	public:
 		/*! 
 		* Default constructor
 		* Sets the component type to button
 		*/ 
-		Button() : Component(button)
-		{
-		}
+		Button();
 		
 		/*! 
 		* Destructor
@@ -64,8 +65,7 @@ class Button: public Component
 		*/
 		int InitNamePin(std::string name,int pin);
 		
-	private:
-		static log4cxx::LoggerPtr logger;
+
 };
 
-#endif /* BUTTON_HPP */ 
+#endif /* ___BUTTON___ */ 

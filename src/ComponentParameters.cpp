@@ -22,6 +22,9 @@
  */
  
 #include "../inc/ComponentParameters.hpp"
+using namespace log4cxx;
+
+LoggerPtr ComponentParameters::logger(Logger::getLogger("plotter.config.componentParameters"));
 
 ComponentParameters::ComponentParameters(string name, string config)
 {
@@ -30,7 +33,7 @@ ComponentParameters::ComponentParameters(string name, string config)
 	size_t pos = 0;
 	if ((pos = config.find("(")) == string::npos) 
 	{
-		cerr << "Missing configuration info for Component " << name << endl;
+		LOG4CXX_ERROR(logger, "Missing configuration info for Component " << name);
 		return;
 	}
 	while ((pos = config.find(".")) != string::npos)
@@ -47,14 +50,14 @@ ComponentParameters::ComponentParameters(string name, string config)
 				string value = config.substr(0, pos3);
 				if (Apply(token, value) == ERROR)
 				{
-					cerr << "Cannot handle token " << token << " and value " << value << endl;
+					LOG4CXX_ERROR(logger, "Cannot handle token " << token << " and value " << value);
 				}
 			}
 			else
-				cerr << "Wrong configuration info for Component. Missing ) ?" << endl;
+				LOG4CXX_ERROR(logger, "Wrong configuration info for Component. Missing ) ?");
 		}
 		else
-			cerr << "Missing configuration info for Component" << endl;
+			LOG4CXX_ERROR(logger, "Missing configuration info for Component");
 	}
 }
 
@@ -73,7 +76,7 @@ int ComponentParameters::SetType(string type)
 		mType = camera;
 	if (mType == unknown)
 	{
-		cerr << "Unknown type of component" << endl;
+		LOG4CXX_ERROR(logger, "Unknown type of component");
 		return ERROR;
 	}
 	else

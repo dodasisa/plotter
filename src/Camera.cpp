@@ -32,6 +32,12 @@ using namespace raspicam;
 
 LoggerPtr Camera::logger(Logger::getLogger("plotter.robot.camera"));
 
+Camera::Camera() : Component(camera)
+{
+	if (IsOnTestMode()) logger->setLevel(Level::getOff());
+		SetReady(FALSE);
+}
+
 Camera::~Camera()
 {
 	LOG4CXX_TRACE(logger, "Camera destructor");

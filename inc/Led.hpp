@@ -43,11 +43,7 @@ class Led : public Component
 		* Default constructor
 		* Sets the component type to led
 		*/ 
-	Led() : Component(led)
-	{
-		SetPin(0);
-		SetState(OFF);
-	};
+	Led();
 	
 	/*! 
 	* Destructor

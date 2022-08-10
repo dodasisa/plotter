@@ -30,6 +30,13 @@ using namespace log4cxx;
 
 LoggerPtr Led::logger(Logger::getLogger("plotter.robot.led"));
 
+Led::Led() : Component(led)
+{
+	if (IsOnTestMode()) logger->setLevel(Level::getOff());
+	SetPin(0);
+	SetState(OFF);
+};
+
 Led::~Led()
 {
 	LOG4CXX_TRACE(logger, "Led destructor");
@@ -43,7 +50,7 @@ int Led::InitNamePin(string name,int pin)
 	SetPin(pin);
 	SetReady(OK);
 	
-	gpioSetMode(GetPin(),PI_OUTPUT);
+	//gpioSetMode(GetPin(),PI_OUTPUT);
 	SetState(Off());
 
 	LOG4CXX_DEBUG(logger, "Instance led named " << GetName() << ". Using pin " << GetPin() << ". State is " << GetState() );

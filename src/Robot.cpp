@@ -35,6 +35,8 @@ LoggerPtr Robot::logger(Logger::getLogger("plotter.robot"));
  */ 
 Robot::Robot(Config* config)
 {
+	if (config->IsOnTestMode())
+		logger->setLevel(Level::getOff());
 	LOG4CXX_TRACE(logger, "Robot constructor");
 	int errorCount = 0;
 	mReady = FALSE;

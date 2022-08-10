@@ -41,7 +41,7 @@ obj/%.o : src/%.cpp
 	$(CXX) $(CPPFLAFS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) robot test/runner test/runner.cpp
+	$(RM) $(OBJS) robot$(VERSION) test/runner test/runner.cpp
 
 cleandocs:
 	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*
