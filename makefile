@@ -1,4 +1,4 @@
-VERSION = 1.2
+VERSION = `head -1 inc/Version.hpp | cut -f3 -d ' '`
 TESTMODULES = Component Button Led Camera Servo Robot I2Cmanager ImageHandler Config ComponentParameters
 MODULES = $(TESTMODULES) main
 
@@ -41,7 +41,7 @@ obj/%.o : src/%.cpp
 	$(CXX) $(CPPFLAFS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) robot$(VERSION) test/runner test/runner.cpp
+	$(RM) $(OBJS) robot$(VERSION) test/runner test/runner.cpp logs/*
 
 cleandocs:
 	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*
