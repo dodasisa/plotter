@@ -30,7 +30,7 @@ LoggerPtr logger(Logger::getLogger("plotter"));
 int main(int argc, char **argv)
 {
 	int state=OK;
-	/*
+	
 	try
 	{
 		PropertyConfigurator::configure("log4cxx.properties");
@@ -39,9 +39,10 @@ int main(int argc, char **argv)
 	{
 		std::cerr << "logger fails to start using log4cxx.cfg" << endl;
 		state=ERROR;
+		return EXIT_FAILURE;
 	}
-	*/
-	//if (state==ERROR){
+	/*
+	if (state==ERROR){
 		try
 		{
 			BasicConfigurator::configure();
@@ -51,7 +52,8 @@ int main(int argc, char **argv)
 			std::cerr << "logger fails to start using basic configuration" << endl;
 			return EXIT_FAILURE;
 		}
-	//}
+	}
+	*/ 
 	
 	LOG4CXX_INFO(logger, "Starting robot." << " Version " << VERSION);
 	string configFile="cfg/robot.cfg";
