@@ -41,6 +41,7 @@ class Options
 	string mRobotOptionsFileName;
 	string mLoggingOptionsFileName;
 	string mLoggingLevel;
+	bool mBasicLogging;
 	
 	public:
 	/*! 
@@ -56,6 +57,7 @@ class Options
 	string GetRobotOptionsFileName();
 	string GetLoggingOptionsFileName();
 	string GetLoggingLevel();
+	bool UseBasicLogging();
 	void Usage();
 };
 
