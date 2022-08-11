@@ -35,7 +35,7 @@ Led::Led() : Component(led)
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
 	SetPin(0);
 	SetState(OFF);
-};
+}
 
 Led::~Led()
 {
