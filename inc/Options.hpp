@@ -39,7 +39,7 @@ class Options
 	/*! 
 		* Constructor, called with the main args
 		*/ 
-	Options();
+	Options(int argc, char **argv);
 	
 	/*! 
 	* Destructor
