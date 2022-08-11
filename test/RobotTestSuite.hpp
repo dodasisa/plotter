@@ -1,5 +1,5 @@
 /*
- * TestSuite.hpp
+ * ConfigTest.hpp
  * 
  * Copyright 2022 David <david.lopez.velazquez@gmail.com>
  * 
@@ -20,8 +20,8 @@
  * 
  * 
  */
-#ifndef __TESTING__
-#define __TESTING__
+#ifndef __CONFIGTEST__
+#define __CONFIGTEST__
 #include <cxxtest/TestSuite.h>
 #include "../inc/Config.hpp"
 #include "../inc/Robot.hpp"
