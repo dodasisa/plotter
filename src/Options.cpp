@@ -28,6 +28,47 @@ using namespace std;
 
 Options::Options(int argc, char **argv)
 {
+  int aflag = 0;
+  int bflag = 0;
+  char *cvalue = NULL;
+  int index;
+  int c;
+
+  opterr = 0;
+
+  while ((c = getopt (argc, argv, "hc:l:e:")) != -1)
+    switch (c)
+      {
+      case 'h':
+        Usage();
+        break;
+      case 'c':
+        RobotOptionsFileName = optarg;
+        break;
+      case 'l':
+        LoggingOptionsFileName = optarg;
+        break;
+      case 'e':
+        LoggingLevel = optarg;
+        break;
+      case '?':
+        if (optopt == 'c')
+          fprintf (stderr, "Option -%c requires an argument. Usually robot.cfg\n", optopt);
+        if (optopt == 'l')
+          fprintf (stderr, "Option -%l requires an argument. Usually log4cxx.properties\n", optopt);
+        if (optopt == 'e')
+          fprintf (stderr, "Option -%e requires an argument. Can be one of OFF,TRACE,DEBUG,INFO,WARN,ERROR or FATAL\n", optopt);
+        else if (isprint (optopt))
+          fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+        else
+          fprintf (stderr,
+                   "Unknown option character `\\x%x'.\n",
+                   optopt);
+        return 1;
+      default:
+        abort ();
+      }
+
 }
 
 Options::~Options()
