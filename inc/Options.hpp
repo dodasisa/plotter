@@ -52,7 +52,7 @@ class Options
 	* Destructor
 	*/
 	~Options();
-
+	void Usage();
 };
 
 #endif
