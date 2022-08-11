@@ -70,3 +70,12 @@ Options::Options(int argc, char **argv)
 Options::~Options()
 {
 }
+
+void Options::Usage()
+{
+  fprintf (stderr, "Usage: \n");
+  fprintf (stderr, "robot -h \t Prints this help\n");
+  fprintf (stderr, "robot -c [fileName] \t Alternate options file. Default is cfg/robot.cfg\n");
+  fprintf (stderr, "robot -l [fileName] \t Alternate log4cxx options file. Default is log4cxx.properties\n");
+  fprintf (stderr, "robot -e [level] \t Log level. Can be one of OFF,TRACE,DEBUG,INFO,WARN,ERROR or FATAL. Default is INFO\n");
+}
