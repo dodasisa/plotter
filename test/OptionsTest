@@ -44,7 +44,20 @@ public:
     void testOptions01(void)
     {
         Options options(0)
-        TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),true);
+        TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),"/cfg/robot.cfg");
+        TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log4cxx.properties");
+        TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"INFO");
+    }
+    /*! \brief testOptions02 Build a correct robot
+     * 
+     * Full options. Must retrieve the parameters.
+     */  
+    void testOptions01(void)
+    {
+        Options options(3,"-c newOpt.cfg","-e DEBUG","-l log.properties");
+        TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),"newOpt.cfg");
+        TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log.properties");
+        TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"DEBUG");
     }
 };
 #endif
