@@ -27,12 +27,10 @@
 
 I2Cmanager::I2Cmanager()
 {
-	
 }
 
 
 I2Cmanager::~I2Cmanager()
 {
-	
 }
 

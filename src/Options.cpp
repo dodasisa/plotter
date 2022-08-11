@@ -74,7 +74,6 @@ Options::Options(int argc, char **argv)
       default:
         abort ();
       }
-
 }
 
 Options::~Options()

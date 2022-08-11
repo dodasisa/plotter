@@ -27,7 +27,6 @@ using namespace log4cxx;
 
 LoggerPtr Button::logger(Logger::getLogger("plotter.robot.button"));
 
-
 Button::Button() : Component(button)
 {
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
@@ -40,7 +39,6 @@ Button::~Button()
 
 int Button::InitNamePin(string name,int pin)
 {
-	
 	SetName(name);	
 	SetPin(pin);
 	
@@ -52,9 +50,7 @@ int Button::InitNamePin(string name,int pin)
 
 int Button::InitName(string name)
 {
-	
 	SetName(name);	
-	
 
 	LOG4CXX_DEBUG(logger, "Instance button named " << GetName() << ". Pin undefined" << GetPin() );
 	return OK;
