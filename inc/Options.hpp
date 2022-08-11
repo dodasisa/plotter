@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 using namespace std;
+
 /*! \class Options
  *  \brief Parses and hold the options coming from the command line
  *  \see main
@@ -55,11 +56,39 @@ class Options
 	*/
 	~Options();
 	
+	/*! 
+	* Retrieves the options file name, default or parsed
+	* @return mRobotOptionsFileName
+	*/
 	string GetRobotOptionsFileName();
+	
+	/*! 
+	* Retrieves the log4cxx options file, default or parsed
+	* @return mLoggingOptionsFileName
+	*/
 	string GetLoggingOptionsFileName();
+	
+	/*! 
+	* Retrieves the log level
+	* @return mLoggingLevel
+	*/
 	string GetLoggingLevel();
+	
+	/*! 
+	* Retrieves the option to not use log4cxx options file
+	* @return mBasicLogging. If true, let log4cxx produce one by default
+	*/
 	bool UseBasicLogging();
+	
+	/*! 
+	* Short help screen
+	*/
 	void Usage();
+	
+	/*! 
+	* True if no error parsing the options
+	* @return mValid
+	*/
 	bool IsValid();
 };
 
