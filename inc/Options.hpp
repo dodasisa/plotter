@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+using namespace std;
 /*! \class Options
  *  \brief Parses and hold the options coming from the command line
  *  \see main
@@ -42,6 +42,7 @@ class Options
 	string mLoggingOptionsFileName;
 	string mLoggingLevel;
 	bool mBasicLogging;
+	bool mValid;
 	
 	public:
 	/*! 
@@ -59,6 +60,7 @@ class Options
 	string GetLoggingLevel();
 	bool UseBasicLogging();
 	void Usage();
+	bool IsValid();
 };
 
 #endif

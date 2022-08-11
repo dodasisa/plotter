@@ -33,7 +33,7 @@ Options::Options(int argc, char **argv)
   mLoggingOptionsFileName = "log4cxx.properties";
   mLoggingLevel="INFO";
   mBasicLogging=false;
-  
+  mValid=true;
   int c;
 
   opterr = 0;
@@ -69,7 +69,8 @@ Options::Options(int argc, char **argv)
           fprintf (stderr,
                    "Unknown option character `\\x%x'.\n",
                    optopt);
-        return 1;
+        mValid=false;
+        return;
       default:
         abort ();
       }
@@ -105,4 +106,8 @@ void Options::Usage()
   fprintf (stderr, "robot -b \t Use basic logging. Ignores -l if given\n");
   fprintf (stderr, "robot -l [fileName] \t Alternate log4cxx options file. Default is log4cxx.properties\n");
   fprintf (stderr, "robot -e [level] \t Log level. Can be one of OFF,TRACE,DEBUG,INFO,WARN,ERROR or FATAL. Default is INFO\n");
+}
+bool Options::IsValid()
+{
+  return mValid;
 }

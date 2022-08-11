@@ -31,7 +31,7 @@ LoggerPtr logger(Logger::getLogger("plotter"));
 int main(int argc, char **argv)
 {
 	Options options(argc,argv);
-	
+	if (!options.IsValid()) return EXIT_FAILURE;
 	int state=OK;
 	if (options.UseBasicLogging())
 	{
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 	{
 		try
 		{
-			PropertyConfigurator::configure(config.GetLoggingOptionsFileName());
+			PropertyConfigurator::configure(options.GetLoggingOptionsFileName());
 		}
 		catch(Exception&)
 		{
