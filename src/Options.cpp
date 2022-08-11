@@ -28,8 +28,8 @@ using namespace std;
 
 Options::Options(int argc, char **argv)
 {
-};
+}
 
 Options::~Options()
 {
-};
+}
