@@ -39,13 +39,13 @@ Options::Options(int argc, char **argv)
         Usage();
         break;
       case 'c':
-        RobotOptionsFileName = optarg;
+        mRobotOptionsFileName = optarg;
         break;
       case 'l':
-        LoggingOptionsFileName = optarg;
+        mLoggingOptionsFileName = optarg;
         break;
       case 'e':
-        LoggingLevel = optarg;
+        mLoggingLevel = optarg;
         break;
       case '?':
         if (optopt == 'c')
