@@ -1,0 +1,50 @@
+/*
+ * OptionsTest.hpp
+ * 
+ * Copyright 2022 David <david.lopez.velazquez@gmail.com>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
+#ifndef __OPTIONSTEST__
+#define __OPTIONSTEST__
+#include <cxxtest/TestSuite.h>
+#include "../inc/Options.hpp"
+
+
+
+/*! \class OptionsTest
+ *  \brief Test class
+ * 
+ * Tests are run by runner.cpp, created by the tool cxxtestgen.
+ * This suite tests the Options class
+ */  
+class OptionsTest : public CxxTest::TestSuite
+{
+public:
+
+    /*! \brief testOptions01 Build a correct robot
+     * 
+     * No options. Must retrieve the defaults.
+     */  
+    void testOptions01(void)
+    {
+        Options options(0)
+        TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),true);
+    }
+};
+#endif
