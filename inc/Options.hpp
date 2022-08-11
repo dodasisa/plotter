@@ -24,6 +24,10 @@
 #ifndef __OPTIONS__
 #define __OPTIONS__
 #include <string>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 /*! \class Options
  *  \brief Parses and hold the options coming from the command line
