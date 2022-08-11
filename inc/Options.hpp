@@ -52,6 +52,9 @@ class Options
 	* Destructor
 	*/
 	~Options();
+	
+	string GetRobotOptionsFileName();
+	string GetLoggingOptionsFileName();
 	void Usage();
 };
 
