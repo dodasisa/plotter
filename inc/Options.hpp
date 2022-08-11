@@ -55,6 +55,7 @@ class Options
 	
 	string GetRobotOptionsFileName();
 	string GetLoggingOptionsFileName();
+	string GetLoggingLevel();
 	void Usage();
 };
 
