@@ -27,10 +27,11 @@
 #include "../inc/Robot.hpp"
 
 
-/*! \class MyTestSuite1
+/*! \class ConfigTest
  *  \brief Test class
  * 
  * Tests are run by runner.cpp, created by the tool cxxtestgen
+ * This class holds all the tests about the Config class
  */  
 class ConfigTest : public CxxTest::TestSuite
 {

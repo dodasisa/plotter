@@ -27,10 +27,11 @@
 #include "../inc/Robot.hpp"
 
 
-/*! \class MyTestSuite1
+/*! \class RobotTest
  *  \brief Test class
  * 
  * Tests are run by runner.cpp, created by the tool cxxtestgen
+ * This class holds all the tests for the Robot class
  */  
 class RobotTest : public CxxTest::TestSuite
 {
