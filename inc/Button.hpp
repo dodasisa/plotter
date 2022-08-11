@@ -64,8 +64,6 @@ class Button: public Component
 		* @param pin Pin number
 		*/
 		int InitNamePin(std::string name,int pin);
-		
-
 };
 
 #endif /* ___BUTTON___ */ 
