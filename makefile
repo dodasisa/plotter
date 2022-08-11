@@ -1,17 +1,18 @@
 VERSION = `head -1 inc/Version.hpp | cut -f3 -d ' '`
 TESTMODULES = Component Button Led Camera Servo Robot I2Cmanager ImageHandler Config ComponentParameters
+TESTSUITES = ConfigTest RobotTest
 MODULES = $(TESTMODULES) main
-
 
 SRCS=$(patsubst %,src/%.cpp,$(MODULES))
 INCS=$(patsubst %,inc/%.hpp,$(MODULES)) inc/Constants.hpp
 CXXTEST=/home/david/projets/cxxtest
-TESTGEN=$(CXXTEST)/bin/cxxtestgen
 
+TESTDEFS=$(patsubst %,test/%.hpp,$(TESTSUITES))
 TESTSRCS=$(patsubst %,src/%.cpp,$(TESTMODULES))
 
 CC=gcc
 CXX=g++
+TESTGEN=$(CXXTEST)/bin/cxxtestgen
 RM=rm -f
 CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util -llog4cxx
@@ -25,8 +26,8 @@ test: test/runner
 test/runner: test/runner.cpp
 	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(LDLIBS)
 
-test/runner.cpp : test/RobotTest.hpp test/ConfigTest.hpp
-	$(TESTGEN) --xunit-printer -o test/runner.cpp test/RobotTest.hpp test/ConfigTest.hpp
+test/runner.cpp : $(TESTDEFS)
+	$(TESTGEN) --xunit-printer -o test/runner.cpp $(TESTDEFS)
 
 .PHONY: docs
 
