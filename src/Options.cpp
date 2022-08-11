@@ -71,6 +71,19 @@ Options::~Options()
 {
 }
 
+string Options::GetRobotOptionsFileName()
+{
+  return mRobotOptionsFileName;
+}
+string Options::GetLoggingOptionsFileName()
+{
+  return mLoggingOptionsFileName;
+}
+string Options::GetLoggingLevel()
+{
+  return mLoggingLevel;
+}
+
 void Options::Usage()
 {
   fprintf (stderr, "Usage: \n");
