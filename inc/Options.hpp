@@ -38,11 +38,14 @@
 class Options
 {
 	private:
+	string mRobotOptionsFileName;
+	string mLoggingOptionsFileName;
+	string mLoggingLevel;
 	
 	public:
 	/*! 
-		* Constructor, called with the main args
-		*/ 
+	* Constructor, called with the main args
+	*/ 
 	Options(int argc, char **argv);
 	
 	/*! 
