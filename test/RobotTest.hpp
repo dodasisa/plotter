@@ -35,7 +35,6 @@
 class RobotTest : public CxxTest::TestSuite
 {
 public:
-
     /*! \brief testRobot01 Build a correct robot
      * 
      * Config::IsValid() must return false

@@ -30,7 +30,6 @@ using namespace log4cxx;
 
 LoggerPtr Servo::logger(Logger::getLogger("plotter.robot.servo"));
 
-
 Servo::Servo() : Component(servo)
 {
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
@@ -41,12 +40,10 @@ Servo::~Servo()
 {
 	LOG4CXX_TRACE(logger, "Servo destructor");
 	SetReady(FALSE);
-	
 }
 
 int Servo::InitName(string name)
 {
-	
 	SetName(name);
 	SetReady(TRUE);
 	LOG4CXX_DEBUG(logger, "Instance servo named " << GetName() );
@@ -55,7 +52,6 @@ int Servo::InitName(string name)
 
 int Servo::InitNamePin(string name,int pin)
 {
-	
 	SetName(name);
 	SetPin(pin);
 	SetReady(TRUE);

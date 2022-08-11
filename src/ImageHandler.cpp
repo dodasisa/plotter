@@ -27,12 +27,10 @@
 
 ImageHandler::ImageHandler()
 {
-	
 }
 
 ImageHandler::~ImageHandler()
 {
-	
 }
 
 

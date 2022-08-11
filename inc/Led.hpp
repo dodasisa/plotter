@@ -87,7 +87,6 @@ class Led : public Component
 	* \see Off()
 	*/
 	int Toggle();
-	
 };
 
 #endif

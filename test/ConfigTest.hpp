@@ -35,7 +35,6 @@
 class ConfigTest : public CxxTest::TestSuite
 {
 public:
-
     /*! \brief testConfig01 What happens if the config file is missing
      * 
      * Config::IsValid() must return false

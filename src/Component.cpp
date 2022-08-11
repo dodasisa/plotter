@@ -35,7 +35,6 @@ Component::Component()
 }
 Component::~Component()
 {
-	
 }
 
 int Component::GetReady()

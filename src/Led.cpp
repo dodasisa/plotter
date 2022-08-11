@@ -45,7 +45,6 @@ Led::~Led()
 
 int Led::InitNamePin(string name,int pin)
 {
-	
 	SetName(name);	
 	SetPin(pin);
 	SetReady(OK);
@@ -59,7 +58,6 @@ int Led::InitNamePin(string name,int pin)
 
 int Led::InitName(string name)
 {
-	
 	SetName(name);	
 	LOG4CXX_ERROR(logger, "Instance led named " << GetName() << ". No pin defined");
 	return ERROR;
