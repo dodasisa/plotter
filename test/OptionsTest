@@ -59,5 +59,12 @@ public:
         TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log.properties");
         TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"DEBUG");
     }
+    
+    // test:
+    //   overlapping parameters -c file1 -c file2
+    //   incosistent parameters -b -l file.properties
+    //   wrong option -q
+    //   incomplete parameters -c -l log4cxx.cfg
+    //   parameter points to non existing file -c missing.file
 };
 #endif
