@@ -32,7 +32,7 @@
  * 
  * Tests are run by runner.cpp, created by the tool cxxtestgen
  */  
-class MyTestSuite1 : public CxxTest::TestSuite
+class ConfigTest : public CxxTest::TestSuite
 {
 public:
 
@@ -43,7 +43,7 @@ public:
     void testConfig01(void) // missing file
     {
         Config config("../cfg/missing.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),false);
+        TSM_ASSERT_EQUALS("Missing file not detected",config.IsValid(),false);
     }
     
     /*! \brief testConfig02 What happens if the config file is correct
@@ -53,7 +53,7 @@ public:
     void testConfig02(void) // correct file
     {
         Config config("/home/david/projets/plotter2/cfg/robot.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),true);
+        TSM_ASSERT_EQUALS("Correct config raises an error",config.IsValid(),true);
     }
     
     /*! \brief testConfig03 What happens if the config file has comments
@@ -63,7 +63,7 @@ public:
     void testConfig03(void) // comments
     {
         Config config("/home/david/projets/plotter2/cfg/commentedConfig.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),true);
+        TSM_ASSERT_EQUALS("Comments in config raises an error",config.IsValid(),true);
     }
     
     /*! \brief testConfig04 What happens if one component doesn't have parameters
@@ -73,7 +73,7 @@ public:
     void testConfig04(void) // Component without config
     {
         Config config("/home/david/projets/plotter2/cfg/componentNoConfig.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),false);
+        TSM_ASSERT_EQUALS("Component without config undetected",config.IsValid(),false);
     }
     
     /*! \brief testConfig05 What happens if one component doesn't have a type
@@ -83,7 +83,7 @@ public:
     void testConfig05(void) // Component without type
     {
         Config config("/home/david/projets/plotter2/cfg/componentNoType.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),false);
+        TSM_ASSERT_EQUALS("Component without defined type undetected",config.IsValid(),false);
     }
     
     /*! \brief testConfig06 What happens if the robot has no name
@@ -93,7 +93,7 @@ public:
     void testConfig06(void) // Robot without name
     {
         Config config("/home/david/projets/plotter2/cfg/noName.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),true);
+        TSM_ASSERT_EQUALS("Robot without name should be valid",config.IsValid(),true);
     }
     
     /*! \brief testConfig07 What happens if a component line is truncated
@@ -103,7 +103,7 @@ public:
     void testConfig07(void) // Truncated Component
     {
         Config config("/home/david/projets/plotter2/cfg/truncatedComponent.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),true);
+        TSM_ASSERT_EQUALS("Truncated component undetected",config.IsValid(),false);
     }
     
     /*! \brief testConfig08 What happens if a component detail is truncated
@@ -113,20 +113,7 @@ public:
     void testConfig08(void) // Truncated Detail
     {
         Config config("/home/david/projets/plotter2/cfg/truncatedDetail.cfg",true);
-        TS_ASSERT_EQUALS(config.IsValid(),false);
+        TSM_ASSERT_EQUALS("Truncated detail of component undetected",config.IsValid(),false);
     }
-    
-    /*! \brief testRobot01 Build a correct robot
-     * 
-     * Config::IsValid() must return false
-     */  
-    void testRobot01(void)
-    {
-        Config* config=new Config("/home/david/projets/plotter2/cfg/robot.cfg",true);
-        Robot robot(config);
-        TS_ASSERT_EQUALS(robot.GetReady(),true);
-        delete(config);
-    }
-
 };
 #endif
