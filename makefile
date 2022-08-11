@@ -26,7 +26,7 @@ test/runner: test/runner.cpp
 	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(LDLIBS)
 
 test/runner.cpp : test/RobotTest.hpp test/ConfigTest.hpp
-	$(TESTGEN) --error-printer -o test/runner.cpp test/RobotTest.hpp test/ConfigTest.hpp
+	$(TESTGEN) --xunit-printer -o test/runner.cpp test/RobotTest.hpp test/ConfigTest.hpp
 
 .PHONY: docs
 
