@@ -24,25 +24,17 @@
 #include "../inc/main.hpp"
 #include "../inc/Robot.hpp"
 #include "../inc/Config.hpp"
+#include "../inc/Options.hpp"
 
 LoggerPtr logger(Logger::getLogger("plotter"));
 
 int main(int argc, char **argv)
 {
-	int state=OK;
+	Options options(argc,argv);
 	
-	try
+	int state=OK;
+	if (options.UseBasicLogging())
 	{
-		PropertyConfigurator::configure("log4cxx.properties");
-	}
-	catch(Exception&)
-	{
-		std::cerr << "logger fails to start using log4cxx.cfg" << endl;
-		state=ERROR;
-		return EXIT_FAILURE;
-	}
-	/*
-	if (state==ERROR){
 		try
 		{
 			BasicConfigurator::configure();
@@ -53,12 +45,23 @@ int main(int argc, char **argv)
 			return EXIT_FAILURE;
 		}
 	}
-	*/ 
+	else 
+	{
+		try
+		{
+			PropertyConfigurator::configure(config.GetLoggingOptionsFileName());
+		}
+		catch(Exception&)
+		{
+			std::cerr << "logger fails to start using log4cxx.cfg" << endl;
+			state=ERROR;
+			return EXIT_FAILURE;
+		}
+	}
 	
 	LOG4CXX_INFO(logger, "Starting robot." << " Version " << VERSION);
-	string configFile="cfg/robot.cfg";
-	if (argc > 1) configFile=argv[1];
-	LOG4CXX_INFO(logger, "Using configuration file " + configFile);
+	
+	LOG4CXX_INFO(logger, "Using configuration file " + options.GetRobotOptionsFileName());
 	
 
 	if (gpioInitialise() < 0)
@@ -66,7 +69,7 @@ int main(int argc, char **argv)
 		LOG4CXX_ERROR(logger, "GPIO fails to initialise.");
 		return EXIT_FAILURE;
 	}
-	Config* config=new Config(configFile,false);
+	Config* config=new Config(options.GetRobotOptionsFileName(),false);
 	if (config->IsValid()==ERROR)
 	{
 		LOG4CXX_ERROR(logger, "The config file has errors.");
