@@ -28,15 +28,24 @@ using namespace std;
 
 Options::Options(int argc, char **argv)
 {
+  // Default values
+  mRobotOptionsFileName = "cfg/robot.cfg";
+  mLoggingOptionsFileName = "log4cxx.properties";
+  mLoggingLevel="INFO";
+  mBasicLogging=false;
+  
   int c;
 
   opterr = 0;
 
-  while ((c = getopt (argc, argv, "hc:l:e:")) != -1)
+  while ((c = getopt (argc, argv, "hbc:l:e:")) != -1)
     switch (c)
       {
       case 'h':
         Usage();
+        break;
+      case 'b':
+        mBasicLogging=true;
         break;
       case 'c':
         mRobotOptionsFileName = optarg;
@@ -83,12 +92,17 @@ string Options::GetLoggingLevel()
 {
   return mLoggingLevel;
 }
+bool Options::UseBasicLogging()
+{
+  return mBasicLogging;
+}
 
 void Options::Usage()
 {
   fprintf (stderr, "Usage: \n");
   fprintf (stderr, "robot -h \t Prints this help\n");
   fprintf (stderr, "robot -c [fileName] \t Alternate options file. Default is cfg/robot.cfg\n");
+  fprintf (stderr, "robot -b \t Use basic logging. Ignores -l if given\n");
   fprintf (stderr, "robot -l [fileName] \t Alternate log4cxx options file. Default is log4cxx.properties\n");
   fprintf (stderr, "robot -e [level] \t Log level. Can be one of OFF,TRACE,DEBUG,INFO,WARN,ERROR or FATAL. Default is INFO\n");
 }
