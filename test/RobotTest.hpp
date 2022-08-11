@@ -1,5 +1,5 @@
 /*
- * TestSuite.hpp
+ * RobotTest.hpp
  * 
  * Copyright 2022 David <david.lopez.velazquez@gmail.com>
  * 
