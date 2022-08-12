@@ -49,16 +49,52 @@ private:
 	int mState;
 	map<string, string> data;
 	bool mTest;
+	string mPhotoFileName;
 
 public:
-	Config(string fileName,bool test);	///< Config constructor. Calls Read() and returns its value.
-	~Config();							///< Destructor. Calls the destructor of every Component configuration details.
-	vector<ComponentParameters*> components;		///< Vector of components configuration data found in the cfg file.
-	string GetValue(string key);		///< cfg data is stored in a map<key,value>. This returns the value of one key.
-	int IsValid();						///< Returns 0 if errors found, 1 if the config file is correct.
+	/*! 
+	* Config constructor. Calls Read() and returns its value.
+	*/
+	Config(string fileName,bool test);
+	
+	/*! 
+	* Destructor. Calls the destructor of every Component configuration details.
+	*/
+	~Config();
+	
+	/*! 
+	* Vector of components configuration data found in the cfg file
+	*/
+	vector<ComponentParameters*> components;
+	
+	/*! 
+	* cfg data is stored in a map<key,value>
+	* @return the value of one key
+	*/
+	string GetValue(string key);
+	
+	/*! 
+	* Validity test of the config file parsed
+	* @return 0 if errors found, 1 if the config file is correct
+	*/
+	int IsValid();
 
+	/*! 
+	* Declares that this class in on test mode
+	*/
 	void SetTestMode();
+	
+	/*! 
+	* True if running tests
+	* @return mTest.
+	*/
 	bool IsOnTestMode();
+	
+	/*! 
+	* Retrieves the path and filename of the photo taken
+	* @return mPhotoFileName.
+	*/
+	string GetPhotoFileName();
 };
 
 #endif
