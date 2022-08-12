@@ -40,7 +40,7 @@ Robot::Robot(Config* config)
 	LOG4CXX_TRACE(logger, "Robot constructor");
 	int errorCount = 0;
 	mReady = FALSE;
-	mName = config->GetValue("Name");
+	mName = config->GetName();
 	LOG4CXX_INFO(logger, "Starting Robot " << mName);
 	LOG4CXX_DEBUG(logger, "Found " << config->components.size() << " components in the config file");
 	vector<ComponentParameters*>::iterator componentIterator;
@@ -57,6 +57,7 @@ Robot::Robot(Config* config)
 		{
 		case camera:
 			cameraHolder=new Camera();
+			cameraHolder->SetPhotoFileName(config->GetPhotoFileName());
 			testState=cameraHolder->InitName(component->GetName());
 			mEyes=cameraHolder;
 			components.push_back(cameraHolder);

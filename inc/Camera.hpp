@@ -39,6 +39,7 @@ class Camera : public Component
 	private:
 	raspicam::RaspiCam mCamera;
 	static log4cxx::LoggerPtr logger;
+	string mPhotoFileName;
 	
 	public:
 	/*! 
@@ -73,6 +74,17 @@ class Camera : public Component
 	* Calls the raspicam.grab() method
 	*/
 	int Shot();
+	
+	/*! 
+	* Sets the path and name of the image file
+	*/
+	void SetPhotoFileName(string filename);
+	
+	/*! 
+	* Gets the path and name of the image file
+	* @return mPhotoFileName
+	*/
+	string GetPhotoFileName();
 };
 
 #endif

@@ -75,10 +75,20 @@ int Camera::Shot()
 	
 	//mCamera.retrieve ( data,raspicam::RASPICAM_FORMAT_RGB );
 	mCamera.retrieve ( data,raspicam::RASPICAM_FORMAT_IGNORE );
-	ofstream outFile ( "raspicam_image.ppm",ios::binary );
+	ofstream outFile ( mPhotoFileName ,ios::binary );
 	outFile<<"P6\n"<<mCamera.getWidth() <<" "<<mCamera.getHeight() <<" 255\n";
 	outFile.write ( ( char* ) data, mCamera.getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
 	
 	delete data;
 	return true;
+}
+
+void Camera::SetPhotoFileName(string filename)
+{
+	mPhotoFileName = filename;
+}
+
+string Camera::GetPhotoFileName()
+{
+	return mPhotoFileName;
 }
