@@ -44,7 +44,7 @@ public:
      */  
     void setUp()
     {
-        config=new Config("test_robot.cfg",true);
+        config=new Config("RobotTest.cfg",true);
         robot=new Robot(config);
     }
     
