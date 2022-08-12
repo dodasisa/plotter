@@ -132,6 +132,10 @@ int Config::Read()
 	}
 
 	stream.close();
+	mRobotName = GetValue("Name");
+	mPhotoFileName = GetValue("PhotoFileName");
+	if (mPhotoFileName=="Anonymous")
+		mPhotoFileName="images/Source.ppm";
 	return ret;
 }
 /**
@@ -204,10 +208,19 @@ bool Config::IsOnTestMode()
 }
 
 /**
- * Retrieves if Path and the file name of the photo
+ * Retrieves the Path and the file name of the photo
  * @return mPhotoFileName
  */ 
 string Config::GetPhotoFileName()
 {
 	return mPhotoFileName;
+}
+
+/**
+ * Retrieves the robot name, or Anonymous
+ * @return mName
+ */ 
+string Config::GetName()
+{
+	return mName;
 }
