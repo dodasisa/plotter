@@ -202,3 +202,12 @@ bool Config::IsOnTestMode()
 {
 	return mTest;
 }
+
+/**
+ * Retrieves if Path and the file name of the photo
+ * @return mPhotoFileName
+ */ 
+string Config::GetPhotoFileName()
+{
+	return mPhotoFileName;
+}
