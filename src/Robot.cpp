@@ -57,6 +57,7 @@ Robot::Robot(Config* config)
 		{
 		case camera:
 			cameraHolder=new Camera();
+			cameraHolder->SetPhotoFileName(config->GetPhotoFileName());
 			testState=cameraHolder->InitName(component->GetName());
 			mEyes=cameraHolder;
 			components.push_back(cameraHolder);
