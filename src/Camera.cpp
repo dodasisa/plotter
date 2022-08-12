@@ -82,3 +82,13 @@ int Camera::Shot()
 	delete data;
 	return true;
 }
+
+void Camera::SetPhotoFileName(string filename)
+{
+	mPhotoFileName = filename;
+}
+
+string Camera::GetPhotoFileName()
+{
+	return mPhotoFileName;
+}
