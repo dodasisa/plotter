@@ -95,6 +95,12 @@ public:
 	* @return mPhotoFileName.
 	*/
 	string GetPhotoFileName();
+	
+	/*! 
+	* Retrieves the robot name, or Anonymous
+	* @return mName.
+	*/	
+	string GetName();
 };
 
 #endif
