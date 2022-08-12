@@ -35,17 +35,44 @@
  */  
 class RobotTest : public CxxTest::TestSuite
 {
+private:
+    Config* config;
+    Robot* robot;
 public:
+    /*! \brief setUp Reads the test_robot.cfg file
+     * 
+     */  
+    void setUp()
+    {
+        config=new Config("RobotTest.cfg",true);
+        robot=new Robot(config);
+    }
+    
+    /*! \brief tearDown Deletes the Config object
+     * 
+     */
+    void tearDown()
+    {
+        delete(robot);
+        delete(config);
+    }
+
     /*! \brief testRobot01 Build a correct robot
      * 
-     * Config::IsValid() must return false
+     * Config::IsValid() must return true
      */  
     void testRobot01(void)
     {
-        Config* config=new Config("/home/david/projets/plotter2/cfg/robot.cfg",true);
-        Robot robot(config);
-        TSM_ASSERT_EQUALS("Robot built with correct config should be correct",robot.GetReady(),true);
-        delete(config);
+        TSM_ASSERT_EQUALS("Robot built with correct config should be correct",robot->GetReady(),true);
+    }
+    
+    /*! \brief testRobot01 Build a correct robot
+     * 
+     * Config::IsValid() must return true
+     */  
+    void testRobot02(void)
+    {
+        TSM_ASSERT_EQUALS("Robot built with correct config should be correct",robot->GetName(),"Harry Plotter");
     }
 };
 #endif

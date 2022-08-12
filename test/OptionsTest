@@ -36,8 +36,7 @@
 class OptionsTest : public CxxTest::TestSuite
 {
 public:
-
-    /*! \brief testOptions01 Build a correct robot
+    /*! \brief testOptions01 Using no options at all
      * 
      * No options. Must retrieve the defaults.
      */  
@@ -48,11 +47,12 @@ public:
         TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log4cxx.properties");
         TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"INFO");
     }
-    /*! \brief testOptions02 Build a correct robot
+    
+    /*! \brief testOptions02 Using "-c newOpt.cfg -e DEBUG -l log.properties"
      * 
      * Full options. Must retrieve the parameters.
      */  
-    void testOptions01(void)
+    void testOptions02(void)
     {
         Options options(3,"-c newOpt.cfg","-e DEBUG","-l log.properties");
         TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),"newOpt.cfg");
@@ -60,11 +60,48 @@ public:
         TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"DEBUG");
     }
     
-    // test:
-    //   overlapping parameters -c file1 -c file2
-    //   incosistent parameters -b -l file.properties
-    //   wrong option -q
-    //   incomplete parameters -c -l log4cxx.cfg
-    //   parameter points to non existing file -c missing.file
+    /*! \brief testOptions03 Option loaded twice "-c file1 -c file2"
+     * 
+     * Repeated options. Must stop, or load the second?
+     */  
+    void testOptions03(void)
+    {
+        Options options(3,"-c file1.cfg","-e DEBUG","-c file2.cfg");
+        TSM_ASSERT_EQUALS("An error should be detected",options.IsValid(),false);
+        TSM_ASSERT_EQUALS("Stored the latest version",options.GetRobotOptionsFileName(),"file2.cfg");
+    }
+    
+    /*! \brief testOptions04 Contradictory parameters "-b -l file.properties"
+     * 
+     * With -b we ask not to use -l, but we provide -l. UseBasic must return true, and the file must be stored anyway
+     */  
+    void testOptions04(void)
+    {
+        Options options(3,"-b","-l file2.cfg");
+        TSM_ASSERT_EQUALS("Should be correct",options.IsValid(),true);
+        TSM_ASSERT_EQUALS("An error should be detected",options.IsValid(),false);
+        TSM_ASSERT_EQUALS("Flag basic must have priority",options.UseBasicLogging(),true);
+        TSM_ASSERT_EQUALS("Stored the file, even if ignored",options.GetLoggingOptionsFileName(),"file2.cfg");
+    }
+    
+    /*! \brief testOptions05 Unknown option "-q -b"
+     * 
+     * With -b we ask not to use -l, but we provide -l. UseBasic must return true, and the file must be stored anyway
+     */  
+    void testOptions05(void)
+    {
+        Options options(2,"-q","-b");
+        TSM_ASSERT_EQUALS("Should be wrong",options.IsValid(),false);
+    }
+    
+    /*! \brief testOptions06 Missing value "-c -b"
+     * 
+     * With -b we ask not to use -l, but we provide -l. UseBasic must return true, and the file must be stored anyway
+     */  
+    void testOptions06(void)
+    {
+        Options options(2,"-c","-b");
+        TSM_ASSERT_EQUALS("Should be wrong",options.IsValid(),false);
+    }
 };
 #endif
