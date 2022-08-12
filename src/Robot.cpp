@@ -65,7 +65,7 @@ Robot::Robot(Config* config)
 			if (testState==ERROR) 
 			{
 				errorCount++;
-				LOG4CXX_ERROR(logger, "CAMERA>InitName returns ERROR");
+				LOG4CXX_ERROR(logger, "CAMERA->InitName returns ERROR");
 			}
 			break;
 		case led:
@@ -76,7 +76,7 @@ Robot::Robot(Config* config)
 			if (testState==ERROR) 
 			{
 				errorCount++;
-				LOG4CXX_ERROR(logger, "LED>InitNamePin returns ERROR");
+				LOG4CXX_ERROR(logger, "LED->InitNamePin returns ERROR");
 			}
 			break;
 		case servo:
@@ -86,7 +86,17 @@ Robot::Robot(Config* config)
 			if (testState==ERROR) 
 			{
 				errorCount++;
-				LOG4CXX_ERROR(logger, "SERVO>InitName returns ERROR");
+				LOG4CXX_ERROR(logger, "SERVO->InitName returns ERROR");
+			}
+			break;
+		case button:
+			buttonHolder=new Button();
+			testState=buttonHolder->InitName(component->GetName());
+			components.push_back(buttonHolder);
+			if (testState==ERROR) 
+			{
+				errorCount++;
+				LOG4CXX_ERROR(logger, "Button->InitName returns ERROR");
 			}
 			break;
 		case unknown:
@@ -109,7 +119,28 @@ Robot::~Robot()
 	for (vector<Component*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
 	{
 		Component* component = *componentIterator;
-		delete(component);
+		switch (component->GetType())
+		{
+			case camera:
+				Camera* camera=(Camera*)component;
+				delete(camera);
+				break;
+			case led:
+				Led* led=(Led*)component;
+				delete(led);
+				break;
+			case servo:
+				Servo* servo=(Servo*)component;
+				delete(servo);
+				break;
+			case button:
+				Button* button=(Button*)component;
+				delete(button);
+				break;
+			default:
+				delete(component);
+				break;
+		}
 	}
 	mReady = false;
 }
