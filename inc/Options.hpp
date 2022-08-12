@@ -44,6 +44,7 @@ class Options
 	string mLoggingLevel;
 	bool mBasicLogging;
 	bool mValid;
+	string mPhotoFileName;
 	
 	public:
 	/*! 
@@ -90,6 +91,12 @@ class Options
 	* @return mValid
 	*/
 	bool IsValid();
+	
+	/*! 
+	* Retrieves the path and filename of the photo taken
+	* @return mPhotoFileName.
+	*/
+	string GetPhotoFileName();
 };
 
 #endif
