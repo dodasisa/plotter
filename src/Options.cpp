@@ -75,6 +75,7 @@ Options::Options(int argc, char **argv)
       default:
         abort ();
         mValid=false;
+        break;
       }
 }
 

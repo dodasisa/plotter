@@ -132,7 +132,7 @@ int Config::Read()
 	}
 
 	stream.close();
-	mRobotName = GetValue("Name");
+	mName = GetValue("Name");
 	mPhotoFileName = GetValue("PhotoFileName");
 	if (mPhotoFileName=="Anonymous")
 		mPhotoFileName="images/Source.ppm";
