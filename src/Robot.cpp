@@ -25,7 +25,6 @@
 #include "../inc/Robot.hpp"
 #include "../inc/Constants.hpp"
 using namespace log4cxx;
-using namespace std;
 
 LoggerPtr Robot::logger(Logger::getLogger("plotter.robot"));
 
@@ -52,6 +51,7 @@ Robot::Robot(Config* config)
 		Led* ledHolder;
 		Camera* cameraHolder;
 		Servo* servoHolder;
+		Button* buttonHolder;
 		int testState;
 		switch (component->GetType())
 		{
@@ -115,27 +115,32 @@ Robot::Robot(Config* config)
 Robot::~Robot()
 {
 	LOG4CXX_TRACE(logger, "Robot destructor");
+	
+	Camera* camera2remove;
+	Led* led2remove;
+	Servo* servo2remove;
+	Button* button2remove;
 	/// calls the destructor of every component present in the components vector
 	for (vector<Component*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
 	{
 		Component* component = *componentIterator;
 		switch (component->GetType())
 		{
-			case camera:
-				Camera* camera=(Camera*)component;
-				delete(camera);
+			case ComponentType::camera:
+				camera2remove=(Camera*)component;
+				delete(camera2remove);
 				break;
-			case led:
-				Led* led=(Led*)component;
-				delete(led);
+			case ComponentType::led:
+				led2remove=(Led*)component;
+				delete(led2remove);
 				break;
-			case servo:
-				Servo* servo=(Servo*)component;
-				delete(servo);
+			case ComponentType::servo:
+				servo2remove=(Servo*)component;
+				delete(servo2remove);
 				break;
-			case button:
-				Button* button=(Button*)component;
-				delete(button);
+			case ComponentType::button:
+				button2remove=(Button*)component;
+				delete(button2remove);
 				break;
 			default:
 				delete(component);
@@ -150,6 +155,16 @@ Robot::~Robot()
 int Robot::GetReady()
 {
 	return mReady;
+}
+
+/**
+ * Returns the actual name of the robot.
+ * 
+ * @return mName;
+ */ 
+string Robot::GetName()
+{
+	return mName;
 }
 /**
  * Main event loop. 

@@ -55,3 +55,8 @@ int Button::InitName(string name)
 	LOG4CXX_DEBUG(logger, "Instance button named " << GetName() << ". Pin undefined" << GetPin() );
 	return OK;
 }
+
+ComponentType Button::GetType()
+{
+	return Component::GetType();
+}

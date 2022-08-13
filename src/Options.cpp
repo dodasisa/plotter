@@ -43,6 +43,7 @@ Options::Options(int argc, char **argv)
       {
       case 'h':
         Usage();
+        mValid=false;
         break;
       case 'b':
         mBasicLogging=true;
@@ -73,6 +74,8 @@ Options::Options(int argc, char **argv)
         return;
       default:
         abort ();
+        mValid=false;
+        break;
       }
 }
 
