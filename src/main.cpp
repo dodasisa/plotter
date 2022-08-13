@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 {
 	Options options(argc,argv);
 	if (!options.IsValid()) return EXIT_FAILURE;
+	if (options
 	int state=OK;
 	if (options.UseBasicLogging())
 	{

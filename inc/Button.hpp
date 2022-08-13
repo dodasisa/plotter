@@ -64,6 +64,11 @@ class Button: public Component
 		* @param pin Pin number
 		*/
 		int InitNamePin(std::string name,int pin);
+		
+		/*! 
+		* @brief Returns the type of the component
+		*/
+		ComponentType GetType();
 };
 
 #endif /* ___BUTTON___ */ 

@@ -18,7 +18,7 @@ CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util -llog4cxx
 OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
-all: robot$(VERSION) test
+all: robot$(VERSION)
 
 test: test/runner
 	test/runner
@@ -27,7 +27,7 @@ test/runner: test/runner.cpp
 	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(LDLIBS)
 
 test/runner.cpp : $(TESTDEFS)
-	$(TESTGEN) --xunit-printer -o test/runner.cpp $(TESTDEFS)
+	$(TESTGEN) --error-printer -o test/runner.cpp $(TESTDEFS)
 
 .PHONY: docs
 

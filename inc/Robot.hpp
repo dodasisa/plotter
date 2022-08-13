@@ -29,8 +29,11 @@
 #include "Camera.hpp"
 #include "Led.hpp"
 #include "Servo.hpp"
+#include "Button.hpp"
 #include "Config.hpp"
 #include "log4cxx/logger.h"
+
+using namespace std;
 
 /*! \class Robot
  *  \brief Main class. Holds the components and the event loop.
@@ -46,7 +49,7 @@ class Robot
 	static log4cxx::LoggerPtr logger;
 	Camera* mEyes;
 	int mReady;
-	std::string mName;
+	string mName;
 	vector<Component*> components;
 	
 	public:
@@ -54,6 +57,7 @@ class Robot
 	~Robot();							///< Destructor. Calls the destructor of every component
 	int GetReady();						///< Value is 1 if ready for Run(). If any error value is 0
 	int Run();							///< The loop to the main event loop
+	string GetName();					///< Returns the actual name of the robot
 };
 
 #endif

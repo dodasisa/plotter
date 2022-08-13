@@ -50,6 +50,7 @@ private:
 	map<string, string> data;
 	bool mTest;
 	string mPhotoFileName;
+	string mName;
 
 public:
 	/*! 
