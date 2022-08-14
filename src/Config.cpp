@@ -24,7 +24,7 @@
 #include "../inc/Config.hpp"
 #include "../inc/Constants.hpp"
 using namespace log4cxx;
-
+using namespace std;
 LoggerPtr Config::logger(Logger::getLogger("plotter.config"));
 
 Config::Config(string fileName,bool test)

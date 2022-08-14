@@ -103,7 +103,7 @@ public:
     void testConfig07(void) // Truncated Component
     {
         Config config("/home/david/projets/plotter2/cfg/truncatedComponent.cfg",true);
-        TSM_ASSERT_EQUALS("Truncated component undetected",config.IsValid(),false);
+        TSM_ASSERT_EQUALS("Just store what is after the =. Will be ignored anyway",config.IsValid(),true);
     }
     
     /*! \brief testConfig08 What happens if a component detail is truncated

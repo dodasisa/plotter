@@ -42,10 +42,14 @@ public:
      */  
     void testOptions01(void)
     {
-   //     Options options(0,"");
-   //     TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),"/cfg/robot.cfg");
-   //     TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log4cxx.properties");
-   //     TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"INFO");
+        int argc=1;
+        char **argv = new char*[argc];
+        char *param1="robot";
+        argv[0]=param1;
+        Options options(argc,argv);
+        TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),"cfg/robot.cfg");
+        TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log4cxx.properties");
+        TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"INFO");
     }
     
     /*! \brief testOptions02 Using "-c newOpt.cfg -e DEBUG -l log.properties"

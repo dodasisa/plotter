@@ -23,6 +23,8 @@
 #ifndef __TESTING__
 #define __TESTING__
 #include <cxxtest/TestSuite.h>
+#include <stdio.h>
+#include <iostream>
 #include "../inc/Config.hpp"
 #include "../inc/Robot.hpp"
 
@@ -72,7 +74,7 @@ public:
      */  
     void testRobot02(void)
     {
-        TSM_ASSERT_EQUALS("Robot built with correct config should be correct",robot->GetName(),"Harry Plotter");
+        TSM_ASSERT_EQUALS("Robot built with correct config should be correct",robot->GetName(),"Test Plotter");
     }
 };
 #endif
