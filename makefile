@@ -20,6 +20,15 @@ OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
 all: robot$(VERSION)
 
+testLed: test/runnerLed
+	sudo test/runnerLed
+
+test/runnerLed: test/runnerLed.cpp src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp
+	$(CXX) -o test/runnerLed -I$(CXXTEST) src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp test/runnerLed.cpp $(LDLIBS)
+	
+test/runnerLed.cpp : src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp test/LedTest.hpp
+	$(TESTGEN) --error-printer -o test/runnerLed.cpp src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp test/LedTest.hpp
+
 test: test/runner
 	test/runner
 	

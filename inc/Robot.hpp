@@ -25,6 +25,7 @@
 #define __ROBOT__
 #include <string>
 #include <vector>
+#include <unistd.h>
 #include "Component.hpp"
 #include "Camera.hpp"
 #include "Led.hpp"
@@ -48,6 +49,7 @@ class Robot
 	private:
 	static log4cxx::LoggerPtr logger;
 	Camera* mEyes;
+	Led* mReadyIndicator;
 	int mReady;
 	string mName;
 	vector<Component*> components;

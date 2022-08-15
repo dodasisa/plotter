@@ -49,7 +49,7 @@ int Led::InitNamePin(string name,int pin)
 	SetPin(pin);
 	SetReady(OK);
 	
-	//gpioSetMode(GetPin(),PI_OUTPUT);
+	gpioSetMode(GetPin(),PI_OUTPUT);
 	SetState(Off());
 
 	LOG4CXX_DEBUG(logger, "Instance led named " << GetName() << ". Using pin " << GetPin() << ". State is " << GetState() );
@@ -67,14 +67,14 @@ int Led::On()
 {
 	LOG4CXX_TRACE(logger, "Led ON");
 	SetState(ON);
-	//gpioWrite(mPin,PI_HIGH);
+	gpioWrite(GetPin(),PI_HIGH);
 	return GetState();
 }
 int Led::Off()
 {
 	LOG4CXX_TRACE(logger, "Led OFF");
 	SetState(OFF);
-	//gpioWrite(mPin,PI_LOW);
+	gpioWrite(GetPin(),PI_LOW);
 	return GetState();
 }
 
