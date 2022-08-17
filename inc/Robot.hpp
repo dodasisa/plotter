@@ -33,7 +33,7 @@
 #include "Button.hpp"
 #include "Config.hpp"
 #include "log4cxx/logger.h"
-
+#include "Constants.hpp"
 using namespace std;
 
 /*! \class Robot
@@ -53,6 +53,7 @@ class Robot
 	int mReady;
 	string mName;
 	vector<Component*> components;
+	RunMode mMode;
 	
 	public:
 	Robot(Config* config);				///< Constructor. Takes a pointer to a valid Config object

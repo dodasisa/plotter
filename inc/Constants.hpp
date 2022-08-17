@@ -45,4 +45,17 @@ enum ComponentType {
 	button		/**< type button */
 	};
 
+/**
+ * List of states in wich the robot can be
+ * 
+ */ 
+enum RunMode {
+	stopped,	/**< type stopped. Initial and final mode*/
+	starting,	/**< type starting. Creating components and initiating them*/
+	waiting,	/**< Everything is ready. Waiting for a client*/
+	looking,	/**< Taking the photo, and converting in curves to draw*/
+	drawing,	/**< Servos working*/
+	stopping	/**< Closing everything*/
+	};
+
 #endif

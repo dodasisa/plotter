@@ -36,6 +36,7 @@ Robot::Robot(Config* config)
 {
 	if (config->IsOnTestMode())
 		logger->setLevel(Level::getOff());
+	mMode = RunMode::stopped;
 	LOG4CXX_TRACE(logger, "Robot constructor");
 	int errorCount = 0;
 	mReady = FALSE;
@@ -43,6 +44,7 @@ Robot::Robot(Config* config)
 	LOG4CXX_INFO(logger, "Starting Robot " << mName);
 	LOG4CXX_DEBUG(logger, "Found " << config->components.size() << " components in the config file");
 	vector<ComponentParameters*>::iterator componentIterator;
+	mMode = RunMode::starting;
 	/// Loops every Component defined in the Config class.
 	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
 	{
@@ -117,7 +119,7 @@ Robot::Robot(Config* config)
 Robot::~Robot()
 {
 	LOG4CXX_TRACE(logger, "Robot destructor");
-	
+	mMode = RunMode::stopping;
 	Camera* camera2remove;
 	Led* led2remove;
 	Servo* servo2remove;
@@ -150,6 +152,7 @@ Robot::~Robot()
 		}
 	}
 	mReady = false;
+	mMode = RunMode::stopped;
 }
 /**
  * Returns the content of mReady. Value 1 means OK, 0 means ERROR.
@@ -175,16 +178,33 @@ string Robot::GetName()
  */ 
 int Robot::Run()
 {
+	// Initialize and enter on ready mode
 	if (!GetReady())
 		return ERROR;
+	
+	mMode = RunMode::waiting;	
 	mReadyIndicator->On();
-	sleep(3);
-	mEyes->Shot();
-	mReadyIndicator->Toggle();
-	sleep(3);
-	mReadyIndicator->On();
-	sleep(3);
+	while (mMode != RunMode::stopping){
+		while (mMode == RunMode::waiting)
+		{		
+			sleep(3);
+			// check buttons status
+			// if buttonStop is ON, change the mode to stopping
+			// if buttonWakeUp is ON, change the mode to looking
+		
+		}
+		
+		if (mMode==RunMode::looking)
+		{
+			mEyes->Shot();
+			mReadyIndicator->Toggle();
+			sleep(3);
+			mReadyIndicator->On();
+			sleep(3);
+			mReadyIndicator->Off();
+			sleep(3);
+		}
+	}
 	mReadyIndicator->Off();
-	sleep(3);
 	return OK;
 }
