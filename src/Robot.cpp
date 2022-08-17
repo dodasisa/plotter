@@ -210,7 +210,6 @@ int Robot::Run()
 			// TODO: Remove this. It is just to avoid running forever, while debuging
 			mMode = RunMode::stopping;
 			LOG4CXX_INFO(logger, "Enters on mode stopping");
-
 		}
 	}
 	mReadyIndicator->Off();
