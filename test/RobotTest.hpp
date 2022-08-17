@@ -20,8 +20,8 @@
  * 
  * 
  */
-#ifndef __TESTING__
-#define __TESTING__
+#ifndef __ROBOTTEST__
+#define __ROBOTTEST__
 #include <cxxtest/TestSuite.h>
 #include <stdio.h>
 #include <iostream>

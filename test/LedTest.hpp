@@ -23,6 +23,8 @@
 #ifndef __LEDTEST__
 #define __LEDTEST__
 #include <cxxtest/TestSuite.h>
+#include <unistd.h>
+#include "../inc/Component.hpp"
 #include "../inc/Led.hpp"
 
 
@@ -34,16 +36,36 @@
  */  
 class LedTest : public CxxTest::TestSuite
 {
+private:
+    Led* a_led;
 public:
+    void setUp()
+    {
+        a_led=new Led();
+    }
+    void tearDown()
+    {
+        delete(a_led);
+    }
     /*! \brief testLed01 Build a correct led and initializes by name
      * 
      */ 
     void testLed01(void)
     {
-        Led a_led();
-    //    TSM_ASSERT_EQUALS("The constructor should create a Component of type button",a_led.GetType(),led);
-    //    a_led.InitName("LedName");
-    //    TSM_ASSERT_EQUALS("The led name should be stored",a_led.GetName(),"LedName");
+        if (gpioInitialise() < 0)
+        {
+            TS_FAIL("GPIO fails to initialize");
+        }
+        gpioSetMode(33,PI_OUTPUT);
+        gpioWrite(33,PI_HIGH);
+        
+      //  a_led->InitNamePin("Red led",33);
+      //  a_led->On();
+        sleep(3);
+      //  a_led->Off();
+      
+        gpioWrite(33,PI_LOW);
+        gpioTerminate();
     }
 
     /*! \brief testLed02 Build a correct led and initializes by name and pin

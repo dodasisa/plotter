@@ -28,6 +28,7 @@ using namespace std;
 
 Options::Options(int argc, char **argv)
 {
+  //cerr << "argc=" << argc << ", argv=" << argv[0] << endl; 
   // Default values
   mRobotOptionsFileName = "cfg/robot.cfg";
   mLoggingOptionsFileName = "log4cxx.properties";
@@ -35,6 +36,10 @@ Options::Options(int argc, char **argv)
   mBasicLogging=false;
   mValid=true;
   int c;
+  // these 3 options must occur only once
+  int ic=0;
+  int il=0;
+  int ie=0;
 
   opterr = 0;
 
@@ -49,13 +54,19 @@ Options::Options(int argc, char **argv)
         mBasicLogging=true;
         break;
       case 'c':
-        mRobotOptionsFileName = optarg;
+        if (ic==0)
+          mRobotOptionsFileName = optarg;
+        ic++;
         break;
       case 'l':
-        mLoggingOptionsFileName = optarg;
+        if (il==0)
+          mLoggingOptionsFileName = optarg;
+        il++;
         break;
       case 'e':
-        mLoggingLevel = optarg;
+        if (ie==0)
+          mLoggingLevel = optarg;
+        ie++;        
         break;
       case '?':
         if (optopt == 'c')
@@ -73,8 +84,8 @@ Options::Options(int argc, char **argv)
         mValid=false;
         return;
       default:
-        abort ();
         mValid=false;
+      //  abort ();      
         break;
       }
 }

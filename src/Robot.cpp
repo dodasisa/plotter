@@ -59,7 +59,8 @@ Robot::Robot(Config* config)
 			cameraHolder=new Camera();
 			cameraHolder->SetPhotoFileName(config->GetPhotoFileName());
 			testState=cameraHolder->InitName(component->GetName());
-			mEyes=cameraHolder;
+			if (component->GetName()== "Eyes")
+				mEyes=cameraHolder;
 			components.push_back(cameraHolder);
 			
 			if (testState==ERROR) 
@@ -71,7 +72,8 @@ Robot::Robot(Config* config)
 		case led:
 			ledHolder=new Led();
 			testState=ledHolder->InitNamePin(component->GetName(), component->GetPin());	
-					
+			if (component->GetName() == "ReadyIndicator")
+				mReadyIndicator=ledHolder;
 			components.push_back(ledHolder);
 			if (testState==ERROR) 
 			{
@@ -175,6 +177,14 @@ int Robot::Run()
 {
 	if (!GetReady())
 		return ERROR;
+	mReadyIndicator->On();
+	sleep(3);
 	mEyes->Shot();
+	mReadyIndicator->Toggle();
+	sleep(3);
+	mReadyIndicator->On();
+	sleep(3);
+	mReadyIndicator->Off();
+	sleep(3);
 	return OK;
 }

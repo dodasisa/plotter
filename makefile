@@ -20,14 +20,23 @@ OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
 all: robot$(VERSION)
 
+testLed: test/runnerLed
+	sudo test/runnerLed
+
+test/runnerLed: test/runnerLed.cpp src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp
+	$(CXX) -o test/runnerLed -I$(CXXTEST) src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp test/runnerLed.cpp $(LDLIBS)
+	
+test/runnerLed.cpp : src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp test/LedTest.hpp
+	$(TESTGEN) --error-printer -o test/runnerLed.cpp src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp test/LedTest.hpp
+
 test: test/runner
 	test/runner
 	
 test/runner: test/runner.cpp
-	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(LDLIBS)
+	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(TESTDEFS) $(LDLIBS)
 
 test/runner.cpp : $(TESTDEFS)
-	$(TESTGEN) --error-printer -o test/runner.cpp $(TESTDEFS)
+	$(TESTGEN) --error-printer -o test/runner.cpp $(TESTSRCS) $(TESTDEFS)
 
 .PHONY: docs
 
@@ -42,7 +51,7 @@ obj/%.o : src/%.cpp
 	$(CXX) $(CPPFLAFS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) robot$(VERSION) test/runner test/runner.cpp logs/*
+	$(RM) $(OBJS) robot$(VERSION) test/runner* logs/*
 
 cleandocs:
 	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*
