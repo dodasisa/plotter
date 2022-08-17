@@ -182,6 +182,7 @@ int Robot::Run()
 	if (!GetReady())
 		return ERROR;
 	
+	LOG4CXX_INFO(logger, "Enters on mode waiting");
 	mMode = RunMode::waiting;	
 	mReadyIndicator->On();
 	while (mMode != RunMode::stopping){
@@ -191,7 +192,9 @@ int Robot::Run()
 			// check buttons status
 			// if buttonStop is ON, change the mode to stopping
 			// if buttonWakeUp is ON, change the mode to looking
-		
+			// TODO: Remove this. It is just to avoid running forever, while debuging
+			mMode = RunMode::looking;
+			LOG4CXX_INFO(logger, "Enters on mode looking");
 		}
 		
 		if (mMode==RunMode::looking)
@@ -203,8 +206,15 @@ int Robot::Run()
 			sleep(3);
 			mReadyIndicator->Off();
 			sleep(3);
+			
+			// TODO: Remove this. It is just to avoid running forever, while debuging
+			mMode = RunMode::stopping;
+			LOG4CXX_INFO(logger, "Enters on mode stopping");
+
 		}
 	}
 	mReadyIndicator->Off();
+	mMode=RunMode::stopped;
+	LOG4CXX_INFO(logger, "Enters on mode stopped");
 	return OK;
 }
