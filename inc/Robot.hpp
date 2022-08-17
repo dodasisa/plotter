@@ -50,6 +50,7 @@ class Robot
 	static log4cxx::LoggerPtr logger;
 	Camera* mEyes;
 	Led* mReadyIndicator;
+	Led* mWorkingIndicator;
 	int mReady;
 	string mName;
 	vector<Component*> components;

@@ -76,6 +76,8 @@ Robot::Robot(Config* config)
 			testState=ledHolder->InitNamePin(component->GetName(), component->GetPin());	
 			if (component->GetName() == "ReadyIndicator")
 				mReadyIndicator=ledHolder;
+			if (component->GetName() == "WorkingIndicator")
+				mWorkingIndicator=ledHolder;
 			components.push_back(ledHolder);
 			if (testState==ERROR) 
 			{
@@ -199,17 +201,21 @@ int Robot::Run()
 		
 		if (mMode==RunMode::looking)
 		{
+			mWorkingIndicator->On();
 			mEyes->Shot();
-			mReadyIndicator->Toggle();
-			sleep(3);
-			mReadyIndicator->On();
-			sleep(3);
-			mReadyIndicator->Off();
-			sleep(3);
-			
+			sleep(1);
+			mWorkingIndicator->Off();
+			sleep(1);
+			mWorkingIndicator->On();
+			sleep(1);
+			mWorkingIndicator->Off();
+			sleep(1);
+			mWorkingIndicator->On();
+			sleep(1);
 			// TODO: Remove this. It is just to avoid running forever, while debuging
 			mMode = RunMode::stopping;
 			LOG4CXX_INFO(logger, "Enters on mode stopping");
+			mWorkingIndicator->Off();
 		}
 	}
 	mReadyIndicator->Off();
