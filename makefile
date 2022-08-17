@@ -33,10 +33,10 @@ test: test/runner
 	test/runner
 	
 test/runner: test/runner.cpp
-	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(LDLIBS)
+	$(CXX) -o test/runner -I$(CXXTEST) $(TESTSRCS) test/runner.cpp $(TESTDEFS) $(LDLIBS)
 
 test/runner.cpp : $(TESTDEFS)
-	$(TESTGEN) --error-printer -o test/runner.cpp $(TESTDEFS)
+	$(TESTGEN) --error-printer -o test/runner.cpp $(TESTSRCS) $(TESTDEFS)
 
 .PHONY: docs
 
@@ -51,7 +51,7 @@ obj/%.o : src/%.cpp
 	$(CXX) $(CPPFLAFS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) robot$(VERSION) test/runner test/runner.cpp logs/*
+	$(RM) $(OBJS) robot$(VERSION) test/runner* logs/*
 
 cleandocs:
 	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*

@@ -82,15 +82,15 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	LOG4CXX_INFO(logger, config->components.size() << " components found.");
-	Robot robot(config);
-	if (!robot.GetReady()) 
+	Robot* robot=new Robot(config);
+	if (!robot->GetReady()) 
 	{
 		LOG4CXX_ERROR(logger, "Robot fails to start.");
 		gpioTerminate();
 		delete(config);
 		return EXIT_FAILURE;
 	}
-	if (robot.Run() ==  ERROR){
+	if (robot->Run() ==  ERROR){
 		LOG4CXX_ERROR(logger, "Robot exits with error.");
 		delete(config);
 		gpioTerminate();
@@ -99,8 +99,10 @@ int main(int argc, char **argv)
 	time_sleep(5.0);
 
 	LOG4CXX_INFO(logger, "Stopping robot.");
-    gpioTerminate();
+	delete(robot);
     delete(config);
+
+    gpioTerminate();
 	return EXIT_SUCCESS;
 }
 

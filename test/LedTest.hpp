@@ -56,11 +56,15 @@ public:
         {
             TS_FAIL("GPIO fails to initialize");
         }
+        gpioSetMode(33,PI_OUTPUT);
+        gpioWrite(33,PI_HIGH);
         
-        a_led->InitNamePin("Red led",33);
-        a_led->On();
+      //  a_led->InitNamePin("Red led",33);
+      //  a_led->On();
         sleep(3);
-        a_led->Off();
+      //  a_led->Off();
+      
+        gpioWrite(33,PI_LOW);
         gpioTerminate();
     }
 

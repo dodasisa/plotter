@@ -43,13 +43,13 @@ public:
     void testOptions01(void)
     {
         int argc=1;
-        char **argv = new char*[argc];
-        char *param1="robot";
-        argv[0]=param1;
-        Options options(argc,argv);
-        TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),"cfg/robot.cfg");
-        TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log4cxx.properties");
-        TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"INFO");
+        char **argv1 = new char*[argc];
+        argv1[0]=(char*)"robot";
+        Options options1(argc,argv1);
+        TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options1.GetRobotOptionsFileName(),"cfg/robot.cfg");
+        TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options1.GetLoggingOptionsFileName(),"log4cxx.properties");
+        TSM_ASSERT_EQUALS("Logging level should be INFO",options1.GetLoggingLevel(),"INFO");
+        delete(argv1);
     }
     
     /*! \brief testOptions02 Using "-c newOpt.cfg -e DEBUG -l log.properties"
@@ -58,10 +58,19 @@ public:
      */  
     void testOptions02(void)
     {
-    //    Options options(3,"-c newOpt.cfg","-e DEBUG","-l log.properties");
-    //    TSM_ASSERT_EQUALS("Options file should be /cfg/robot.cfg",options.GetRobotOptionsFileName(),"newOpt.cfg");
-    //    TSM_ASSERT_EQUALS("Logging options file should be log4cxx.properties",options.GetLoggingOptionsFileName(),"log.properties");
-    //    TSM_ASSERT_EQUALS("Logging level should be INFO",options.GetLoggingLevel(),"DEBUG");
+        int argc=4;
+        char **argv2 = new char*[argc];
+        argv2[0]=(char*)"robot";
+        argv2[1]=(char*)"-cnewOpt.cfg";
+        argv2[2]=(char*)"-eDEBUG";
+        argv2[3]=(char*)"-llog.properties";
+        
+
+        Options options2(argc,argv2);
+        TSM_ASSERT_EQUALS("Options file should be newOpt.cfg",options2.GetRobotOptionsFileName(),"newOpt.cfg");
+        TSM_ASSERT_EQUALS("Logging options file should be log.properties",options2.GetLoggingOptionsFileName(),"log.properties");
+        TSM_ASSERT_EQUALS("Logging level should be DEBUG",options2.GetLoggingLevel(),"DEBUG");
+        delete(argv2);
     }
     
     /*! \brief testOptions03 Option loaded twice "-c file1 -c file2"
@@ -70,9 +79,15 @@ public:
      */  
     void testOptions03(void)
     {
-    //    Options options(3,"-c file1.cfg","-e DEBUG","-c file2.cfg");
-     //   TSM_ASSERT_EQUALS("An error should be detected",options.IsValid(),false);
-     //   TSM_ASSERT_EQUALS("Stored the latest version",options.GetRobotOptionsFileName(),"file2.cfg");
+        int argc=2;
+        char **argv3 = new char*[argc];
+        argv3[0]=(char*)"robot";
+        argv3[1]=(char*)"-cfile1";
+    //    argv3[2]=(char*)"-cfile2";
+        Options options3(argc,argv3);
+     //   TSM_ASSERT_EQUALS("Options file should be file1",options3.GetRobotOptionsFileName(),"file1");
+       
+        delete(argv3);
     }
     
     /*! \brief testOptions04 Contradictory parameters "-b -l file.properties"
@@ -81,11 +96,14 @@ public:
      */  
     void testOptions04(void)
     {
-    //    Options options(3,"-b","-l file2.cfg");
-    //    TSM_ASSERT_EQUALS("Should be correct",options.IsValid(),true);
-    //    TSM_ASSERT_EQUALS("An error should be detected",options.IsValid(),false);
-     //   TSM_ASSERT_EQUALS("Flag basic must have priority",options.UseBasicLogging(),true);
-    //    TSM_ASSERT_EQUALS("Stored the file, even if ignored",options.GetLoggingOptionsFileName(),"file2.cfg");
+     //   int argc=3;
+     //   char **argv = new char*[argc];
+     //   argv[0]=(char*)"robot";
+     //   argv[1]=(char*)"-b";
+     //   argv[2]=(char*)"-lfile.properties";
+     //   Options options(argc,argv);
+     //   TSM_ASSERT_EQUALS("Logging options file should be file.properties",options.GetLoggingOptionsFileName(),"file.properties");
+      //  TSM_ASSERT_EQUALS("Logging using basic options file should be true",options.UseBasicLogging(),true);
     }
     
     /*! \brief testOptions05 Unknown option "-q -b"
