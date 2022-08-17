@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 
 #include "../inc/Camera.hpp"
 
@@ -34,6 +35,7 @@ LoggerPtr Camera::logger(Logger::getLogger("plotter.robot.camera"));
 
 Camera::Camera() : Component(camera)
 {
+	mValidDirectory=false;
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
 		SetReady(FALSE);
 }
@@ -45,6 +47,7 @@ Camera::~Camera()
 
 int Camera::InitName(string name)
 {
+	mValidDirectory=false;
 	SetName(name);
 	LOG4CXX_DEBUG(logger, "Instance Camera named " << GetName() );
 
@@ -62,7 +65,7 @@ int Camera::InitName(string name)
 }
 
 int Camera::InitNamePin(string name, int pin)
-{
+{	
 	return InitName(name);
 }
 
@@ -85,6 +88,13 @@ int Camera::Shot()
 
 void Camera::SetPhotoFileName(string filename)
 {
+	mValidDirectory=false;
+	if (0 == access(filename.c_str(),W_OK))
+		mValidDirectory=true;
+	else{
+		SetReady(false);
+		LOG4CXX_ERROR(logger, "Cannot write to the file " << filename );
+	}
 	mPhotoFileName = filename;
 }
 
