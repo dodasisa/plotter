@@ -42,7 +42,7 @@ int Button::InitNamePin(string name,int pin)
 	SetName(name);	
 	SetPin(pin);
 	
-	//gpioSetMode(mPin,PI_INPUT);
+	gpioSetMode(GetPin(),PI_INPUT);
 
 	LOG4CXX_DEBUG(logger, "Instance button named " << GetName() << ". Using pin " << GetPin() );
 	return OK;
@@ -59,4 +59,9 @@ int Button::InitName(string name)
 ComponentType Button::GetType()
 {
 	return Component::GetType();
+}
+
+bool Button::Read()
+{
+	return gpioRead(GetPin());
 }

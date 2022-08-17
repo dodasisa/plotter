@@ -69,6 +69,11 @@ class Button: public Component
 		* @brief Returns the type of the component
 		*/
 		ComponentType GetType();
+
+		/*! 
+		* @brief Returns true if the button is actif
+		*/		
+		bool Read();
 };
 
 #endif /* ___BUTTON___ */ 
