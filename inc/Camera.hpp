@@ -40,6 +40,7 @@ class Camera : public Component
 	raspicam::RaspiCam mCamera;
 	static log4cxx::LoggerPtr logger;
 	string mPhotoFileName;
+	bool mValidDirectory;
 	
 	public:
 	/*! 
