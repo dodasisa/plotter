@@ -58,6 +58,7 @@ Robot::Robot(Config* config)
 		switch (component->GetType())
 		{
 		case camera:
+			// HandleCamera(component->GetName(),config->GetPhotoFileName()); // This should replace the whole case code
 			cameraHolder=new Camera();
 			cameraHolder->SetPhotoFileName(config->GetPhotoFileName());
 			testState=cameraHolder->InitName(component->GetName());
@@ -72,6 +73,7 @@ Robot::Robot(Config* config)
 			}
 			break;
 		case led:
+			// HandleLed(component->GetName(),component->GetPin()); // This should replace the whole case code
 			ledHolder=new Led();
 			testState=ledHolder->InitNamePin(component->GetName(), component->GetPin());	
 			if (component->GetName() == "ReadyIndicator")
@@ -86,6 +88,7 @@ Robot::Robot(Config* config)
 			}
 			break;
 		case servo:
+			// HandleServo(component->GetName()); // This should replace the whole case code
 			servoHolder=new Servo();
 			testState=servoHolder->InitName(component->GetName());
 			components.push_back(servoHolder);
@@ -96,6 +99,7 @@ Robot::Robot(Config* config)
 			}
 			break;
 		case button:
+			// HandleButton(component->GetName()); // This should replace the whole case code
 			buttonHolder=new Button();
 			testState=buttonHolder->InitName(component->GetName());
 			components.push_back(buttonHolder);
