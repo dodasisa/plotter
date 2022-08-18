@@ -89,10 +89,14 @@ int Camera::Shot()
 void Camera::SetPhotoFileName(string filename)
 {
 	mValidDirectory=false;
-	if (0 == access(filename.c_str(),W_OK))
+	try{
+		std::ofstream os(filename, std::ios::out | std::ios::app);
+		os.close();
 		mValidDirectory=true;
-	else{
-		SetReady(false);
+	}
+	catch (int e)
+	{
+		mValidDirectory=false;
 		LOG4CXX_ERROR(logger, "Cannot write to the file " << filename );
 	}
 	mPhotoFileName = filename;
