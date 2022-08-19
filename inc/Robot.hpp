@@ -58,6 +58,7 @@ class Robot
 	int HandleCamera(string name,string fileName,int errorCount);
 	int HandleLed(string name,int pin,int errorCount);
 	int HandleServo(string name,int errorCount);
+	int HandleButton(string name,int errorCount);
 	
 	public:
 	Robot(Config* config);				///< Constructor. Takes a pointer to a valid Config object
