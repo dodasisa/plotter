@@ -50,30 +50,16 @@ Robot::Robot(Config* config)
 	{
 		ComponentParameters* component = *componentIterator;
 		/// Creates an component derived from Component and adds it to its components vector.
-		Led* ledHolder;
-		Camera* cameraHolder;
 		Servo* servoHolder;
 		Button* buttonHolder;
 		int testState;
 		switch (component->GetType())
 		{
 		case camera:
-			HandleCamera(component->GetName(),config->GetPhotoFileName());
+			errorCount=HandleCamera(component->GetName(),config->GetPhotoFileName(),errorCount);
 			break;
 		case led:
-			// HandleLed(component->GetName(),component->GetPin()); // This should replace the whole case code
-			ledHolder=new Led();
-			testState=ledHolder->InitNamePin(component->GetName(), component->GetPin());	
-			if (component->GetName() == "ReadyIndicator")
-				mReadyIndicator=ledHolder;
-			if (component->GetName() == "WorkingIndicator")
-				mWorkingIndicator=ledHolder;
-			components.push_back(ledHolder);
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "LED->InitNamePin returns ERROR");
-			}
+			errorCount=HandleLed(component->GetName(),component->GetPin(),errorCount);
 			break;
 		case servo:
 			// HandleServo(component->GetName()); // This should replace the whole case code
@@ -218,12 +204,11 @@ int Robot::Run()
 /**
  * Opens the camera and stores in the components list. 
  */ 
-void Robot::HandleCamera(string name,string fileName)
+int Robot::HandleCamera(string name,string fileName,int errorCount)
 {
-	int testState;
 	Camera* cameraHolder=new Camera();
 	cameraHolder->SetPhotoFileName(fileName);
-	testState=cameraHolder->InitName(name);
+	int testState=cameraHolder->InitName(name);
 	if (name == "Eyes")
 		mEyes=cameraHolder;
 	components.push_back(cameraHolder);
@@ -232,4 +217,24 @@ void Robot::HandleCamera(string name,string fileName)
 		errorCount++;
 		LOG4CXX_ERROR(logger, "CAMERA->InitName returns ERROR");
 	}
+	return errorCount;
+}
+/**
+ * Opens the led and stores in the components list. 
+ */ 
+int Robot::HandleLed(string name,int pin,int errorCount)
+{
+	Led* ledHolder=new Led();
+	int testState=ledHolder->InitNamePin(name, pin);	
+	f (name == "ReadyIndicator")
+		mReadyIndicator=ledHolder;
+	if (name == "WorkingIndicator")
+		mWorkingIndicator=ledHolder;
+	components.push_back(ledHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "LED->InitNamePin returns ERROR");
+	}
+	return errorCount;
 }
