@@ -50,8 +50,6 @@ Robot::Robot(Config* config)
 	{
 		ComponentParameters* component = *componentIterator;
 		/// Creates an component derived from Component and adds it to its components vector.
-		Button* buttonHolder;
-		int testState;
 		switch (component->GetType())
 		{
 		case camera:
@@ -64,15 +62,7 @@ Robot::Robot(Config* config)
 			errorCount=HandleServo(component->GetName(),errorCount);
 			break;
 		case button:
-			// HandleButton(component->GetName()); // This should replace the whole case code
-			buttonHolder=new Button();
-			testState=buttonHolder->InitName(component->GetName());
-			components.push_back(buttonHolder);
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "Button->InitName returns ERROR");
-			}
+			errorCount=HandleButton(component->GetName(),errorCount);
 			break;
 		case unknown:
 		default:
@@ -241,6 +231,21 @@ int Robot::HandleServo(string name,int errorCount)
 	{
 		errorCount++;
 		LOG4CXX_ERROR(logger, "SERVO->InitName returns ERROR");
+	}
+	return errorCount;
+}
+/**
+ * Opens the button and stores in the components list. 
+ */ 
+int Robot::HandleButton(string name,int errorCount)
+{
+	Button* buttonHolder=new Button();
+	int testState=buttonHolder->InitName(name);
+	components.push_back(buttonHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Button->InitName returns ERROR");
 	}
 	return errorCount;
 }
