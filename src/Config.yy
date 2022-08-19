@@ -35,24 +35,24 @@ line    : EOL                       { std::cerr << "Read an empty line.\n"; }
         ;
  
 name    : NAME                       { $$ = $1; }
-		;
+	;
  
 value   : TEXT                      { $$ = $1; }
         | COMPONENT PARAMS          { $$ = $1 + $3; }
         ;
 
 PARAMS	: PARAM
-		| PARAMS PARAM
-		;
+	| PARAMS PARAM
+	;
 		
 PARAM	: DOT KIND ( VALUE )
-		;
+	;
 
 KIND	: LED
-		| CAMERA
-		| SERVO
-		| BUTTON
-		;
+	| CAMERA
+	| SERVO
+	| BUTTON
+	;
  
 %%
  
