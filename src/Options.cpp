@@ -36,11 +36,6 @@ Options::Options(int argc, char **argv)
   mBasicLogging=false;
   mValid=true;
   int c;
-  // these 3 options must occur only once
-  int ic=0;
-  int il=0;
-  int ie=0;
-
   opterr = 0;
 
   while ((c = getopt (argc, argv, "hbc:l:e:")) != -1)
@@ -54,19 +49,13 @@ Options::Options(int argc, char **argv)
         mBasicLogging=true;
         break;
       case 'c':
-        if (ic==0)
-          mRobotOptionsFileName = optarg;
-        ic++;
+        mRobotOptionsFileName = optarg;
         break;
       case 'l':
-        if (il==0)
-          mLoggingOptionsFileName = optarg;
-        il++;
+        mLoggingOptionsFileName = optarg;
         break;
       case 'e':
-        if (ie==0)
-          mLoggingLevel = optarg;
-        ie++;        
+        mLoggingLevel = optarg;
         break;
       case '?':
         if (optopt == 'c')
