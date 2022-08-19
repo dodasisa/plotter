@@ -25,6 +25,7 @@
 #include "../inc/Robot.hpp"
 #include "../inc/Config.hpp"
 #include "../inc/Options.hpp"
+#include "../inc/mc_driver.hpp"
 
 LoggerPtr logger(Logger::getLogger("plotter"));
 
@@ -70,6 +71,8 @@ int main(int argc, char **argv)
 		LOG4CXX_ERROR(logger, "GPIO fails to initialise.");
 		return EXIT_FAILURE;
 	}
+	MC::MC_Driver driver;
+	driver.parse(options.GetRobotOptionsFileName()); // this will replace the Config class, or merge with
 	Config* config=new Config(options.GetRobotOptionsFileName(),false);
 	if (config->IsValid()==ERROR)
 	{
