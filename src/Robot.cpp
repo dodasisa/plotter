@@ -58,19 +58,7 @@ Robot::Robot(Config* config)
 		switch (component->GetType())
 		{
 		case camera:
-			// HandleCamera(component->GetName(),config->GetPhotoFileName()); // This should replace the whole case code
-			cameraHolder=new Camera();
-			cameraHolder->SetPhotoFileName(config->GetPhotoFileName());
-			testState=cameraHolder->InitName(component->GetName());
-			if (component->GetName()== "Eyes")
-				mEyes=cameraHolder;
-			components.push_back(cameraHolder);
-			
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "CAMERA->InitName returns ERROR");
-			}
+			HandleCamera(component->GetName(),config->GetPhotoFileName());
 			break;
 		case led:
 			// HandleLed(component->GetName(),component->GetPin()); // This should replace the whole case code
@@ -226,4 +214,22 @@ int Robot::Run()
 	mMode=RunMode::stopped;
 	LOG4CXX_INFO(logger, "Enters on mode stopped");
 	return OK;
+}
+/**
+ * Opens the camera and stores in the components list. 
+ */ 
+void Robot::HandleCamera(string name,string fileName)
+{
+	int testState;
+	Camera* cameraHolder=new Camera();
+	cameraHolder->SetPhotoFileName(fileName);
+	testState=cameraHolder->InitName(name);
+	if (name == "Eyes")
+		mEyes=cameraHolder;
+	components.push_back(cameraHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "CAMERA->InitName returns ERROR");
+	}
 }
