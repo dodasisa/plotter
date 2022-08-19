@@ -55,7 +55,17 @@ KIND	: LED
 	;
  
 %%
- 
-void config::Parser::error(const std::string& msg) {
+namespace yy
+{
+  // Report an error to the user.
+  auto parser::error (const std::string& msg) -> void
+  {
     std::cerr << msg << '\n';
+  }
+}
+
+int main ()
+{
+  yy::parser parse;
+  return parse ();
 }
