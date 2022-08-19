@@ -50,60 +50,19 @@ Robot::Robot(Config* config)
 	{
 		ComponentParameters* component = *componentIterator;
 		/// Creates an component derived from Component and adds it to its components vector.
-		Led* ledHolder;
-		Camera* cameraHolder;
-		Servo* servoHolder;
-		Button* buttonHolder;
-		int testState;
 		switch (component->GetType())
 		{
 		case camera:
-			cameraHolder=new Camera();
-			cameraHolder->SetPhotoFileName(config->GetPhotoFileName());
-			testState=cameraHolder->InitName(component->GetName());
-			if (component->GetName()== "Eyes")
-				mEyes=cameraHolder;
-			components.push_back(cameraHolder);
-			
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "CAMERA->InitName returns ERROR");
-			}
+			errorCount=HandleCamera(component->GetName(),config->GetPhotoFileName(),errorCount);
 			break;
 		case led:
-			ledHolder=new Led();
-			testState=ledHolder->InitNamePin(component->GetName(), component->GetPin());	
-			if (component->GetName() == "ReadyIndicator")
-				mReadyIndicator=ledHolder;
-			if (component->GetName() == "WorkingIndicator")
-				mWorkingIndicator=ledHolder;
-			components.push_back(ledHolder);
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "LED->InitNamePin returns ERROR");
-			}
+			errorCount=HandleLed(component->GetName(),component->GetPin(),errorCount);
 			break;
 		case servo:
-			servoHolder=new Servo();
-			testState=servoHolder->InitName(component->GetName());
-			components.push_back(servoHolder);
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "SERVO->InitName returns ERROR");
-			}
+			errorCount=HandleServo(component->GetName(),errorCount);
 			break;
 		case button:
-			buttonHolder=new Button();
-			testState=buttonHolder->InitName(component->GetName());
-			components.push_back(buttonHolder);
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "Button->InitName returns ERROR");
-			}
+			errorCount=HandleButton(component->GetName(),errorCount);
 			break;
 		case unknown:
 		default:
@@ -222,4 +181,71 @@ int Robot::Run()
 	mMode=RunMode::stopped;
 	LOG4CXX_INFO(logger, "Enters on mode stopped");
 	return OK;
+}
+/**
+ * Opens the camera and stores in the components list. 
+ */ 
+int Robot::HandleCamera(string name,string fileName,int errorCount)
+{
+	Camera* cameraHolder=new Camera();
+	cameraHolder->SetPhotoFileName(fileName);
+	int testState=cameraHolder->InitName(name);
+	if (name == "Eyes")
+		mEyes=cameraHolder;
+	components.push_back(cameraHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "CAMERA->InitName returns ERROR");
+	}
+	return errorCount;
+}
+/**
+ * Opens the led and stores in the components list. 
+ */ 
+int Robot::HandleLed(string name,int pin,int errorCount)
+{
+	Led* ledHolder=new Led();
+	int testState=ledHolder->InitNamePin(name, pin);	
+	f (name == "ReadyIndicator")
+		mReadyIndicator=ledHolder;
+	if (name == "WorkingIndicator")
+		mWorkingIndicator=ledHolder;
+	components.push_back(ledHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "LED->InitNamePin returns ERROR");
+	}
+	return errorCount;
+}
+/**
+ * Opens the servo and stores in the components list. 
+ */ 
+int Robot::HandleServo(string name,int errorCount)
+{
+	Servo* servoHolder=new Servo();
+	int testState=servoHolder->InitName(name);
+	components.push_back(servoHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "SERVO->InitName returns ERROR");
+	}
+	return errorCount;
+}
+/**
+ * Opens the button and stores in the components list. 
+ */ 
+int Robot::HandleButton(string name,int errorCount)
+{
+	Button* buttonHolder=new Button();
+	int testState=buttonHolder->InitName(name);
+	components.push_back(buttonHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Button->InitName returns ERROR");
+	}
+	return errorCount;
 }
