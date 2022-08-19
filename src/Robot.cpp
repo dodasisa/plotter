@@ -50,7 +50,6 @@ Robot::Robot(Config* config)
 	{
 		ComponentParameters* component = *componentIterator;
 		/// Creates an component derived from Component and adds it to its components vector.
-		Servo* servoHolder;
 		Button* buttonHolder;
 		int testState;
 		switch (component->GetType())
@@ -62,15 +61,7 @@ Robot::Robot(Config* config)
 			errorCount=HandleLed(component->GetName(),component->GetPin(),errorCount);
 			break;
 		case servo:
-			// HandleServo(component->GetName()); // This should replace the whole case code
-			servoHolder=new Servo();
-			testState=servoHolder->InitName(component->GetName());
-			components.push_back(servoHolder);
-			if (testState==ERROR) 
-			{
-				errorCount++;
-				LOG4CXX_ERROR(logger, "SERVO->InitName returns ERROR");
-			}
+			errorCount=HandleServo(component->GetName(),errorCount);
 			break;
 		case button:
 			// HandleButton(component->GetName()); // This should replace the whole case code
@@ -235,6 +226,21 @@ int Robot::HandleLed(string name,int pin,int errorCount)
 	{
 		errorCount++;
 		LOG4CXX_ERROR(logger, "LED->InitNamePin returns ERROR");
+	}
+	return errorCount;
+}
+/**
+ * Opens the servo and stores in the components list. 
+ */ 
+int Robot::HandleServo(string name,int errorCount)
+{
+	Servo* servoHolder=new Servo();
+	int testState=servoHolder->InitName(name);
+	components.push_back(servoHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "SERVO->InitName returns ERROR");
 	}
 	return errorCount;
 }
