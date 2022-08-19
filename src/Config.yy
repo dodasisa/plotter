@@ -21,7 +21,12 @@
     YY_DECL;
 }
  
-
+%token	END
+%token	LED
+%token	SERVO
+%token	BUTTON
+%token	CAMERA
+%token	DOT
  
 %%
  
