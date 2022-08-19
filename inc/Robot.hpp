@@ -55,6 +55,7 @@ class Robot
 	string mName;
 	vector<Component*> components;
 	RunMode mMode;
+	void HandleCamera(string name,string fileName)
 	
 	public:
 	Robot(Config* config);				///< Constructor. Takes a pointer to a valid Config object
