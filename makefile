@@ -20,6 +20,14 @@ OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
 all: robot$(VERSION)
 
+parser: mc_parser.yy
+	bison -d -v mc_parser.yy
+	$(CXX) $CPPFLAGS) -c -o parser.o mc_parser.tab.cc
+
+lexer: mc_lexer.l
+	flex --outfile=mc_lexer.yy.cc $<
+	$(CXX) $CPPFLAGS) -c mc_lexer.yy.cc -o lexer.o
+
 testLed: test/runnerLed
 	sudo test/runnerLed
 
