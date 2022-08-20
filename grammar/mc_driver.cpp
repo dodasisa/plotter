@@ -45,7 +45,6 @@ MC::MC_Driver::parse( std::istream &stream )
 void 
 MC::MC_Driver::parse_helper( std::istream &stream )
 {
-   
    delete(scanner);
    try
    {
