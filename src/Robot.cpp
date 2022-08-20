@@ -207,7 +207,7 @@ int Robot::HandleLed(string name,int pin,int errorCount)
 {
 	Led* ledHolder=new Led();
 	int testState=ledHolder->InitNamePin(name, pin);	
-	f (name == "ReadyIndicator")
+	if (name == "ReadyIndicator")
 		mReadyIndicator=ledHolder;
 	if (name == "WorkingIndicator")
 		mWorkingIndicator=ledHolder;
