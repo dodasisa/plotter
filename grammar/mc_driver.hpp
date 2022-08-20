@@ -34,8 +34,8 @@ public:
    void add_char();
 
    std::ostream& print(std::ostream &stream);
-private:
 
+private:
    void parse_helper( std::istream &stream );
 
    std::size_t  chars      = 0;

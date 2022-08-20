@@ -11,8 +11,8 @@
 namespace MC{
 
 class MC_Scanner : public yyFlexLexer{
-public:
    
+public:
    MC_Scanner(std::istream *in) : yyFlexLexer(in)
    {
       loc = new MC::MC_Parser::location_type();
@@ -26,7 +26,6 @@ public:
               MC::MC_Parser::location_type *location );
    // YY_DECL defined in mc_lexer.l
    // Method body created by flex in mc_lexer.yy.cc
-
 
 private:
    /* yyval ptr */
