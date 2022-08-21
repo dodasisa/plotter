@@ -9,6 +9,8 @@ CXXTEST=/home/david/projets/cxxtest
 
 TESTDEFS=$(patsubst %,test/%.hpp,$(TESTSUITES))
 TESTSRCS=$(patsubst %,src/%.cpp,$(TESTMODULES))
+GRAMMAR_OUT=ConfigParser.cpp ConfigParser.hpp ConfigParser.output ConfigScanner.cpp location.h
+GRAMMAR_OUT_FILES=$(patsubst %,grammar/%,$(GRAMMAR_OUT))
 
 CC=gcc
 CXX=g++
@@ -20,13 +22,13 @@ OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
 all: robot$(VERSION)
 
-parser: mc_parser.yy
-	bison -d -v mc_parser.yy
-	$(CXX) $CPPFLAGS) -c -o parser.o mc_parser.tab.cc
+parser: grammar/ConfigParser.yy
+	bison --debug --defines=grammar/ConfigParser.hpp --verbose --output=grammar/ConfigParser.cpp --file-prefix=CP_ grammar/ConfigParser.yy
+	$(CXX) $(CPPFLAGS) -c -o grammar/parserConfig.o mc_parser.tab.cc
 
-lexer: mc_lexer.l
-	flex --outfile=mc_lexer.yy.cc $<
-	$(CXX) $CPPFLAGS) -c mc_lexer.yy.cc -o lexer.o
+lexer: grammar/ConfigScanner.l
+	flex --outfile=grammar/ConfigScanner.cpp $<
+	$(CXX) $(CPPFLAGS) -c grammar/ConfigScanner.cpp -o grammar/ConfigScanner.o
 
 testLed: test/runnerLed
 	sudo test/runnerLed
@@ -59,7 +61,7 @@ obj/%.o : src/%.cpp
 	$(CXX) $(CPPFLAFS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) robot$(VERSION) test/runner* logs/*
+	$(RM) $(OBJS) robot$(VERSION) test/runner* logs/* $(GRAMMAR_OUT_FILES)
 
 cleandocs:
 	$(RM) html/search/* html/*.html html/*.css html/*.js html/*.png html/*.svg latex/*

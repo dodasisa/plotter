@@ -3,13 +3,13 @@
 %language "C++"
 %debug 
 %defines 
-%define api.namespace {MC}
-%define api.parser.class {MC_Parser}
+%define api.namespace {CP}
+%define api.parser.class {CP_Parser}
  
 %code requires{
-   namespace MC {
-      class MC_Driver;
-      class MC_Scanner;
+   namespace CP {
+      class CP_Driver;
+      class CP_Scanner;
    }
 
  
@@ -82,11 +82,15 @@ parameters
   ;
 
 parameter
-  : DOT TYPE OPEN_BRACKET LED CLOSE_BRACKET
-  | DOT TYPE OPEN_BRACKET BUTTON CLOSE_BRACKET
-  | DOT TYPE OPEN_BRACKET CAMERA CLOSE_BRACKET
-  | DOT TYPE OPEN_BRACKET SERVO CLOSE_BRACKET
+  : DOT TYPE OPEN_BRACKET comp_type CLOSE_BRACKET
   | DOT PIN OPEN_BRACKET NUMBER CLOSE_BRACKET
+  ;
+  
+comp_type
+  : LED
+  | BUTTON
+  | CAMERA
+  | SERVO
   ;
   
   
