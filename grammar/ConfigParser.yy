@@ -55,7 +55,7 @@
 %token               TYPE
 %token <std::string> TEXT
 %token <std::string> NAME
-%token int           NUMBER
+%token               NUMBER
 
 %locations
 
