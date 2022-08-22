@@ -1,40 +1,32 @@
 %{
-#include "Parser2.hpp"
-#include "Scanner2.hpp"
+#include "ConfigParser.hpp"
+#include "ConfigScanner.hpp"
 #define YY_DECL int calc::Scanner::lex(calc::Parser::semantic_type *yylval)
 %}
  
 %option c++ interactive noyywrap noyylineno nodefault outfile="Scanner2.cpp"
  
 dseq            ([[:digit:]]+)
-dseq_opt        ({dseq}?)
-frac            (({dseq_opt}"."{dseq})|{dseq}".")
-exp             ([eE][+-]?{dseq})
-exp_opt         ({exp}?)
- 
 integer         ({dseq})
-float           (({frac}{exp_opt})|({dseq}{exp}))
-intvar          ([[:upper:]])
-fltvar          ([[:lower:]])
- 
+text            ([a-zA-Z0-9 ]+)
+name            ([a-zA-Z0-9]+)
+
 %%
  
-{integer}       yylval->emplace<long long>(strtoll(YYText(), nullptr, 10)); return Parser::token::INT;
-{float}         yylval->emplace<double>(strtod(YYText(), nullptr)); return Parser::token::FLT;
-{intvar}        yylval->emplace<char>(YYText()[0]); return Parser::token::INTVAR;
-{fltvar}        yylval->emplace<char>(YYText()[0]); return Parser::token::FLTVAR;
-"+"             return Parser::token::PLUS;
-"-"             return Parser::token::MINUS;
-"*"             return Parser::token::MULTIPLY;
-"/"             return Parser::token::DIVIDE;
-"%"             return Parser::token::MODULO;
-"!"             return Parser::token::FACTORIAL;
-"^"             return Parser::token::EXPONENT;
-"("             return Parser::token::LPAREN;
-")"             return Parser::token::RPAREN;
+{integer}       yylval->emplace<long long>(strtoll(YYText(), nullptr, 10)); return Parser::token::NUMBER;
+"("             return Parser::token::OPEN_BRACKET;
+")"             return Parser::token::CLOSE_BRACKET;
+"."             return Parser::token::DOT;
+"type"          return Parser::token::TYPE;
+"led"           return Parser::token::LED;
+"servo"         return Parser::token::SERVO;
+"camera"        return Parser::token::CAMERA;
+"button"        return Parser::token::BUTTON;
 "="             return Parser::token::ASSIGN;
+{name}          return Parser::token::NAME
+{text}          return Parser::token::TEXT
 \n              return Parser::token::EOL;
-<<EOF>>         return Parser::token::YYEOF;
+<<EOF>>         return Parser::token::END;
 .               /* no action on unmatched input */
  
 %%
