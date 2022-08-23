@@ -28,7 +28,7 @@
 using namespace std;
 using namespace log4cxx;
 
-LoggerPtr Servo::logger(Logger::getLogger("plotter.robot.screen"));
+LoggerPtr Screen::logger(Logger::getLogger("plotter.robot.screen"));
 
 Screen::Screen() : Component(screen)
 {
