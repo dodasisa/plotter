@@ -42,7 +42,8 @@ enum ComponentType {
 	led,		/**< type led */
 	servo,		/**< type servo */
 	camera,		/**< type raspicam */
-	button		/**< type button */
+	button,		/**< type button */
+	screen		/**< type screen */
 	};
 
 /**
