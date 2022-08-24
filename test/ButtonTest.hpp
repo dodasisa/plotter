@@ -23,6 +23,8 @@
 #ifndef __BUTTONTEST__
 #define __BUTTONTEST__
 #include <cxxtest/TestSuite.h>
+#include <iostream>
+#include <fstream>
 #include "../inc/Button.hpp"
 #include "../inc/Component.hpp"
 #include "../inc/Constants.hpp"
@@ -36,12 +38,41 @@
  */  
 class ButtonTest : public CxxTest::TestSuite
 {
+private:
+    bool InteractiveMode;
 public:
+    /*! \brief setUp Checks if we are on interactive mode.
+     * 
+     */  
+    void setUp()
+    {
+        InteractiveMode=false;
+        string IsInteractive;
+        // if file is missing, mode is not interactive
+        ifstream MyReadFile("mode");
+        if (getline (MyReadFile, IsInteractive))
+        {
+            if (IsInteractive == "interactive")
+                InteractiveMode;
+        }
+    }
+    
+    /*! \brief tearDown
+     * 
+     */
+     /*
+    void tearDown()
+    {
+        delete(robot);
+        delete(config);
+    }
+    */
     /*! \brief testButton01 Build a correct button and initializes by name
      * 
      */  
     void testButton01(void)
     {
+        
         Button a_button();
     //    ComponentType componentType=a_button.GetType();
     //    string componentName=a_button.GetName();
