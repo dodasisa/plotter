@@ -1,6 +1,6 @@
 VERSION = `head -1 inc/Version.hpp | cut -f3 -d ' '`
 TESTMODULES = Component Button Led Camera Servo Screen Robot I2Cmanager ImageHandler Config ComponentParameters Options
-TESTSUITES = ConfigTest RobotTest ButtonTest LedTest ScreenTest OptionsTest
+TESTSUITES = ConfigTest RobotTest ButtonTest LedTest OptionsTest
 MODULES = $(TESTMODULES) main
 
 SRCS=$(patsubst %,src/%.cpp,$(MODULES))
@@ -32,6 +32,9 @@ lexer: grammar/ConfigScanner.l
 
 testLed: test/runnerLed
 	sudo test/runnerLed
+	
+testButton: test/runner test/ButtonTest.hpp test/mode
+	sudo test/runner ButtonTest
 
 test/runnerLed: test/runnerLed.cpp src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp
 	$(CXX) -o test/runnerLed -I$(CXXTEST) src/Led.cpp src/Component.cpp inc/Led.hpp inc/Component.hpp test/runnerLed.cpp $(LDLIBS)
