@@ -25,6 +25,7 @@
 #include <cxxtest/TestSuite.h>
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 #include "../inc/Button.hpp"
 #include "../inc/Component.hpp"
 #include "../inc/Constants.hpp"
@@ -79,6 +80,7 @@ public:
     //    TSM_ASSERT_EQUALS("The constructor should create a Component of type button",componentType,ComponentType::button);
     //    a_button.InitName("ButtonName");
     //    TSM_ASSERT_EQUALS("The constructor should create a Component of type button",componentName,"ButtonName");
+        TS_FAIL("Fail");
     }
      
     
@@ -88,6 +90,18 @@ public:
     void testButton02(void)
     {
         Button a_button();
+        TS_TRACE("Please, push the button.");
+        bool detected=false;
+        int count=10;
+        while (detected==false && count > 0)
+        {
+            sleep(3);
+            count--;
+        }
+        if (detected==false)
+            TS_FAIL("Button not detected");
+        
+        
 //        TSM_ASSERT_EQUALS("The constructor should create a Component of type button",a_button.GetType(),ComponentType::button);
  //       a_button.InitNamePin("ButtonName",5);
 //        TSM_ASSERT_EQUALS("The button name should be stored",a_button->GetName(),"ButtonName");
