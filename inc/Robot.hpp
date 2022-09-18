@@ -31,6 +31,8 @@
 #include "Led.hpp"
 #include "Servo.hpp"
 #include "Button.hpp"
+#include "Screen.hpp"
+#include "Arm.hpp"
 #include "Config.hpp"
 #include "log4cxx/logger.h"
 #include "Constants.hpp"
@@ -48,9 +50,14 @@ class Robot
 {
 	private:
 	static log4cxx::LoggerPtr logger;
+	// Quick accessors to the components
 	Camera* mEyes;
 	Led* mReadyIndicator;
 	Led* mWorkingIndicator;
+	Screen* mFace;
+	Servo* mNeck;
+	Arm* mRightArm;
+	Arm* mLeftArm;
 	int mReady;
 	string mName;
 	vector<Component*> components;
@@ -59,6 +66,13 @@ class Robot
 	int HandleLed(string name,int pin,int errorCount);
 	int HandleServo(string name,int errorCount);
 	int HandleButton(string name,int errorCount);
+	
+	bool EvaluatePaperPosition();
+	bool FixPaperPosition();
+	
+	RunMode WaitingMode();
+	RunMode DrawingMode();
+	void DrawVector();
 	
 	public:
 	Robot(Config* config);				///< Constructor. Takes a pointer to a valid Config object

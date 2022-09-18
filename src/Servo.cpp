@@ -58,3 +58,7 @@ int Servo::InitNamePin(string name,int pin)
 	LOG4CXX_DEBUG(logger, "Instance servo named " << GetName() );
 	return GetReady();
 }
+
+void Servo::SetAngle(float angle)
+{
+}

@@ -143,6 +143,26 @@ int Robot::Run()
 	if (!GetReady())
 		return ERROR;
 	
+	mMode=WaitingMode();
+	
+	// mode changes on interruptios, when a button is pressed.
+	// We have two buttons: STOP and START
+	// STOP changes the mode to stopping, unless current mode is drawing; in this case the mode should be aborting
+	// START changes the mode to drawing
+	while (mMode != RunMode::stopping){
+		if (mMode == RunMode::drawing)
+		{
+			// returns only when the drawing is done, or aborted
+			mMode=DrawingMode();
+		}
+		sleep(3);
+	}
+	mReadyIndicator->Off();
+	mMode=RunMode::stopped;
+	LOG4CXX_INFO(logger, "Enters on mode stopped");
+	return OK;
+	/*
+	
 	LOG4CXX_INFO(logger, "Enters on mode waiting");
 	mMode = RunMode::waiting;	
 	mReadyIndicator->On();
@@ -181,7 +201,57 @@ int Robot::Run()
 	mMode=RunMode::stopped;
 	LOG4CXX_INFO(logger, "Enters on mode stopped");
 	return OK;
+	*/
 }
+
+// when enter on waiting mode, looks down, close the eyes, put arms in rest
+RunMode Robot::WaitingMode()
+{
+	mReadyIndicator->On();
+	mNeck->SetAngle(20.0);
+	mFace->SetNeutralFace();
+	mRightArm->SetNeutral();
+	mLeftArm->SetNeutral();
+	return RunMode::waiting;
+}
+
+RunMode Robot::DrawingMode()
+{
+	mWorkingIndicator->On();
+	mNeck->SetAngle(60);
+	mFace->SetStaringFace();
+	
+	bool ImageValid=false;
+	while (!ImageValid)
+	{
+		mEyes->Shot();	
+		// manipulate image
+		// evaluateimage
+		ImageValid=true;
+	}	
+	mFace->Smile();
+	mNeck->SetAngle(30);
+	mFace->SetNeutralFace();
+	bool PaperReady=false;
+	while (!PaperReady)
+	{
+		PaperReady=EvaluatePaperPosition();
+		if (!PaperReady) FixPaperPosition();		
+	}
+	int Vector=0;
+	int TotVectors=0;
+	while (Vector < TotVectors)
+	{
+		DrawVector();
+	}
+	mNeck->SetAngle(60);
+	mFace->Wink();
+	mFace->Smile();
+	mLeftArm->ReleasePaper();
+	return WaitingMode(); // when done
+}
+
+
 /**
  * Opens the camera and stores in the components list. 
  */ 
@@ -249,3 +319,16 @@ int Robot::HandleButton(string name,int errorCount)
 	}
 	return errorCount;
 }
+
+bool Robot::EvaluatePaperPosition()
+{
+	return true;
+}
+
+bool Robot::FixPaperPosition()
+{
+	return true;
+}
+
+void Robot::DrawVector()
+{}

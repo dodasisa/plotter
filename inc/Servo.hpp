@@ -65,6 +65,8 @@ class Servo : public Component
 	* Calls SetPin with the chosen pin
 	*/
 	int InitNamePin(std::string name,int pin);
+	
+	void SetAngle(float angle);
 };
 
 #endif
