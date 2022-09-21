@@ -143,6 +143,26 @@ int Robot::Run()
 	if (!GetReady())
 		return ERROR;
 	
+	mMode=WaitingMode();
+	
+	// mode changes on interruptios, when a button is pressed.
+	// We have two buttons: STOP and START
+	// STOP changes the mode to stopping, unless current mode is drawing; in this case the mode should be aborting
+	// START changes the mode to drawing
+	while (mMode != RunMode::stopping){
+		if (mMode == RunMode::drawing)
+		{
+			// returns only when the drawing is done, or aborted
+			mMode=DrawingMode();
+		}
+		sleep(3);
+	}
+	mReadyIndicator->Off();
+	mMode=RunMode::stopped;
+	LOG4CXX_INFO(logger, "Enters on mode stopped");
+	return OK;
+	/*
+	
 	LOG4CXX_INFO(logger, "Enters on mode waiting");
 	mMode = RunMode::waiting;	
 	mReadyIndicator->On();
@@ -181,7 +201,57 @@ int Robot::Run()
 	mMode=RunMode::stopped;
 	LOG4CXX_INFO(logger, "Enters on mode stopped");
 	return OK;
+	*/
 }
+
+// when enter on waiting mode, looks down, close the eyes, put arms in rest
+RunMode Robot::WaitingMode()
+{
+	mReadyIndicator->On();
+	mNeck->SetAngle(20.0);
+	mFace->SetNeutralFace();
+	mRightArm->SetNeutral();
+	mLeftArm->SetNeutral();
+	return RunMode::waiting;
+}
+
+RunMode Robot::DrawingMode()
+{
+	mWorkingIndicator->On();
+	mNeck->SetAngle(60);
+	mFace->SetStaringFace();
+	
+	bool ImageValid=false;
+	while (!ImageValid)
+	{
+		mEyes->Shot();	
+		// manipulate image
+		// evaluateimage
+		ImageValid=true;
+	}	
+	mFace->Smile();
+	mNeck->SetAngle(30);
+	mFace->SetNeutralFace();
+	bool PaperReady=false;
+	while (!PaperReady)
+	{
+		PaperReady=EvaluatePaperPosition();
+		if (!PaperReady) FixPaperPosition();		
+	}
+	int Vector=0;
+	int TotVectors=0;
+	while (Vector < TotVectors)
+	{
+		DrawVector();
+	}
+	mNeck->SetAngle(60);
+	mFace->Wink();
+	mFace->Smile();
+	mLeftArm->ReleasePaper();
+	return WaitingMode(); // when done
+}
+
+
 /**
  * Opens the camera and stores in the components list. 
  */ 
@@ -226,6 +296,8 @@ int Robot::HandleServo(string name,int errorCount)
 {
 	Servo* servoHolder=new Servo();
 	int testState=servoHolder->InitName(name);
+	if (name == "Neck")
+		mNeck=servoHolder;
 	components.push_back(servoHolder);
 	if (testState==ERROR) 
 	{
@@ -241,6 +313,10 @@ int Robot::HandleButton(string name,int errorCount)
 {
 	Button* buttonHolder=new Button();
 	int testState=buttonHolder->InitName(name);
+	if (name=="StartWorking")
+		mStartWorking=buttonHolder;
+	if (name=="StopWorking")
+		mStopWorking=buttonHolder;
 	components.push_back(buttonHolder);
 	if (testState==ERROR) 
 	{
@@ -249,3 +325,48 @@ int Robot::HandleButton(string name,int errorCount)
 	}
 	return errorCount;
 }
+
+int Robot::HandleScreen(string name,int errorCount)
+{
+	Screen* screenHolder=new Screen();
+	int testState=screenHolder->InitName(name);
+	if (name=="Face")
+		mFace=screenHolder;
+	components.push_back(screenHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Screen->InitName returns ERROR");
+	}
+	return errorCount;
+}
+
+int Robot::HandleArm(string name,int errorCount)
+{
+	Arm* armHolder=new Arm();
+	int testState=armHolder->InitName(name);
+	if (name=="LeftArm")
+		mLeftArm=armHolder;
+	if (name=="RightArm")
+		mRightArm=armHolder;
+	components.push_back(armHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Arm->InitName returns ERROR");
+	}
+	return errorCount;
+}
+
+bool Robot::EvaluatePaperPosition()
+{
+	return true;
+}
+
+bool Robot::FixPaperPosition()
+{
+	return true;
+}
+
+void Robot::DrawVector()
+{}

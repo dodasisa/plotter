@@ -65,6 +65,11 @@ class Screen : public Component
 	* Calls SetPin with the chosen pin
 	*/
 	int InitNamePin(std::string name,int pin);
+	
+	void SetNeutralFace();
+	void SetStaringFace();
+	void Smile();
+	void Wink();
 };
 
 #endif

@@ -58,3 +58,14 @@ int Screen::InitNamePin(string name,int pin)
 	LOG4CXX_DEBUG(logger, "Instance screen named " << GetName() );
 	return GetReady();
 }
+void Screen::SetNeutralFace()
+{
+}
+
+void Screen::SetStaringFace()
+{}
+
+void Screen::Smile()
+{}
+void Screen::Wink()
+{}
