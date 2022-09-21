@@ -28,13 +28,11 @@
 Arm::Arm()
 	: Component()
 {
-	
 }
 
 
 Arm::~Arm()
 {
-	
 }
 
 void Arm::SetNeutral()
