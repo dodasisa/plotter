@@ -58,6 +58,8 @@ class Robot
 	Servo* mNeck;
 	Arm* mRightArm;
 	Arm* mLeftArm;
+	Button* mStartWorking;
+	Button* mStopWorking;
 	int mReady;
 	string mName;
 	vector<Component*> components;
@@ -66,6 +68,8 @@ class Robot
 	int HandleLed(string name,int pin,int errorCount);
 	int HandleServo(string name,int errorCount);
 	int HandleButton(string name,int errorCount);
+	int HandleScreen(string name,int errorCount);
+	int HandleArm(string name,int errorCount);
 	
 	bool EvaluatePaperPosition();
 	bool FixPaperPosition();

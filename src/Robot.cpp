@@ -296,6 +296,8 @@ int Robot::HandleServo(string name,int errorCount)
 {
 	Servo* servoHolder=new Servo();
 	int testState=servoHolder->InitName(name);
+	if (name == "Neck")
+		mNeck=servoHolder;
 	components.push_back(servoHolder);
 	if (testState==ERROR) 
 	{
@@ -311,11 +313,47 @@ int Robot::HandleButton(string name,int errorCount)
 {
 	Button* buttonHolder=new Button();
 	int testState=buttonHolder->InitName(name);
+	if (name=="StartWorking")
+		mStartWorking=buttonHolder;
+	if (name=="StopWorking")
+		mStopWorking=buttonHolder;
 	components.push_back(buttonHolder);
 	if (testState==ERROR) 
 	{
 		errorCount++;
 		LOG4CXX_ERROR(logger, "Button->InitName returns ERROR");
+	}
+	return errorCount;
+}
+
+int Robot::HandleScreen(string name,int errorCount)
+{
+	Screen* screenHolder=new Screen();
+	int testState=screenHolder->InitName(name);
+	if (name=="Face")
+		mFace=screenHolder;
+	components.push_back(screenHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Screen->InitName returns ERROR");
+	}
+	return errorCount;
+}
+
+int Robot::HandleArm(string name,int errorCount)
+{
+	Arm* armHolder=new Arm();
+	int testState=armHolder->InitName(name);
+	if (name=="LeftArm")
+		mLeftArm=armHolder;
+	if (name=="RightArm")
+		mRightArm=armHolder;
+	components.push_back(armHolder);
+	if (testState==ERROR) 
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Arm->InitName returns ERROR");
 	}
 	return errorCount;
 }
