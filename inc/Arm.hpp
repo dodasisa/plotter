@@ -34,7 +34,7 @@ class Arm: public Component
 		~Arm();
 		void SetNeutral();
 		void ReleasePaper();
-	
+		int InitName(std::string name);
 	private:
 		/* add your private declarations */
 };

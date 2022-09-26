@@ -74,6 +74,12 @@ int ComponentParameters::SetType(string type)
 		mType = servo;
 	if (type == "camera")
 		mType = camera;
+	if (type == "button")
+		mType = button;
+	if (type == "arm")
+		mType=arm;
+	if (type == "screen")
+		mType = screen;
 	if (mType == unknown)
 	{
 		LOG4CXX_ERROR(logger, "Unknown type of component");

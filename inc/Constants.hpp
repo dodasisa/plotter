@@ -43,7 +43,8 @@ enum ComponentType {
 	servo,		/**< type servo */
 	camera,		/**< type raspicam */
 	button,		/**< type button */
-	screen		/**< type screen */
+	screen,		/**< type screen */
+	arm			/**< type arm */
 	};
 
 /**
