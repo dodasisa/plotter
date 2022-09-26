@@ -26,7 +26,7 @@
 
 
 Arm::Arm()
-	: Component()
+	: Component(arm)
 {
 }
 
@@ -40,4 +40,12 @@ void Arm::SetNeutral()
 
 void Arm::ReleasePaper()
 {}
+
+int Arm::InitName(string name)
+{
+	SetName(name);	
+
+//	LOG4CXX_DEBUG(logger, "Instance arm named " << GetName()  );
+	return OK;
+}
 

@@ -49,6 +49,7 @@ Robot::Robot(Config* config)
 	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
 	{
 		ComponentParameters* component = *componentIterator;
+		cerr << "Adding component " << component->GetName() << " of type " << component->GetType() << endl;
 		/// Creates an component derived from Component and adds it to its components vector.
 		switch (component->GetType())
 		{
@@ -64,10 +65,17 @@ Robot::Robot(Config* config)
 		case button:
 			errorCount=HandleButton(component->GetName(),errorCount);
 			break;
+		case arm:
+			errorCount=HandleArm(component->GetName(),errorCount);
+			break;
+		case screen:
+			errorCount=HandleScreen(component->GetName(),errorCount);
+			break;
 		case unknown:
 		default:
 			break;
 		}
+		cerr << "Component " << component->GetName() << " added. ErrorCount=" << errorCount << endl;
 		LOG4CXX_DEBUG(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
 	}
 	/// if any of the created components reports an error, the state if the robot is set to 0. Main() must stop.
@@ -85,6 +93,8 @@ Robot::~Robot()
 	Led* led2remove;
 	Servo* servo2remove;
 	Button* button2remove;
+	Arm* arm2remove;
+	Screen* screen2remove;
 	/// calls the destructor of every component present in the components vector
 	for (vector<Component*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
 	{
@@ -106,6 +116,14 @@ Robot::~Robot()
 			case ComponentType::button:
 				button2remove=(Button*)component;
 				delete(button2remove);
+				break;
+			case ComponentType::arm:
+				arm2remove=(Arm*)component;
+				delete(arm2remove);
+				break;
+			case ComponentType::screen:
+				screen2remove=(Screen*)component;
+				delete(screen2remove);
 				break;
 			default:
 				delete(component);
@@ -142,8 +160,9 @@ int Robot::Run()
 	// Initialize and enter on ready mode
 	if (!GetReady())
 		return ERROR;
-	
+	cerr << "robot ready" << endl;
 	mMode=WaitingMode();
+	cerr << "waiting mode done" << endl;
 	
 	// mode changes on interruptios, when a button is pressed.
 	// We have two buttons: STOP and START
@@ -156,52 +175,17 @@ int Robot::Run()
 			mMode=DrawingMode();
 		}
 		sleep(3);
-	}
-	mReadyIndicator->Off();
-	mMode=RunMode::stopped;
-	LOG4CXX_INFO(logger, "Enters on mode stopped");
-	return OK;
-	/*
-	
-	LOG4CXX_INFO(logger, "Enters on mode waiting");
-	mMode = RunMode::waiting;	
-	mReadyIndicator->On();
-	while (mMode != RunMode::stopping){
-		while (mMode == RunMode::waiting)
-		{		
-			sleep(3);
-			// check buttons status
-			// if buttonStop is ON, change the mode to stopping
-			// if buttonWakeUp is ON, change the mode to looking
-			// TODO: Remove this. It is just to avoid running forever, while debuging
-			mMode = RunMode::looking;
-			LOG4CXX_INFO(logger, "Enters on mode looking");
-		}
 		
-		if (mMode==RunMode::looking)
-		{
-			mWorkingIndicator->On();
-			mEyes->Shot();
-			sleep(1);
-			mWorkingIndicator->Off();
-			sleep(1);
-			mWorkingIndicator->On();
-			sleep(1);
-			mWorkingIndicator->Off();
-			sleep(1);
-			mWorkingIndicator->On();
-			sleep(1);
-			// TODO: Remove this. It is just to avoid running forever, while debuging
-			mMode = RunMode::stopping;
-			LOG4CXX_INFO(logger, "Enters on mode stopping");
-			mWorkingIndicator->Off();
-		}
+		mMode=RunMode::stopping;
+		cerr << "Running mode done" << endl;
+
 	}
 	mReadyIndicator->Off();
 	mMode=RunMode::stopped;
+	cerr << "stopping mode done" << endl;
+
 	LOG4CXX_INFO(logger, "Enters on mode stopped");
 	return OK;
-	*/
 }
 
 // when enter on waiting mode, looks down, close the eyes, put arms in rest
@@ -236,7 +220,8 @@ RunMode Robot::DrawingMode()
 	while (!PaperReady)
 	{
 		PaperReady=EvaluatePaperPosition();
-		if (!PaperReady) FixPaperPosition();		
+		if (!PaperReady) FixPaperPosition();	
+		PaperReady=true;	
 	}
 	int Vector=0;
 	int TotVectors=0;
@@ -345,6 +330,7 @@ int Robot::HandleArm(string name,int errorCount)
 {
 	Arm* armHolder=new Arm();
 	int testState=armHolder->InitName(name);
+	cerr << "HandleArm, testState=" << testState << endl;
 	if (name=="LeftArm")
 		mLeftArm=armHolder;
 	if (name=="RightArm")
@@ -352,6 +338,7 @@ int Robot::HandleArm(string name,int errorCount)
 	components.push_back(armHolder);
 	if (testState==ERROR) 
 	{
+		cerr << "Arm->InitName returns ERROR" << endl;
 		errorCount++;
 		LOG4CXX_ERROR(logger, "Arm->InitName returns ERROR");
 	}

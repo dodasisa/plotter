@@ -86,6 +86,8 @@ int main(int argc, char **argv)
 	}
 	LOG4CXX_INFO(logger, config->components.size() << " components found.");
 	Robot* robot=new Robot(config);
+	LOG4CXX_INFO(logger, "Constructor done.");
+
 	if (!robot->GetReady()) 
 	{
 		LOG4CXX_ERROR(logger, "Robot fails to start.");

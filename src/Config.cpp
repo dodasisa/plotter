@@ -104,6 +104,7 @@ int Config::Read()
 							/// An unknown or missing .variable means error.
 							if (component->GetType() == unknown) {
 								LOG4CXX_ERROR(logger, "Config line " << lineNumber << ". Unknown component type");
+								cerr << "Config line " << lineNumber << ". Unknown component type" << endl;
 								mState = ERROR;
 							}
 							else
