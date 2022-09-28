@@ -36,6 +36,7 @@ Robot::Robot(Config* config)
 {
 	if (config->IsOnTestMode())
 		logger->setLevel(Level::getOff());
+	cerr << "Test mode=" << config->IsOnTestMode() << endl;
 	mMode = RunMode::stopped;
 	LOG4CXX_TRACE(logger, "Robot constructor");
 	int errorCount = 0;
@@ -49,7 +50,7 @@ Robot::Robot(Config* config)
 	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
 	{
 		ComponentParameters* component = *componentIterator;
-		cerr << "Adding component " << component->GetName() << " of type " << component->GetType() << endl;
+		//cerr << "Adding component " << component->GetName() << " of type " << component->GetType() << endl;
 		/// Creates an component derived from Component and adds it to its components vector.
 		switch (component->GetType())
 		{
@@ -75,7 +76,7 @@ Robot::Robot(Config* config)
 		default:
 			break;
 		}
-		cerr << "Component " << component->GetName() << " added. ErrorCount=" << errorCount << endl;
+		//cerr << "Component " << component->GetName() << " added. ErrorCount=" << errorCount << endl;
 		LOG4CXX_DEBUG(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
 	}
 	/// if any of the created components reports an error, the state if the robot is set to 0. Main() must stop.
@@ -160,9 +161,9 @@ int Robot::Run()
 	// Initialize and enter on ready mode
 	if (!GetReady())
 		return ERROR;
-	cerr << "robot ready" << endl;
+	//cerr << "robot ready" << endl;
 	mMode=WaitingMode();
-	cerr << "waiting mode done" << endl;
+	//cerr << "waiting mode done" << endl;
 	
 	// mode changes on interruptios, when a button is pressed.
 	// We have two buttons: STOP and START
@@ -177,12 +178,12 @@ int Robot::Run()
 		sleep(3);
 		
 		mMode=RunMode::stopping;
-		cerr << "Running mode done" << endl;
+		//cerr << "Running mode done" << endl;
 
 	}
 	mReadyIndicator->Off();
 	mMode=RunMode::stopped;
-	cerr << "stopping mode done" << endl;
+	//cerr << "stopping mode done" << endl;
 
 	LOG4CXX_INFO(logger, "Enters on mode stopped");
 	return OK;
@@ -330,7 +331,7 @@ int Robot::HandleArm(string name,int errorCount)
 {
 	Arm* armHolder=new Arm();
 	int testState=armHolder->InitName(name);
-	cerr << "HandleArm, testState=" << testState << endl;
+	//cerr << "HandleArm, testState=" << testState << endl;
 	if (name=="LeftArm")
 		mLeftArm=armHolder;
 	if (name=="RightArm")
@@ -338,7 +339,7 @@ int Robot::HandleArm(string name,int errorCount)
 	components.push_back(armHolder);
 	if (testState==ERROR) 
 	{
-		cerr << "Arm->InitName returns ERROR" << endl;
+	//	cerr << "Arm->InitName returns ERROR" << endl;
 		errorCount++;
 		LOG4CXX_ERROR(logger, "Arm->InitName returns ERROR");
 	}

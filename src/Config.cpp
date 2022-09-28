@@ -29,6 +29,7 @@ LoggerPtr Config::logger(Logger::getLogger("plotter.config"));
 
 Config::Config(string fileName,bool test)
 {
+	mTest=false;
 	if (test) SetTestMode();
 	if (IsOnTestMode()){
 		logger->setLevel(Level::getOff());
