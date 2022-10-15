@@ -20,7 +20,7 @@
  * 
  * 
  */
-
+#include "log4cxx/logger.h"
 
 #ifndef I2CMANAGER_HPP
 #define I2CMANAGER_HPP
@@ -42,6 +42,7 @@ class I2Cmanager
 		~I2Cmanager();
 	
 	private:
+		static log4cxx::LoggerPtr logger;
 };
 
 #endif /* I2CMANAGER_HPP */ 

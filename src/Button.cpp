@@ -29,6 +29,7 @@ LoggerPtr Button::logger(Logger::getLogger("plotter.robot.button"));
 
 Button::Button() : Component(button)
 {
+	LOG4CXX_TRACE(logger, "Button constructor");
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
 }
 
@@ -39,6 +40,7 @@ Button::~Button()
 
 int Button::InitNamePin(string name,int pin)
 {
+	LOG4CXX_TRACE(logger, "Button InitNamePin");
 	SetName(name);	
 	SetPin(pin);
 	
@@ -50,6 +52,7 @@ int Button::InitNamePin(string name,int pin)
 
 int Button::InitName(string name)
 {
+	LOG4CXX_TRACE(logger, "Button InitName");
 	SetName(name);	
 
 	LOG4CXX_DEBUG(logger, "Instance button named " << GetName() << ". Pin undefined" << GetPin() );
@@ -58,10 +61,12 @@ int Button::InitName(string name)
 
 ComponentType Button::GetType()
 {
+	LOG4CXX_TRACE(logger, "Button GetType");
 	return Component::GetType();
 }
 
 bool Button::Read()
 {
+	LOG4CXX_TRACE(logger, "Button Read");
 	return gpioRead(GetPin());
 }

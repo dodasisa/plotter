@@ -35,6 +35,7 @@ LoggerPtr Camera::logger(Logger::getLogger("plotter.robot.camera"));
 
 Camera::Camera() : Component(camera)
 {
+	LOG4CXX_TRACE(logger, "Camera constructor");
 	mValidDirectory=false;
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
 		SetReady(FALSE);
@@ -47,6 +48,7 @@ Camera::~Camera()
 
 int Camera::InitName(string name)
 {
+	LOG4CXX_TRACE(logger, "Camera InitName");
 	mValidDirectory=false;
 	SetName(name);
 	LOG4CXX_DEBUG(logger, "Instance Camera named " << GetName() );
@@ -66,11 +68,13 @@ int Camera::InitName(string name)
 
 int Camera::InitNamePin(string name, int pin)
 {	
+	LOG4CXX_TRACE(logger, "Camera InitNamePin");
 	return InitName(name);
 }
 
 int Camera::Shot()
 {
+	LOG4CXX_TRACE(logger, "Camera Shot");
 	if (!GetReady())
 		return FALSE;
 	mCamera.grab();
@@ -88,6 +92,7 @@ int Camera::Shot()
 
 void Camera::SetPhotoFileName(string filename)
 {
+	LOG4CXX_TRACE(logger, "Camera SetPhotoFileName");
 	mValidDirectory=false;
 	try{
 		std::ofstream os(filename, std::ios::out | std::ios::app);
@@ -104,5 +109,6 @@ void Camera::SetPhotoFileName(string filename)
 
 string Camera::GetPhotoFileName()
 {
+	LOG4CXX_TRACE(logger, "Camera GetPhotoFileName");
 	return mPhotoFileName;
 }

@@ -28,6 +28,7 @@ LoggerPtr ComponentParameters::logger(Logger::getLogger("plotter.config.componen
 
 ComponentParameters::ComponentParameters(string name, string config)
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters constructor");
 	mType = unknown;
 	mName = name;
 	size_t pos = 0;
@@ -63,10 +64,12 @@ ComponentParameters::ComponentParameters(string name, string config)
 
 ComponentParameters::~ComponentParameters()
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters destructor");
 }
 
 int ComponentParameters::SetType(string type)
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters SetType");
 	mType = unknown;
 	if (type == "led")
 		mType = led;
@@ -91,12 +94,14 @@ int ComponentParameters::SetType(string type)
 
 int ComponentParameters::SetPin(string pin)
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters SetPin");
 	mPin = atoi(pin.c_str());
 	return OK;
 }
 
 int ComponentParameters::Apply(string token, string value)
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters Apply");
 	if (token == "type")
 		return SetType(value);
 	if (token == "pin")
@@ -106,14 +111,17 @@ int ComponentParameters::Apply(string token, string value)
 
 ComponentType ComponentParameters::GetType()
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters GetType");
 	return mType;
 }
 string ComponentParameters::GetName()
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters GetName");
 	return mName;
 }
 
 int ComponentParameters::GetPin()
 {
+	LOG4CXX_TRACE(logger, "ComponentParameters GetPin");
 	return mPin;
 }

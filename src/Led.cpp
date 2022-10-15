@@ -32,6 +32,7 @@ LoggerPtr Led::logger(Logger::getLogger("plotter.robot.led"));
 
 Led::Led() : Component(led)
 {
+	LOG4CXX_TRACE(logger, "Led constructor");
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
 	SetPin(0);
 	SetState(OFF);
@@ -45,6 +46,7 @@ Led::~Led()
 
 int Led::InitNamePin(string name,int pin)
 {
+	LOG4CXX_TRACE(logger, "Led InitNamePin");
 	SetName(name);	
 	SetPin(pin);
 	SetReady(OK);
@@ -58,6 +60,7 @@ int Led::InitNamePin(string name,int pin)
 
 int Led::InitName(string name)
 {
+	LOG4CXX_TRACE(logger, "Led InitName");
 	SetName(name);	
 	LOG4CXX_ERROR(logger, "Instance led named " << GetName() << ". No pin defined");
 	return ERROR;
@@ -80,6 +83,7 @@ int Led::Off()
 
 int Led::Toggle()
 {
+	LOG4CXX_TRACE(logger, "Led Toggle");
 	if (GetState()==ON)
 		return Off();
 	else

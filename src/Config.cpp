@@ -145,6 +145,7 @@ int Config::Read()
  */ 
 string Config::GetValue(string key)
 {
+	LOG4CXX_TRACE(logger, "Config GetValue " << key);
 	map<string, string>::iterator it;
 	it = data.find(key);
 	/// If not found returns anonymous. The default name of the robot comes from here.
@@ -158,6 +159,7 @@ string Config::GetValue(string key)
  */ 
 string Config::Trim(string text)
 {
+	LOG4CXX_TRACE(logger, "Config Trim <<" << text << ">>");
 	if (text.empty())
 		return text;
 	size_t start = 0;
@@ -181,6 +183,7 @@ string Config::Trim(string text)
 	string result;
 	for (size_t i = start; i <= end; i++)
 		result += text[i];
+	LOG4CXX_TRACE(logger, "Config Trim result is <<" << result << ">>");
 	return result;
 }
 /**
@@ -189,6 +192,7 @@ string Config::Trim(string text)
  */ 
 int Config::IsValid()
 {
+	LOG4CXX_TRACE(logger, "Config IsValid? " << mState);
 	return mState;
 }
 
@@ -197,6 +201,7 @@ int Config::IsValid()
  */ 
 void Config::SetTestMode()
 {
+	LOG4CXX_TRACE(logger, "Config SetTestMode");
 	mTest=true;
 }
 
@@ -206,6 +211,7 @@ void Config::SetTestMode()
  */ 
 bool Config::IsOnTestMode()
 {
+	LOG4CXX_TRACE(logger, "Config IsOnTestMode");
 	return mTest;
 }
 
@@ -215,6 +221,7 @@ bool Config::IsOnTestMode()
  */ 
 string Config::GetPhotoFileName()
 {
+	LOG4CXX_TRACE(logger, "Config GetPhotoFileName");
 	return mPhotoFileName;
 }
 
@@ -224,5 +231,6 @@ string Config::GetPhotoFileName()
  */ 
 string Config::GetName()
 {
+	LOG4CXX_TRACE(logger, "Config GetName");
 	return mName;
 }

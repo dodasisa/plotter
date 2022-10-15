@@ -28,21 +28,28 @@
 Arm::Arm()
 	: Component(arm)
 {
+	LOG4CXX_TRACE(logger, "Arm constructor");
 }
 
 
 Arm::~Arm()
 {
+	LOG4CXX_TRACE(logger, "Arm destructor");
 }
 
 void Arm::SetNeutral()
-{}
+{
+	LOG4CXX_TRACE(logger, "Arm SetNeutral");
+}
 
 void Arm::ReleasePaper()
-{}
+{
+	LOG4CXX_TRACE(logger, "Arm ReleasePaper");
+}
 
 int Arm::InitName(string name)
 {
+	LOG4CXX_TRACE(logger, "Arm InitName");
 	SetName(name);	
 
 //	LOG4CXX_DEBUG(logger, "Instance arm named " << GetName()  );

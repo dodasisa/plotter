@@ -23,14 +23,18 @@
 
 
 #include "../inc/ImageHandler.hpp"
+using namespace log4cxx;
 
+LoggerPtr ImageHandler::logger(Logger::getLogger("plotter.robot.imageHandler"));
 
 ImageHandler::ImageHandler()
 {
+	LOG4CXX_TRACE(logger, "ImageHandler constructor");
 }
 
 ImageHandler::~ImageHandler()
 {
+	LOG4CXX_TRACE(logger, "ImageHandler destructor");
 }
 
 

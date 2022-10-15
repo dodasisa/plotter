@@ -24,6 +24,7 @@
 
 #ifndef IMAGEHANDLER_HPP
 #define IMAGEHANDLER_HPP
+#include "log4cxx/logger.h"
 
 /*! \class ImageHandler
  *  \brief Component that gets converts one image in a list of altered versions 
@@ -42,6 +43,7 @@ class ImageHandler
 		~ImageHandler();
 			
 	private:
+		static log4cxx::LoggerPtr logger;
 };
 
 #endif /* IMAGEHANDLER_HPP */ 

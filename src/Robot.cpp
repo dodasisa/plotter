@@ -139,6 +139,7 @@ Robot::~Robot()
  */ 
 int Robot::GetReady()
 {
+	LOG4CXX_TRACE(logger, "Robot GetReady" << mReady);
 	return mReady;
 }
 
@@ -149,6 +150,7 @@ int Robot::GetReady()
  */ 
 string Robot::GetName()
 {
+	LOG4CXX_TRACE(logger, "Robot GetName " << mName);
 	return mName;
 }
 /**
@@ -158,6 +160,7 @@ string Robot::GetName()
  */ 
 int Robot::Run()
 {
+	LOG4CXX_TRACE(logger, "Robot Run");
 	// Initialize and enter on ready mode
 	if (!GetReady())
 		return ERROR;
@@ -192,6 +195,7 @@ int Robot::Run()
 // when enter on waiting mode, looks down, close the eyes, put arms in rest
 RunMode Robot::WaitingMode()
 {
+	LOG4CXX_TRACE(logger, "Robot WaitingMode");
 	mReadyIndicator->On();
 	mNeck->SetAngle(20.0);
 	mFace->SetNeutralFace();
@@ -202,6 +206,7 @@ RunMode Robot::WaitingMode()
 
 RunMode Robot::DrawingMode()
 {
+	LOG4CXX_TRACE(logger, "Robot DrawingMode");
 	mWorkingIndicator->On();
 	mNeck->SetAngle(60);
 	mFace->SetStaringFace();
@@ -243,6 +248,7 @@ RunMode Robot::DrawingMode()
  */ 
 int Robot::HandleCamera(string name,string fileName,int errorCount)
 {
+	LOG4CXX_TRACE(logger, "Robot HandleCamera " << fileName);
 	Camera* cameraHolder=new Camera();
 	cameraHolder->SetPhotoFileName(fileName);
 	int testState=cameraHolder->InitName(name);
@@ -261,6 +267,7 @@ int Robot::HandleCamera(string name,string fileName,int errorCount)
  */ 
 int Robot::HandleLed(string name,int pin,int errorCount)
 {
+	LOG4CXX_TRACE(logger, "Robot HandleLed " << name);
 	Led* ledHolder=new Led();
 	int testState=ledHolder->InitNamePin(name, pin);	
 	if (name == "ReadyIndicator")
@@ -280,6 +287,7 @@ int Robot::HandleLed(string name,int pin,int errorCount)
  */ 
 int Robot::HandleServo(string name,int errorCount)
 {
+	LOG4CXX_TRACE(logger, "Robot HandleServo " << name);
 	Servo* servoHolder=new Servo();
 	int testState=servoHolder->InitName(name);
 	if (name == "Neck")
@@ -297,6 +305,7 @@ int Robot::HandleServo(string name,int errorCount)
  */ 
 int Robot::HandleButton(string name,int errorCount)
 {
+	LOG4CXX_TRACE(logger, "Robot HandleButton " << name);
 	Button* buttonHolder=new Button();
 	int testState=buttonHolder->InitName(name);
 	if (name=="StartWorking")
@@ -314,6 +323,7 @@ int Robot::HandleButton(string name,int errorCount)
 
 int Robot::HandleScreen(string name,int errorCount)
 {
+	LOG4CXX_TRACE(logger, "Robot HandleScreen " << name);
 	Screen* screenHolder=new Screen();
 	int testState=screenHolder->InitName(name);
 	if (name=="Face")
@@ -329,6 +339,7 @@ int Robot::HandleScreen(string name,int errorCount)
 
 int Robot::HandleArm(string name,int errorCount)
 {
+	LOG4CXX_TRACE(logger, "Robot HandleArm " << name);
 	Arm* armHolder=new Arm();
 	int testState=armHolder->InitName(name);
 	//cerr << "HandleArm, testState=" << testState << endl;
@@ -348,13 +359,17 @@ int Robot::HandleArm(string name,int errorCount)
 
 bool Robot::EvaluatePaperPosition()
 {
+	LOG4CXX_TRACE(logger, "Robot EvaluatePaperPosition ");
 	return true;
 }
 
 bool Robot::FixPaperPosition()
 {
+	LOG4CXX_TRACE(logger, "Robot FixPaperPosition ");
 	return true;
 }
 
 void Robot::DrawVector()
-{}
+{
+	LOG4CXX_TRACE(logger, "Robot DrawVector ");
+}

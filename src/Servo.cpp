@@ -33,6 +33,7 @@ LoggerPtr Servo::logger(Logger::getLogger("plotter.robot.servo"));
 Servo::Servo() : Component(servo)
 {
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
+	LOG4CXX_TRACE(logger, "Servo constructor");
 	SetReady(FALSE);
 };
 	
@@ -44,6 +45,7 @@ Servo::~Servo()
 
 int Servo::InitName(string name)
 {
+	LOG4CXX_TRACE(logger, "Servo InitName");
 	SetName(name);
 	SetReady(TRUE);
 	LOG4CXX_DEBUG(logger, "Instance servo named " << GetName() );
@@ -52,6 +54,7 @@ int Servo::InitName(string name)
 
 int Servo::InitNamePin(string name,int pin)
 {
+	LOG4CXX_TRACE(logger, "Servo InitNamePin");
 	SetName(name);
 	SetPin(pin);
 	SetReady(TRUE);
@@ -61,4 +64,5 @@ int Servo::InitNamePin(string name,int pin)
 
 void Servo::SetAngle(float angle)
 {
+	LOG4CXX_TRACE(logger, "Servo SetAngle");
 }

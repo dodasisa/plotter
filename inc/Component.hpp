@@ -26,6 +26,7 @@
 #define COMPONENT_HPP
 #include <string>
 #include "Constants.hpp"
+#include "log4cxx/logger.h"
 using namespace std;
 
 /*! \class Component
@@ -116,6 +117,8 @@ class Component
 		*/
 		bool IsOnTestMode();
 	
+	protected:
+		static log4cxx::LoggerPtr logger;
 	private:
 		int mReady;
 		int mState;
