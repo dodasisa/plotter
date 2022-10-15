@@ -24,13 +24,18 @@
 
 #include "../inc/I2Cmanager.hpp"
 
+using namespace log4cxx;
+
+LoggerPtr I2Cmanager::logger(Logger::getLogger("plotter.I2Cmanager"));
 
 I2Cmanager::I2Cmanager()
 {
+	LOG4CXX_TRACE(logger, "I2Cmanager constructor");
 }
 
 
 I2Cmanager::~I2Cmanager()
 {
+	LOG4CXX_TRACE(logger, "I2Cmanager destructor");
 }
 

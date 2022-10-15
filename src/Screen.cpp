@@ -32,6 +32,7 @@ LoggerPtr Screen::logger(Logger::getLogger("plotter.robot.screen"));
 
 Screen::Screen() : Component(screen)
 {
+	LOG4CXX_TRACE(logger, "Screen constructor");
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
 	SetReady(FALSE);
 };
@@ -44,6 +45,7 @@ Screen::~Screen()
 
 int Screen::InitName(string name)
 {
+	LOG4CXX_TRACE(logger, "Screen InitName");
 	SetName(name);
 	SetReady(TRUE);
 	LOG4CXX_DEBUG(logger, "Instance screen named " << GetName() );
@@ -52,6 +54,7 @@ int Screen::InitName(string name)
 
 int Screen::InitNamePin(string name,int pin)
 {
+	LOG4CXX_TRACE(logger, "Screen InitNamePin");
 	SetName(name);
 	SetPin(pin);
 	SetReady(TRUE);
@@ -60,12 +63,19 @@ int Screen::InitNamePin(string name,int pin)
 }
 void Screen::SetNeutralFace()
 {
+	LOG4CXX_TRACE(logger, "Screen SetNeutralFace");
 }
 
 void Screen::SetStaringFace()
-{}
+{
+	LOG4CXX_TRACE(logger, "Screen SetStaringFace");
+}
 
 void Screen::Smile()
-{}
+{
+	LOG4CXX_TRACE(logger, "Screen Smile");
+}
 void Screen::Wink()
-{}
+{
+	LOG4CXX_TRACE(logger, "Screen Wink");
+}

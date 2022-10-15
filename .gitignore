@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# Generated files
+test/runner
+test/runner.cpp
+Scanner2.cpp
+grammar/ConfigParser.cpp
+grammar/ConfigParser.hpp
+grammar/ConfigParser.output
+grammar/ConfigScanner.cpp
+grammar/location.hh
+robot1.3
