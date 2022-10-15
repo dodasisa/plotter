@@ -126,7 +126,6 @@ class Component
 		string mName;
 		ComponentType mType;
 		bool mTest;
-		
 };
 
 #endif /* COMPONENT_HPP */ 
