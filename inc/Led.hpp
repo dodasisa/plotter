@@ -44,6 +44,7 @@ class Led : public Component
 		* Sets the component type to led
 		*/ 
 	Led();
+	Led( Led & model);
 	
 	/*! 
 	* Destructor

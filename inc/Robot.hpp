@@ -52,8 +52,8 @@ class Robot
 	static log4cxx::LoggerPtr logger;
 	// Quick accessors to the components
 	Camera* mEyes;
-	Led* mReadyIndicator;
-	Led* mWorkingIndicator;
+	Led mReadyIndicator;
+	Led mWorkingIndicator;
 	Screen* mFace;
 	Servo* mNeck;
 	Arm* mRightArm;

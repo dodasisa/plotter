@@ -184,7 +184,7 @@ int Robot::Run()
 		//cerr << "Running mode done" << endl;
 
 	}
-	mReadyIndicator->Off();
+	mReadyIndicator.Off();
 	mMode=RunMode::stopped;
 	//cerr << "stopping mode done" << endl;
 
@@ -196,7 +196,8 @@ int Robot::Run()
 RunMode Robot::WaitingMode()
 {
 	LOG4CXX_TRACE(logger, "Robot WaitingMode");
-	mReadyIndicator->On();
+	LOG4CXX_DEBUG(logger, mReadyIndicator.GetName());
+	mReadyIndicator.On();
 	mNeck->SetAngle(20.0);
 	mFace->SetNeutralFace();
 	mRightArm->SetNeutral();
@@ -207,7 +208,7 @@ RunMode Robot::WaitingMode()
 RunMode Robot::DrawingMode()
 {
 	LOG4CXX_TRACE(logger, "Robot DrawingMode");
-	mWorkingIndicator->On();
+	mWorkingIndicator.On();
 	mNeck->SetAngle(60);
 	mFace->SetStaringFace();
 	
@@ -268,13 +269,23 @@ int Robot::HandleCamera(string name,string fileName,int errorCount)
 int Robot::HandleLed(string name,int pin,int errorCount)
 {
 	LOG4CXX_TRACE(logger, "Robot HandleLed " << name);
-	Led* ledHolder=new Led();
-	int testState=ledHolder->InitNamePin(name, pin);	
+	//Led* ledHolder=new Led();
+	//int testState=ledHolder->InitNamePin(name, pin);	
+	// Init TestState to Error. If the name coming from the config is not known the error state remains
+	int testState=ERROR;
 	if (name == "ReadyIndicator")
-		mReadyIndicator=ledHolder;
+	{
+		if (testState=mReadyIndicator.InitNamePin(name, pin) == ERROR)
+			errorCount++;
+		//mReadyIndicator=ledHolder;
+	}
 	if (name == "WorkingIndicator")
-		mWorkingIndicator=ledHolder;
-	components.push_back(ledHolder);
+	{
+		if (testState=mWorkingIndicator.InitNamePin(name, pin) == ERROR)
+			errorCount++;
+//		mWorkingIndicator=ledHolder;
+	}
+//	components.push_back(ledHolder);
 	if (testState==ERROR) 
 	{
 		errorCount++;
