@@ -28,7 +28,7 @@ LoggerPtr ComponentParameters::logger(Logger::getLogger("plotter.config.componen
 
 ComponentParameters::ComponentParameters(string name, string config)
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters constructor");
+	LOG4CXX_TRACE(logger, "ComponentParameters constructor: name=" << name << ", config=" << config);
 	mType = unknown;
 	mName = name;
 	size_t pos = 0;
@@ -64,12 +64,12 @@ ComponentParameters::ComponentParameters(string name, string config)
 
 ComponentParameters::~ComponentParameters()
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters destructor");
+	LOG4CXX_TRACE(logger, "ComponentParameters destructor. " << mName);
 }
 
 int ComponentParameters::SetType(string type)
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters SetType");
+	LOG4CXX_TRACE(logger, "ComponentParameters SetType " << type);
 	mType = unknown;
 	if (type == "led")
 		mType = led;
@@ -94,14 +94,14 @@ int ComponentParameters::SetType(string type)
 
 int ComponentParameters::SetPin(string pin)
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters SetPin");
+	LOG4CXX_TRACE(logger, "ComponentParameters SetPin " << pin);
 	mPin = atoi(pin.c_str());
 	return OK;
 }
 
 int ComponentParameters::Apply(string token, string value)
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters Apply");
+	LOG4CXX_TRACE(logger, "ComponentParameters Apply. Token=" << token << ", Value=" << value);
 	if (token == "type")
 		return SetType(value);
 	if (token == "pin")
@@ -111,17 +111,17 @@ int ComponentParameters::Apply(string token, string value)
 
 ComponentType ComponentParameters::GetType()
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters GetType");
+	LOG4CXX_TRACE(logger, "ComponentParameters GetType. " << mType);
 	return mType;
 }
 string ComponentParameters::GetName()
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters GetName");
+	LOG4CXX_TRACE(logger, "ComponentParameters GetName. " << mName);
 	return mName;
 }
 
 int ComponentParameters::GetPin()
 {
-	LOG4CXX_TRACE(logger, "ComponentParameters GetPin");
+	LOG4CXX_TRACE(logger, "ComponentParameters GetPin. " << mPin);
 	return mPin;
 }

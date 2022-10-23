@@ -38,6 +38,16 @@ Led::Led() : Component(led)
 	SetState(OFF);
 }
 
+Led::Led( Led & model)
+{
+	SetReady(model.GetReady());
+	SetState(model.GetState());
+	SetPin(model.GetPin());
+	SetName(model.GetName());
+	SetType(model.GetType());
+	if (model.IsOnTestMode()) SetTestMode();
+}
+
 Led::~Led()
 {
 	LOG4CXX_TRACE(logger, "Led destructor");
@@ -68,7 +78,7 @@ int Led::InitName(string name)
 
 int Led::On()
 {
-	LOG4CXX_TRACE(logger, "Led ON");
+	LOG4CXX_TRACE(logger, "Led " << GetName() << " ON");
 	SetState(ON);
 	gpioWrite(GetPin(),PI_HIGH);
 	return GetState();

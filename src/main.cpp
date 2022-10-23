@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	}
 	
 	LOG4CXX_INFO(logger, "Starting robot." << " Version " << VERSION);
-	LOG4CXX_TRACE(logger, "Main function. " << argc << "arguments: ");
+	LOG4CXX_TRACE(logger, "Main function. " << argc << (argc==1? " argument" : " arguments."));
 	LOG4CXX_DEBUG(logger, "Debugging robot.");
 	
 	LOG4CXX_INFO(logger, "Using configuration file " + options.GetRobotOptionsFileName());

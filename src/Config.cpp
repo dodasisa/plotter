@@ -29,13 +29,14 @@ LoggerPtr Config::logger(Logger::getLogger("plotter.config"));
 
 Config::Config(string fileName,bool test)
 {
+	LOG4CXX_TRACE(logger, "Config constructor");
 	mTest=false;
 	if (test) SetTestMode();
 	if (IsOnTestMode()){
 		logger->setLevel(Level::getOff());
 	}
 	mState = OK;
-	LOG4CXX_TRACE(logger, "Config constructor");
+	
 	/// Stores the file name
 	mFileName = fileName;
 	LOG4CXX_INFO(logger, "Reading " << fileName);
@@ -64,7 +65,7 @@ Config::~Config()
  */ 
 int Config::Read()
 {
-	LOG4CXX_TRACE(logger, "Config Read");
+	LOG4CXX_TRACE(logger, "Config Read " << mFileName);
 	int ret = FALSE;
 	string inputLine;
 	string line;
@@ -138,6 +139,8 @@ int Config::Read()
 	mPhotoFileName = GetValue("PhotoFileName");
 	if (mPhotoFileName=="Anonymous")
 		mPhotoFileName="images/Source.ppm";
+		
+	LOG4CXX_TRACE(logger, "Config " << components.size() << " components loaded.");
 	return ret;
 }
 /**
@@ -211,7 +214,7 @@ void Config::SetTestMode()
  */ 
 bool Config::IsOnTestMode()
 {
-	LOG4CXX_TRACE(logger, "Config IsOnTestMode");
+	LOG4CXX_TRACE(logger, "Config IsOnTestMode? " << mTest);
 	return mTest;
 }
 
