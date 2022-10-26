@@ -38,28 +38,18 @@ Led::Led() : Component(led)
 	SetState(OFF);
 }
 
-Led::Led( Led & model)
-{
-	SetReady(model.GetReady());
-	SetState(model.GetState());
-	SetPin(model.GetPin());
-	SetName(model.GetName());
-	SetType(model.GetType());
-	if (model.IsOnTestMode()) SetTestMode();
-}
-
 Led::~Led()
 {
 	LOG4CXX_TRACE(logger, "Led destructor");
 	Off();
 }
 
-int Led::InitNamePin(string name,int pin)
+bool Led::InitNamePin(string name,int pin)
 {
 	LOG4CXX_TRACE(logger, "Led InitNamePin");
 	SetName(name);	
 	SetPin(pin);
-	SetReady(OK);
+	SetReady(true);
 	
 	gpioSetMode(GetPin(),PI_OUTPUT);
 	SetState(Off());
@@ -68,13 +58,6 @@ int Led::InitNamePin(string name,int pin)
 	return GetReady();
 }
 
-int Led::InitName(string name)
-{
-	LOG4CXX_TRACE(logger, "Led InitName");
-	SetName(name);	
-	LOG4CXX_ERROR(logger, "Instance led named " << GetName() << ". No pin defined");
-	return ERROR;
-}
 
 int Led::On()
 {

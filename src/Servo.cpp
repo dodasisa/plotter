@@ -34,30 +34,30 @@ Servo::Servo() : Component(servo)
 {
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
 	LOG4CXX_TRACE(logger, "Servo constructor");
-	SetReady(FALSE);
+	SetReady(false);
 };
 	
 Servo::~Servo()
 {
 	LOG4CXX_TRACE(logger, "Servo destructor");
-	SetReady(FALSE);
+	SetReady(false);
 }
 
-int Servo::InitName(string name)
+bool Servo::InitName(string name)
 {
 	LOG4CXX_TRACE(logger, "Servo InitName");
 	SetName(name);
-	SetReady(TRUE);
+	SetReady(true);
 	LOG4CXX_DEBUG(logger, "Instance servo named " << GetName() );
 	return GetReady();
 }
 
-int Servo::InitNamePin(string name,int pin)
+bool Servo::InitNamePin(string name,int pin)
 {
 	LOG4CXX_TRACE(logger, "Servo InitNamePin");
 	SetName(name);
 	SetPin(pin);
-	SetReady(TRUE);
+	SetReady(true);
 	LOG4CXX_DEBUG(logger, "Instance servo named " << GetName() );
 	return GetReady();
 }

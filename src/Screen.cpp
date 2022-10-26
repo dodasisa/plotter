@@ -43,21 +43,21 @@ Screen::~Screen()
 	SetReady(FALSE);
 }
 
-int Screen::InitName(string name)
+bool Screen::InitName(string name)
 {
 	LOG4CXX_TRACE(logger, "Screen InitName");
 	SetName(name);
-	SetReady(TRUE);
+	SetReady(true);
 	LOG4CXX_DEBUG(logger, "Instance screen named " << GetName() );
 	return GetReady();
 }
 
-int Screen::InitNamePin(string name,int pin)
+bool Screen::InitNamePin(string name,int pin)
 {
 	LOG4CXX_TRACE(logger, "Screen InitNamePin");
 	SetName(name);
 	SetPin(pin);
-	SetReady(TRUE);
+	SetReady(true);
 	LOG4CXX_DEBUG(logger, "Instance screen named " << GetName() );
 	return GetReady();
 }

@@ -30,12 +30,16 @@ LoggerPtr Component::logger(Logger::getLogger("plotter.component"));
 Component::Component(ComponentType type)
 {
 	LOG4CXX_TRACE(logger, "Component constructor type = " << type);
+	mTest=false;
+	mReady=false;
 	SetType(type);
 }
 
 Component::Component()
 {
 	LOG4CXX_TRACE(logger, "Component constructor()");
+	mTest=false;
+	mReady=false;
 	SetType(unknown);
 }
 Component::~Component()
@@ -43,7 +47,7 @@ Component::~Component()
 	LOG4CXX_TRACE(logger, "Component destructor. Name=" << mName << ". Type=" << mType);
 }
 
-int Component::GetReady()
+bool Component::GetReady()
 {
 	LOG4CXX_TRACE(logger, "Component GetReady ? " << mReady);
 	return mReady;
@@ -68,7 +72,7 @@ int Component::GetPin()
 	LOG4CXX_TRACE(logger, "Component " << mName << " GetPin ? "  << mPin);
 	return mPin;
 }
-void Component::SetReady(int ready)
+void Component::SetReady(bool ready)
 {
 	LOG4CXX_TRACE(logger, "Component " << mName << " SetReady ? " << mReady);
 	mReady=ready;
@@ -93,7 +97,7 @@ void Component::SetPin(int pin)
 	LOG4CXX_TRACE(logger, "Component SetPin to " << pin);
 	mPin=pin;
 }
-
+/*
 int Component::InitName(std::string name)
 {
 	LOG4CXX_TRACE(logger, "ComponentInitName " << name);
@@ -108,15 +112,15 @@ int Component::InitNamePin(std::string name,int pin)
 	mPin=pin;
 	return 0;
 }
-
-void Component::SetTestMode()
+*/
+void Component::SetTestMode(bool testMode)
 {
 	LOG4CXX_TRACE(logger, "Component " << mName << " SetTestMode");
-	mTest=true;
+	mTest=testMode;
 }
 
 bool Component::IsOnTestMode()
 {
-	LOG4CXX_TRACE(logger, "Component " << mName << " IsOnTestMode ? " << mTest);
+	LOG4CXX_TRACE(logger, "Component " << mName << " IsOnTestMode ? " << (mTest ? "Yes" : "No"));
 	return mTest;
 }

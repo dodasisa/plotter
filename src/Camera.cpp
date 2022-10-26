@@ -38,7 +38,7 @@ Camera::Camera() : Component(camera)
 	LOG4CXX_TRACE(logger, "Camera constructor");
 	mValidDirectory=false;
 	if (IsOnTestMode()) logger->setLevel(Level::getOff());
-		SetReady(FALSE);
+		SetReady(false);
 }
 
 Camera::~Camera()
@@ -46,7 +46,7 @@ Camera::~Camera()
 	LOG4CXX_TRACE(logger, "Camera destructor");
 }
 
-int Camera::InitName(string name)
+bool Camera::InitName(string name)
 {
 	LOG4CXX_TRACE(logger, "Camera InitName");
 	mValidDirectory=false;
@@ -62,11 +62,11 @@ int Camera::InitName(string name)
 	}
 	if (!GetReady()) LOG4CXX_ERROR(logger, "Error opening the camera " << GetName() );
 	
-	SetReady(OK);
+	SetReady(true);
 	return GetReady();
 }
 
-int Camera::InitNamePin(string name, int pin)
+bool Camera::InitNamePin(string name, int pin)
 {	
 	LOG4CXX_TRACE(logger, "Camera InitNamePin");
 	return InitName(name);

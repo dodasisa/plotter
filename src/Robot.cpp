@@ -32,13 +32,17 @@ LoggerPtr Robot::logger(Logger::getLogger("plotter.robot"));
  * Robot main constructor
  * @param config A pointer to a valid Config
  */ 
-Robot::Robot(Config* config)
+Robot::Robot()
 {
+}
+
+bool Robot::Configure(Config* config)
+{
+	mReady=false;
 	if (config->IsOnTestMode())
 		logger->setLevel(Level::getOff());
-	cerr << "Test mode=" << config->IsOnTestMode() << endl;
 	mMode = RunMode::stopped;
-	LOG4CXX_TRACE(logger, "Robot constructor");
+	LOG4CXX_TRACE(logger, "Robot Configure");
 	int errorCount = 0;
 	mReady = FALSE;
 	mName = config->GetName();
@@ -55,32 +59,34 @@ Robot::Robot(Config* config)
 		switch (component->GetType())
 		{
 		case camera:
-			errorCount=HandleCamera(component->GetName(),config->GetPhotoFileName(),errorCount);
+			errorCount=HandleCamera(component->GetName(),config->GetPhotoFileName(),errorCount,config->IsOnTestMode());
 			break;
 		case led:
-			errorCount=HandleLed(component->GetName(),component->GetPin(),errorCount);
+			errorCount=HandleLed(component->GetName(),component->GetPin(),errorCount,config->IsOnTestMode());
 			break;
 		case servo:
-			errorCount=HandleServo(component->GetName(),errorCount);
+			errorCount=HandleServo(component->GetName(),errorCount,config->IsOnTestMode());
 			break;
 		case button:
-			errorCount=HandleButton(component->GetName(),errorCount);
+			errorCount=HandleButton(component->GetName(),component->GetPin(),errorCount,config->IsOnTestMode());
 			break;
 		case arm:
-			errorCount=HandleArm(component->GetName(),errorCount);
+			errorCount=HandleArm(component->GetName(),errorCount,config->IsOnTestMode());
 			break;
 		case screen:
-			errorCount=HandleScreen(component->GetName(),errorCount);
+			errorCount=HandleScreen(component->GetName(),errorCount,config->IsOnTestMode());
 			break;
 		case unknown:
 		default:
 			break;
 		}
-		//cerr << "Component " << component->GetName() << " added. ErrorCount=" << errorCount << endl;
+		if (errorCount>0)
+			return false;
 		LOG4CXX_DEBUG(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
 	}
 	/// if any of the created components reports an error, the state if the robot is set to 0. Main() must stop.
 	if (errorCount == 0) mReady = TRUE;
+	return mReady;
 }
 
 /**
@@ -90,56 +96,16 @@ Robot::~Robot()
 {
 	LOG4CXX_TRACE(logger, "Robot destructor");
 	mMode = RunMode::stopping;
-	Camera* camera2remove;
-	Led* led2remove;
-	Servo* servo2remove;
-	Button* button2remove;
-	Arm* arm2remove;
-	Screen* screen2remove;
-	/// calls the destructor of every component present in the components vector
-	for (vector<Component*>::iterator componentIterator = components.begin(); componentIterator != components.end(); ++componentIterator)
-	{
-		Component* component = *componentIterator;
-		switch (component->GetType())
-		{
-			case ComponentType::camera:
-				camera2remove=(Camera*)component;
-				delete(camera2remove);
-				break;
-			case ComponentType::led:
-				led2remove=(Led*)component;
-				delete(led2remove);
-				break;
-			case ComponentType::servo:
-				servo2remove=(Servo*)component;
-				delete(servo2remove);
-				break;
-			case ComponentType::button:
-				button2remove=(Button*)component;
-				delete(button2remove);
-				break;
-			case ComponentType::arm:
-				arm2remove=(Arm*)component;
-				delete(arm2remove);
-				break;
-			case ComponentType::screen:
-				screen2remove=(Screen*)component;
-				delete(screen2remove);
-				break;
-			default:
-				delete(component);
-				break;
-		}
-	}
+	
 	mReady = false;
 	mMode = RunMode::stopped;
 }
 /**
  * Returns the content of mReady. Value 1 means OK, 0 means ERROR.
  */ 
-int Robot::GetReady()
+bool Robot::GetReady()
 {
-	LOG4CXX_TRACE(logger, "Robot GetReady" << mReady);
+	LOG4CXX_TRACE(logger, "Robot GetReady? " << (mReady? "Yes":"No"));
 	return mReady;
 }
 
@@ -158,13 +124,9 @@ string Robot::GetName()
  * If GetReady returns 0 the loop doesn't start.
  * If the loop is already running and GetReady returns 0, the loop stops.
  */ 
-int Robot::Run()
+bool Robot::Run()
 {
 	LOG4CXX_TRACE(logger, "Robot Run");
-	// Initialize and enter on ready mode
-	if (!GetReady())
-		return ERROR;
-	//cerr << "robot ready" << endl;
 	mMode=WaitingMode();
 	//cerr << "waiting mode done" << endl;
 	
@@ -198,10 +160,10 @@ RunMode Robot::WaitingMode()
 	LOG4CXX_TRACE(logger, "Robot WaitingMode");
 	LOG4CXX_DEBUG(logger, mReadyIndicator.GetName());
 	mReadyIndicator.On();
-	mNeck->SetAngle(20.0);
-	mFace->SetNeutralFace();
-	mRightArm->SetNeutral();
-	mLeftArm->SetNeutral();
+	mNeck.SetAngle(20.0);
+	mFace.SetNeutralFace();
+	mRightArm.SetNeutral();
+	mLeftArm.SetNeutral();
 	return RunMode::waiting;
 }
 
@@ -209,20 +171,20 @@ RunMode Robot::DrawingMode()
 {
 	LOG4CXX_TRACE(logger, "Robot DrawingMode");
 	mWorkingIndicator.On();
-	mNeck->SetAngle(60);
-	mFace->SetStaringFace();
+	mNeck.SetAngle(60);
+	mFace.SetStaringFace();
 	
 	bool ImageValid=false;
 	while (!ImageValid)
 	{
-		mEyes->Shot();	
+		mEyes.Shot();	
 		// manipulate image
 		// evaluateimage
 		ImageValid=true;
 	}	
-	mFace->Smile();
-	mNeck->SetAngle(30);
-	mFace->SetNeutralFace();
+	mFace.Smile();
+	mNeck.SetAngle(30);
+	mFace.SetNeutralFace();
 	bool PaperReady=false;
 	while (!PaperReady)
 	{
@@ -236,10 +198,10 @@ RunMode Robot::DrawingMode()
 	{
 		DrawVector();
 	}
-	mNeck->SetAngle(60);
-	mFace->Wink();
-	mFace->Smile();
-	mLeftArm->ReleasePaper();
+	mNeck.SetAngle(60);
+	mFace.Wink();
+	mFace.Smile();
+	mLeftArm.ReleasePaper();
 	return WaitingMode(); // when done
 }
 
@@ -247,123 +209,136 @@ RunMode Robot::DrawingMode()
 /**
  * Opens the camera and stores in the components list. 
  */ 
-int Robot::HandleCamera(string name,string fileName,int errorCount)
+int Robot::HandleCamera(string name,string fileName,int errorCount,bool testMode)
 {
 	LOG4CXX_TRACE(logger, "Robot HandleCamera " << fileName);
-	Camera* cameraHolder=new Camera();
-	cameraHolder->SetPhotoFileName(fileName);
-	int testState=cameraHolder->InitName(name);
+	int testState=ERROR;
 	if (name == "Eyes")
-		mEyes=cameraHolder;
-	components.push_back(cameraHolder);
+	{
+		mEyes.SetPhotoFileName(fileName);
+		testState=mEyes.InitName(name);
+		mEyes.SetTestMode(testMode);
+	}
 	if (testState==ERROR) 
 	{
 		errorCount++;
-		LOG4CXX_ERROR(logger, "CAMERA->InitName returns ERROR");
+		LOG4CXX_ERROR(logger, "CAMERA.InitName returns ERROR");
 	}
 	return errorCount;
 }
 /**
  * Opens the led and stores in the components list. 
  */ 
-int Robot::HandleLed(string name,int pin,int errorCount)
+int Robot::HandleLed(string name,int pin,int errorCount,bool testMode)
 {
 	LOG4CXX_TRACE(logger, "Robot HandleLed " << name);
-	//Led* ledHolder=new Led();
-	//int testState=ledHolder->InitNamePin(name, pin);	
-	// Init TestState to Error. If the name coming from the config is not known the error state remains
 	int testState=ERROR;
 	if (name == "ReadyIndicator")
 	{
 		if (testState=mReadyIndicator.InitNamePin(name, pin) == ERROR)
 			errorCount++;
-		//mReadyIndicator=ledHolder;
+		mReadyIndicator.SetTestMode(testMode);
 	}
 	if (name == "WorkingIndicator")
 	{
 		if (testState=mWorkingIndicator.InitNamePin(name, pin) == ERROR)
 			errorCount++;
-//		mWorkingIndicator=ledHolder;
+		mWorkingIndicator.SetTestMode(testMode);
 	}
-//	components.push_back(ledHolder);
 	if (testState==ERROR) 
 	{
 		errorCount++;
-		LOG4CXX_ERROR(logger, "LED->InitNamePin returns ERROR");
+		LOG4CXX_ERROR(logger, "LED.InitNamePin returns ERROR. Name=" << name << ". Pin=" << pin);
 	}
 	return errorCount;
 }
 /**
  * Opens the servo and stores in the components list. 
  */ 
-int Robot::HandleServo(string name,int errorCount)
+int Robot::HandleServo(string name,int errorCount,bool testMode)
 {
 	LOG4CXX_TRACE(logger, "Robot HandleServo " << name);
-	Servo* servoHolder=new Servo();
-	int testState=servoHolder->InitName(name);
+	int testState=ERROR;
 	if (name == "Neck")
-		mNeck=servoHolder;
-	components.push_back(servoHolder);
+	{
+		testState=mNeck.InitName(name);
+		mNeck.SetTestMode(testMode);
+	}
 	if (testState==ERROR) 
 	{
 		errorCount++;
-		LOG4CXX_ERROR(logger, "SERVO->InitName returns ERROR");
+		LOG4CXX_ERROR(logger, "SERVO.InitName returns ERROR");
 	}
 	return errorCount;
 }
 /**
  * Opens the button and stores in the components list. 
  */ 
-int Robot::HandleButton(string name,int errorCount)
+int Robot::HandleButton(string name,int pin,int errorCount,bool testMode)
 {
 	LOG4CXX_TRACE(logger, "Robot HandleButton " << name);
-	Button* buttonHolder=new Button();
-	int testState=buttonHolder->InitName(name);
+	int testState=ERROR;
 	if (name=="StartWorking")
-		mStartWorking=buttonHolder;
+	{
+		if (testState=mStartWorking.InitNamePin(name,pin) == ERROR)
+			errorCount++;
+		mStartWorking.SetTestMode(testMode);
+	}
 	if (name=="StopWorking")
-		mStopWorking=buttonHolder;
-	components.push_back(buttonHolder);
+	{
+		if (testState=mStopWorking.InitNamePin(name,pin) == ERROR)
+			errorCount++;
+		mStopWorking.SetTestMode(testMode);
+	}
+
 	if (testState==ERROR) 
 	{
 		errorCount++;
-		LOG4CXX_ERROR(logger, "Button->InitName returns ERROR");
+		LOG4CXX_ERROR(logger, "Button.InitName returns ERROR");
 	}
 	return errorCount;
 }
 
-int Robot::HandleScreen(string name,int errorCount)
+int Robot::HandleScreen(string name,int errorCount,bool testMode)
 {
 	LOG4CXX_TRACE(logger, "Robot HandleScreen " << name);
-	Screen* screenHolder=new Screen();
-	int testState=screenHolder->InitName(name);
+	int testState=ERROR;
 	if (name=="Face")
-		mFace=screenHolder;
-	components.push_back(screenHolder);
+	{
+		testState=mFace.InitName(name);
+		mFace.SetTestMode(testMode);
+	}
 	if (testState==ERROR) 
 	{
 		errorCount++;
-		LOG4CXX_ERROR(logger, "Screen->InitName returns ERROR");
+		LOG4CXX_ERROR(logger, "Screen.InitName returns ERROR");
 	}
 	return errorCount;
 }
 
-int Robot::HandleArm(string name,int errorCount)
+int Robot::HandleArm(string name,int errorCount,bool testMode)
 {
 	LOG4CXX_TRACE(logger, "Robot HandleArm " << name);
-	Arm* armHolder=new Arm();
-	int testState=armHolder->InitName(name);
-	//cerr << "HandleArm, testState=" << testState << endl;
+	int testState=ERROR;
+	
 	if (name=="LeftArm")
-		mLeftArm=armHolder;
+	{
+		if (testState=mLeftArm.InitName(name) == ERROR)
+			errorCount++;
+		mLeftArm.SetTestMode(testMode);
+	}
+
 	if (name=="RightArm")
-		mRightArm=armHolder;
-	components.push_back(armHolder);
+	{
+		if (testState=mRightArm.InitName(name) == ERROR)
+			errorCount++;
+		mRightArm.SetTestMode(testMode);
+	}
+
 	if (testState==ERROR) 
 	{
-	//	cerr << "Arm->InitName returns ERROR" << endl;
 		errorCount++;
-		LOG4CXX_ERROR(logger, "Arm->InitName returns ERROR");
+		LOG4CXX_ERROR(logger, "Arm.InitName returns ERROR");
 	}
 	return errorCount;
 }
