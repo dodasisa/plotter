@@ -60,7 +60,7 @@ class Camera : public Component
 	* 
 	* Calls SetName with the given info
 	*/
-	int InitName(string name);
+	bool InitName(string name);
 	
 	/*! 
 	* Tries to open the camera using the raspicam.open() method
@@ -69,7 +69,7 @@ class Camera : public Component
 	* 
 	* Calls SetName with the given info
 	*/
-	int InitNamePin(string name,int pin);
+	bool InitNamePin(string name,int pin);
 
 	/*! 
 	* Calls the raspicam.grab() method

@@ -54,7 +54,7 @@ class Screen : public Component
 	* 
 	* Calls SetName with the given info
 	*/
-	int InitName(std::string name);
+	bool InitName(std::string name);
 	
 	/*! 
 	* Sets the name of the screen
@@ -64,7 +64,7 @@ class Screen : public Component
 	* Calls SetName with the given info
 	* Calls SetPin with the chosen pin
 	*/
-	int InitNamePin(std::string name,int pin);
+	bool InitNamePin(std::string name,int pin);
 	
 	void SetNeutralFace();
 	void SetStaringFace();

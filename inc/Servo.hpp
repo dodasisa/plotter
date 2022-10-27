@@ -54,7 +54,7 @@ class Servo : public Component
 	* 
 	* Calls SetName with the given info
 	*/
-	int InitName(std::string name);
+	bool InitName(std::string name);
 	
 	/*! 
 	* Sets the name of the servo
@@ -64,7 +64,7 @@ class Servo : public Component
 	* Calls SetName with the given info
 	* Calls SetPin with the chosen pin
 	*/
-	int InitNamePin(std::string name,int pin);
+	bool InitNamePin(std::string name,int pin);
 	
 	void SetAngle(float angle);
 };

@@ -44,7 +44,6 @@ class Led : public Component
 		* Sets the component type to led
 		*/ 
 	Led();
-	Led( Led & model);
 	
 	/*! 
 	* Destructor
@@ -59,15 +58,7 @@ class Led : public Component
 	* Calls SetName with the given info
 	* Calls pigpio::gpioSetMode with the chosen pin and the mode pigpio.PI_OUTPUT
 	*/
-	int InitNamePin(std::string name,int pin);
-	
-	/*! 
-	* Defines the name and the pin where the led is connected
-	* \param name Name to set as component name
-	* 
-	* Calls SetName with the given info
-	*/
-	int InitName(std::string name);
+	bool InitNamePin(std::string name,int pin);
 	
 	/*! 
 	* Set the led ON

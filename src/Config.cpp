@@ -214,7 +214,7 @@ void Config::SetTestMode()
  */ 
 bool Config::IsOnTestMode()
 {
-	LOG4CXX_TRACE(logger, "Config IsOnTestMode? " << mTest);
+	LOG4CXX_TRACE(logger, "Config IsOnTestMode ? " << (mTest? "Yes" : "No") );
 	return mTest;
 }
 

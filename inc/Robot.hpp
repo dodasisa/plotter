@@ -50,26 +50,27 @@ class Robot
 {
 	private:
 	static log4cxx::LoggerPtr logger;
-	// Quick accessors to the components
-	Camera* mEyes;
+	
+	// Components
+	Camera mEyes;
 	Led mReadyIndicator;
 	Led mWorkingIndicator;
-	Screen* mFace;
-	Servo* mNeck;
-	Arm* mRightArm;
-	Arm* mLeftArm;
-	Button* mStartWorking;
-	Button* mStopWorking;
-	int mReady;
+	Screen mFace;
+	Servo mNeck;
+	Arm mRightArm;
+	Arm mLeftArm;
+	Button mStartWorking;
+	Button mStopWorking;
+	
+	bool mReady;
 	string mName;
-	vector<Component*> components;
 	RunMode mMode;
-	int HandleCamera(string name,string fileName,int errorCount);
-	int HandleLed(string name,int pin,int errorCount);
-	int HandleServo(string name,int errorCount);
-	int HandleButton(string name,int errorCount);
-	int HandleScreen(string name,int errorCount);
-	int HandleArm(string name,int errorCount);
+	int HandleCamera(string name,string fileName,int errorCount,bool testMode);
+	int HandleLed(string name,int pin,int errorCount,bool testMode);
+	int HandleServo(string name,int errorCount,bool testMode);
+	int HandleButton(string name,int pin,int errorCount,bool testMode);
+	int HandleScreen(string name,int errorCount,bool testMode);
+	int HandleArm(string name,int errorCount,bool testMode);
 	
 	bool EvaluatePaperPosition();
 	bool FixPaperPosition();
@@ -79,10 +80,11 @@ class Robot
 	void DrawVector();
 	
 	public:
-	Robot(Config* config);				///< Constructor. Takes a pointer to a valid Config object
+	Robot();							///< Default constructor.
+	bool Configure(Config* config);		///< Robot configuration. Takes a pointer to a valid Config object
 	~Robot();							///< Destructor. Calls the destructor of every component
-	int GetReady();						///< Value is 1 if ready for Run(). If any error value is 0
-	int Run();							///< The loop to the main event loop
+	bool GetReady();						///< Value is 1 if ready for Run(). If any error value is 0
+	bool Run();							///< The loop to the main event loop
 	string GetName();					///< Returns the actual name of the robot
 };
 

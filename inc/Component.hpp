@@ -51,26 +51,13 @@ class Component
 		* Destructor
 		*/
 		virtual ~Component();
-		/*! 
-		* Initializes the Component setting its name
-		* @param name Name of the component, left side of the line in the configuration file
-		*/
-		int InitName(std::string name);
-		/*! 
-		* Initializes the Component setting its name and its pin number
-		* @param name Name of the component, left side of the line in the configuration file
-		* @param pin Pin number where this component is connected
-		*/
-		int InitNamePin(std::string name,int pin);
-		/*! 
-		* Returns the state of the component. If ok 0, if error 1.
-		*/
-		int GetReady();
+		
+		bool GetReady();
 		/*! 
 		* Sets the status of the component
 		* @param ready State to set, if ok 0, if not 1
 		*/
-		void SetReady(int ready);
+		void SetReady(bool ready);
 		/*! 
 		* Returns the name of the component.
 		*/
@@ -110,7 +97,7 @@ class Component
 		/*! 
 		* Writes nothing to the logs during the tests
 		*/
-		void SetTestMode();
+		void SetTestMode(bool testMode);
 		/*! 
 		* Retrieves if on test mode
 		* @return true if test mode
@@ -120,7 +107,7 @@ class Component
 	protected:
 		static log4cxx::LoggerPtr logger;
 	private:
-		int mReady;
+		bool mReady;
 		int mState;
 		int mPin;
 		string mName;

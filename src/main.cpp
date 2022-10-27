@@ -87,17 +87,28 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	LOG4CXX_INFO(logger, config->components.size() << " components found.");
-	Robot* robot=new Robot(config);
-	LOG4CXX_INFO(logger, "Constructor done.");
+	Robot* robot=new Robot();
+	bool robotConfigured=robot->Configure(config);
+	if (robotConfigured==true)
+		LOG4CXX_INFO(logger, "Constructor done.");
+	else
+	{
+		LOG4CXX_ERROR(logger, "Robot fails to be configured.");
+		gpioTerminate();
+		delete(config);
+		return EXIT_FAILURE;
+	}
+	bool robotReady=robot->GetReady();
 
-	if (!robot->GetReady()) 
+	if (robotReady == false) 
 	{
 		LOG4CXX_ERROR(logger, "Robot fails to start.");
 		gpioTerminate();
 		delete(config);
 		return EXIT_FAILURE;
 	}
-	if (robot->Run() ==  ERROR){
+	bool robotRun=robot->Run();
+	if (robotRun == false){
 		LOG4CXX_ERROR(logger, "Robot exits with error.");
 		delete(config);
 		gpioTerminate();
@@ -106,7 +117,6 @@ int main(int argc, char **argv)
 	time_sleep(5.0);
 
 	LOG4CXX_INFO(logger, "Stopping robot.");
-	delete(robot);
     delete(config);
 
     gpioTerminate();
