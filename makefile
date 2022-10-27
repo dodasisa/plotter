@@ -1,5 +1,5 @@
 VERSION = `head -1 inc/Version.hpp | cut -f3 -d ' '`
-TESTMODULES = Component Button Led Camera Servo Screen Robot I2Cmanager ImageHandler Config ComponentParameters Options Arm
+TESTMODULES = Component Button Led Camera Servo Screen Robot I2Cmanager ImageHandler Config ComponentParameters Options Arm Settings
 TESTSUITES = ConfigTest RobotTest ButtonTest LedTest OptionsTest
 MODULES = $(TESTMODULES) main
 

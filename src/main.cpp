@@ -25,6 +25,7 @@
 #include "../inc/Robot.hpp"
 #include "../inc/Config.hpp"
 #include "../inc/Options.hpp"
+#include "../inc/Settings.hpp"
 //#include "../inc/mc_driver.hpp"
 
 LoggerPtr logger(Logger::getLogger("plotter"));
@@ -73,6 +74,17 @@ int main(int argc, char **argv)
 		LOG4CXX_ERROR(logger, "GPIO fails to initialise.");
 		return EXIT_FAILURE;
 	}
+	
+	// Json parsing
+	Settings* settings=new Settings();
+	settings->SetFile(options.GetRobotOptionsFileName());
+	if (settings->Parse() == false)
+	{
+		LOG4CXX_ERROR(logger, "The configuration file " << options.GetRobotOptionsFileName() << " has errors:" << settings->Message);
+		return EXIT_FAILURE;
+	}
+	// End Json parsing
+	
 //	MC::MC_Driver driver;
 //	driver.parse(options.GetRobotOptionsFileName()); // this will replace the Config class, or merge with
 	Config* config=new Config(options.GetRobotOptionsFileName(),false);
