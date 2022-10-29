@@ -1,0 +1,81 @@
+{
+  "name": "Harry Plotter",
+  "version": "1.0.0",
+  "components": [
+    {
+      "name": "ReadyIndicator",
+      "type": "led",
+      "pin": 13
+    },
+    {
+      "name": "WorkingIndicator",
+      "type": "led",
+      "pin": 11
+    },
+    {
+      "name": "StartWorking",
+      "type": "button",
+      "pin": 12
+    },
+    {
+      "name": "StopWorking",
+      "type": "button",
+      "pin": 10
+    },
+    {
+      "name": "Eyes",
+      "type": "camera",
+      "filename": "images/Source.ppm"
+    },
+    {
+      "name": "Neck",
+      "type": "servo"
+    },
+    {
+      "name": "Face",
+      "type": "screen"
+    },
+    {
+      "name": "LeftArm",
+      "type": "arm",
+      "parts": [
+        {
+          "name": "Shoulder",
+          "type": "servo",
+          "id": 1
+        },
+        {
+          "name": "Elbow",
+          "type": "servo",
+          "id": 2
+        },
+        {
+          "name": "Hand",
+          "type": "servo",
+          "id": 3
+        }
+      ]
+    },
+    {
+      "name": "RightArm",
+      "type": "arm",
+      "parts": [
+        {
+          "name": "Shoulder",
+          "type": "servo",
+          "id": 4
+        },
+        {
+          "name": "Elbow",
+          "type": "servo",
+          "id": 5
+        },
+        {
+          "name": "Hand",
+          "type": "servo",
+          "id": 6
+        }
+      ]
+    }
+  ]
+}
