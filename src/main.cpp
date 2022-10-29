@@ -77,7 +77,8 @@ int main(int argc, char **argv)
 	
 	// Json parsing
 	Settings* settings=new Settings();
-	settings->SetFile(options.GetRobotOptionsFileName());
+	//settings->SetFile(options.GetRobotOptionsFileName());
+	settings->SetFile("cfg/robot.json");
 	if (settings->Parse() == false)
 	{
 		LOG4CXX_ERROR(logger, "The configuration file " << options.GetRobotOptionsFileName() << " has errors:" << settings->Message);

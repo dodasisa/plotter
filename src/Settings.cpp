@@ -23,26 +23,44 @@
 
 
 #include "../inc/Settings.hpp"
+using namespace std;
+using namespace log4cxx;
 
+LoggerPtr Settings::logger(Logger::getLogger("plotter.settings"));
 
 Settings::Settings()
 {
+	LOG4CXX_TRACE(logger, "Settings constructor");
 	Message="";
 }
 
 void Settings::SetFile(string fileName)
 {
+	LOG4CXX_TRACE(logger, "Settings SetFile " << fileName);
 	FileName=fileName;
 }
 
 bool Settings::Parse()
 {
+	LOG4CXX_TRACE(logger, "Settings Parse");
 	FILE* fp = fopen(FileName.c_str(),"rb");
 	char readBuffer[1000];
 	FileReadStream is(fp,readBuffer,sizeof(readBuffer));
 	Document d;
 	d.ParseStream(is);
 	fclose(fp);
+	
+	LOG4CXX_DEBUG(logger, "Settings: name=" << d["name"].GetString());
+	LOG4CXX_DEBUG(logger, "Settings: version=" << d["version"].GetString());
+	const Value& components = d["components"];
+	LOG4CXX_DEBUG(logger, "Settings: components count=" << components.Size());
+	for (int i=0; i<components.Size();i++)
+	{		
+		const Value& component=components[i].GetObject();
+		LOG4CXX_DEBUG(logger, "Settings: component " << (i+1) << ". Name=" << component["name"].GetString());
+				
+		//LOG4CXX_DEBUG(logger, "Settings: component " << (i+1) << "name=" << components[i]["name"] << ", type=" << components[i]["type"]);
+	}
 	return true;
 } 
 

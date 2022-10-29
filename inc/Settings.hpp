@@ -28,6 +28,7 @@
 #include <cstdio>
 #include "../inc/rapidjson/document.h"
 #include "../inc/rapidjson/filereadstream.h"
+#include "log4cxx/logger.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -41,6 +42,7 @@ class Settings
 		string Message;
 	private:
 		string FileName;
+		static log4cxx::LoggerPtr logger;
 };
 
 #endif /* SETTINGS_HPP */ 
