@@ -34,6 +34,7 @@
 #include "Screen.hpp"
 #include "Arm.hpp"
 #include "Config.hpp"
+#include "Settings.hpp"
 #include "log4cxx/logger.h"
 #include "Constants.hpp"
 using namespace std;
@@ -63,7 +64,10 @@ class Robot
 	Button mStopWorking;
 	
 	bool mReady;
+	
 	string mName;
+	string mVersion;
+	
 	RunMode mMode;
 	int HandleCamera(string name,string fileName,int errorCount,bool testMode);
 	int HandleLed(string name,int pin,int errorCount,bool testMode);
@@ -81,11 +85,13 @@ class Robot
 	
 	public:
 	Robot();							///< Default constructor.
-	bool Configure(Config* config);		///< Robot configuration. Takes a pointer to a valid Config object
+//	bool Configure(Config* config);		///< Robot configuration. Takes a pointer to a valid Config object
+	bool Configure(Settings* settings);
 	~Robot();							///< Destructor. Calls the destructor of every component
 	bool GetReady();						///< Value is 1 if ready for Run(). If any error value is 0
 	bool Run();							///< The loop to the main event loop
 	string GetName();					///< Returns the actual name of the robot
+	string GetVersion();				///< Returns the version of the robot setup
 };
 
 #endif

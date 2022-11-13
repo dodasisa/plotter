@@ -26,9 +26,11 @@
 #define SETTINGS_HPP
 #include <string>
 #include <cstdio>
+#include <cstring>
 #include "../inc/rapidjson/document.h"
 #include "../inc/rapidjson/filereadstream.h"
 #include "log4cxx/logger.h"
+#include "ComponentParameters.hpp"
 
 using namespace std;
 using namespace rapidjson;
@@ -37,11 +39,43 @@ class Settings
 {
 	public:
 		Settings();
+		/*!
+		 * Defines the json file to parse
+		 */
 		void SetFile(string fileName);
+		/*!
+		 * Parses the Json file and fills the required properties with its content
+		 */
 		bool Parse(); 
-		string Message;
+		/*! 
+		* Returns the error message, if any.
+		*/
+		string GetErrorMessage();
+		/*!
+		 * True if running tests; false if live mode
+		 */ 
+		bool GetTest();
+		/*!
+		 * True if no error has been detected
+		 */
+		bool GetValid();
+		
+		//vector<ComponentParameters*> GetComponents();
+		//map<string, string> data;
+
+		void SetTestMode(bool mode);
+
+		string GetRootString(string name);
+		
+		string GetComponentString(char* componentName, char* property);
+		int GetComponentInt(char* componentName, char *property);
+		
 	private:
+		Document d;
 		string FileName;
+		string ErrorMessage;
+		bool Test;
+		bool Valid;
 		static log4cxx::LoggerPtr logger;
 };
 

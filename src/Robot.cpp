@@ -36,6 +36,41 @@ Robot::Robot()
 {
 }
 
+bool Robot::Configure(Settings* settings)
+{
+	if (settings->GetTest())
+		logger->setLevel(Level::getOff());
+	LOG4CXX_TRACE(logger, "Robot Configure");
+	mMode = RunMode::stopped;
+	int errorCount = 0;
+	
+	mName = settings->GetRootString("name");
+	if (mName=="ERROR")
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Settings error (name): " << settings->GetErrorMessage());
+	}
+	else
+		LOG4CXX_DEBUG(logger, "Robot name is " << GetName());
+		
+	mVersion = settings->GetRootString("version");
+	if (mVersion=="ERROR")
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Settings error (version): " << settings->GetErrorMessage());
+	}
+	else
+		LOG4CXX_DEBUG(logger, "Robot version is " << GetVersion());
+
+	string test=settings->GetComponentString("ReadyIndicator","type");
+	LOG4CXX_DEBUG(logger, "Type of ReadyIndicator " << test);
+	int pin=settings->GetComponentInt("ReadyIndicator","pin");
+//	LOG4CXX_DEBUG(logger, "Pin of ReadyIndicator " << );
+	
+	return true;
+}
+
+/*
 bool Robot::Configure(Config* config)
 {
 	mReady=false;
@@ -88,7 +123,7 @@ bool Robot::Configure(Config* config)
 	if (errorCount == 0) mReady = TRUE;
 	return mReady;
 }
-
+*/
 /**
  * Robot main destructor
  */ 
@@ -119,6 +154,13 @@ string Robot::GetName()
 	LOG4CXX_TRACE(logger, "Robot GetName " << mName);
 	return mName;
 }
+
+string Robot::GetVersion()
+{
+	LOG4CXX_TRACE(logger, "Robot GetVersion " << mVersion);
+	return mVersion;
+}
+
 /**
  * Main event loop. 
  * If GetReady returns 0 the loop doesn't start.

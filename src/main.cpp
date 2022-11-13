@@ -81,13 +81,17 @@ int main(int argc, char **argv)
 	settings->SetFile("cfg/robot.json");
 	if (settings->Parse() == false)
 	{
-		LOG4CXX_ERROR(logger, "The configuration file " << options.GetRobotOptionsFileName() << " has errors:" << settings->Message);
+		LOG4CXX_ERROR(logger, "The configuration file " << options.GetRobotOptionsFileName() << " has errors:" << settings->GetErrorMessage());
 		return EXIT_FAILURE;
 	}
 	// End Json parsing
+	Robot* robot=new Robot();
+	bool robotConfigured=robot->Configure(settings);
+	
 	
 //	MC::MC_Driver driver;
 //	driver.parse(options.GetRobotOptionsFileName()); // this will replace the Config class, or merge with
+	/*
 	Config* config=new Config(options.GetRobotOptionsFileName(),false);
 	if (config->IsValid()==ERROR)
 	{
@@ -100,6 +104,8 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	LOG4CXX_INFO(logger, config->components.size() << " components found.");
+	*/ 
+	/*
 	Robot* robot=new Robot();
 	bool robotConfigured=robot->Configure(config);
 	if (robotConfigured==true)
@@ -131,7 +137,7 @@ int main(int argc, char **argv)
 
 	LOG4CXX_INFO(logger, "Stopping robot.");
     delete(config);
-
+	*/
     gpioTerminate();
 	return EXIT_SUCCESS;
 }
