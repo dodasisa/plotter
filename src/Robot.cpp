@@ -65,8 +65,12 @@ bool Robot::Configure(Settings* settings)
 	string test=settings->GetComponentString("ReadyIndicator","type");
 	LOG4CXX_DEBUG(logger, "Type of ReadyIndicator " << test);
 	int pin=settings->GetComponentInt("ReadyIndicator","pin");
-//	LOG4CXX_DEBUG(logger, "Pin of ReadyIndicator " << );
 	
+//	LOG4CXX_DEBUG(logger, "Pin of ReadyIndicator " << );
+	bool testState;
+	if (testState=mReadyIndicator.InitNamePin("ReadyIndicator", pin) == ERROR)
+		errorCount++;
+	mReadyIndicator.SetTestMode(settings->GetTest());
 	return true;
 }
 
