@@ -5,19 +5,19 @@
   {
     "ReadyIndicator": {
       "type": "led",
-      "pin": 13
+      "pin": 27
     },
     "WorkingIndicator" : {
       "type": "led",
-      "pin": 11
+      "pin": 17
     },
     "StartWorking" : {
       "type": "button",
-      "pin": 12
+      "pin": 18
     },
     "StopWorking" : {
       "type": "button",
-      "pin": 10
+      "pin": 15
     },
     "Eyes" : {
       "type": "camera",

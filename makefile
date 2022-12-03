@@ -16,7 +16,7 @@ CC=gcc
 CXX=g++
 TESTGEN=$(CXXTEST)/bin/cxxtestgen
 RM=rm -f
-CPPFLAGS=-g -Wall -Wwrite-strings -I/usr/local/include
+CPPFLAGS=-g -Wall -I/usr/local/include
 LDLIBS = -lpthread -lpigpio -lrt -lraspicam -lmmal -lmmal_core -lmmal_util -llog4cxx
 OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRCS))
 

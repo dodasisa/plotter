@@ -66,68 +66,17 @@ bool Robot::Configure(Settings* settings)
 	LOG4CXX_DEBUG(logger, "Type of ReadyIndicator " << test);
 	int pin=settings->GetComponentInt("ReadyIndicator","pin");
 	
-//	LOG4CXX_DEBUG(logger, "Pin of ReadyIndicator " << );
+	LOG4CXX_DEBUG(logger, "Pin of ReadyIndicator " << pin);
 	bool testState;
 	if (testState=mReadyIndicator.InitNamePin("ReadyIndicator", pin) == ERROR)
 		errorCount++;
 	mReadyIndicator.SetTestMode(settings->GetTest());
+	LOG4CXX_DEBUG(logger, "mReadyIndicator test mode = " << mReadyIndicator.IsOnTestMode() );
+
 	return true;
 }
 
-/*
-bool Robot::Configure(Config* config)
-{
-	mReady=false;
-	if (config->IsOnTestMode())
-		logger->setLevel(Level::getOff());
-	mMode = RunMode::stopped;
-	LOG4CXX_TRACE(logger, "Robot Configure");
-	int errorCount = 0;
-	mReady = FALSE;
-	mName = config->GetName();
-	LOG4CXX_INFO(logger, "Starting Robot " << mName);
-	LOG4CXX_DEBUG(logger, "Found " << config->components.size() << " components in the config file");
-	vector<ComponentParameters*>::iterator componentIterator;
-	mMode = RunMode::starting;
-	/// Loops every Component defined in the Config class.
-	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
-	{
-		ComponentParameters* component = *componentIterator;
-		//cerr << "Adding component " << component->GetName() << " of type " << component->GetType() << endl;
-		/// Creates an component derived from Component and adds it to its components vector.
-		switch (component->GetType())
-		{
-		case camera:
-			errorCount=HandleCamera(component->GetName(),config->GetPhotoFileName(),errorCount,config->IsOnTestMode());
-			break;
-		case led:
-			errorCount=HandleLed(component->GetName(),component->GetPin(),errorCount,config->IsOnTestMode());
-			break;
-		case servo:
-			errorCount=HandleServo(component->GetName(),errorCount,config->IsOnTestMode());
-			break;
-		case button:
-			errorCount=HandleButton(component->GetName(),component->GetPin(),errorCount,config->IsOnTestMode());
-			break;
-		case arm:
-			errorCount=HandleArm(component->GetName(),errorCount,config->IsOnTestMode());
-			break;
-		case screen:
-			errorCount=HandleScreen(component->GetName(),errorCount,config->IsOnTestMode());
-			break;
-		case unknown:
-		default:
-			break;
-		}
-		if (errorCount>0)
-			return false;
-		LOG4CXX_DEBUG(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
-	}
-	/// if any of the created components reports an error, the state if the robot is set to 0. Main() must stop.
-	if (errorCount == 0) mReady = TRUE;
-	return mReady;
-}
-*/
+
 /**
  * Robot main destructor
  */ 
@@ -173,7 +122,13 @@ string Robot::GetVersion()
 bool Robot::Run()
 {
 	LOG4CXX_TRACE(logger, "Robot Run");
-	mMode=WaitingMode();
+	mMode=WaitingMode();  // this lights the ready indicator
+	sleep(3);
+	mReadyIndicator.Off();
+	return true;
+	
+	
+	
 	//cerr << "waiting mode done" << endl;
 	
 	// mode changes on interruptios, when a button is pressed.
@@ -206,10 +161,10 @@ RunMode Robot::WaitingMode()
 	LOG4CXX_TRACE(logger, "Robot WaitingMode");
 	LOG4CXX_DEBUG(logger, mReadyIndicator.GetName());
 	mReadyIndicator.On();
-	mNeck.SetAngle(20.0);
-	mFace.SetNeutralFace();
-	mRightArm.SetNeutral();
-	mLeftArm.SetNeutral();
+//	mNeck.SetAngle(20.0);
+//	mFace.SetNeutralFace();
+//	mRightArm.SetNeutral();
+//	mLeftArm.SetNeutral();
 	return RunMode::waiting;
 }
 

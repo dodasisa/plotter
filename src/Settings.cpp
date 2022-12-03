@@ -109,12 +109,15 @@ void Settings::SetTestMode(bool mode)
 	Test=mode;
 }
 
-string Settings::GetComponentString(char* componentName, char *property)
+string Settings::GetComponentString(string componentName,string property)
 {
 	const Value& components = d["components"];
-	const Value& component=components[componentName].GetObject();
+	char* c = const_cast<char*>(componentName.c_str());
+	char* p = const_cast<char*>(property.c_str());
+
+	const Value& component=components[c].GetObject();
 	
-	const Value& value= component[property];
+	const Value& value= component[p];
 	if (!value.IsNull())
 		return value.GetString();
 	else
@@ -124,12 +127,14 @@ string Settings::GetComponentString(char* componentName, char *property)
 	}	
 }
 
-int Settings::GetComponentInt(char* componentName, char *property)
+int Settings::GetComponentInt(string componentName, string property)
 {
 	const Value& components = d["components"];
-	const Value& component=components[componentName].GetObject();
+	char* c = const_cast<char*>(componentName.c_str());
+	char* p = const_cast<char*>(property.c_str());
+	const Value& component=components[c].GetObject();
 	
-	const Value& value= component[property];
+	const Value& value= component[p];
 	if (!value.IsNull())
 		return value.GetInt();
 	else

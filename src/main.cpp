@@ -74,20 +74,20 @@ int main(int argc, char **argv)
 		LOG4CXX_ERROR(logger, "GPIO fails to initialise.");
 		return EXIT_FAILURE;
 	}
-	
+		
 	// Json parsing
-	Settings* settings=new Settings();
+	Settings settings;//=new Settings();
 	//settings->SetFile(options.GetRobotOptionsFileName());
-	settings->SetFile("cfg/robot.json");
-	if (settings->Parse() == false)
+	settings.SetFile("cfg/robot.json");
+	if (settings.Parse() == false)
 	{
-		LOG4CXX_ERROR(logger, "The configuration file " << options.GetRobotOptionsFileName() << " has errors:" << settings->GetErrorMessage());
+		LOG4CXX_ERROR(logger, "The configuration file " << options.GetRobotOptionsFileName() << " has errors:" << settings.GetErrorMessage());
 		return EXIT_FAILURE;
 	}
 	// End Json parsing
-	Robot* robot=new Robot();
-	bool robotConfigured=robot->Configure(settings);
-	
+	Robot robot;//=new Robot();
+	bool robotConfigured=robot.Configure(&settings);
+	robot.Run();
 	
 //	MC::MC_Driver driver;
 //	driver.parse(options.GetRobotOptionsFileName()); // this will replace the Config class, or merge with

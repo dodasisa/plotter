@@ -67,8 +67,8 @@ class Settings
 
 		string GetRootString(string name);
 		
-		string GetComponentString(char* componentName, char* property);
-		int GetComponentInt(char* componentName, char *property);
+		string GetComponentString(string componentName, string property);
+		int GetComponentInt(string componentName, string property);
 		
 	private:
 		Document d;
