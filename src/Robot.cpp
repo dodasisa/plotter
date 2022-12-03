@@ -36,58 +36,46 @@ Robot::Robot()
 {
 }
 
-bool Robot::Configure(Config* config)
+bool Robot::Configure(Settings* settings)
 {
-	mReady=false;
-	if (config->IsOnTestMode())
+	if (settings->GetTest())
 		logger->setLevel(Level::getOff());
-	mMode = RunMode::stopped;
 	LOG4CXX_TRACE(logger, "Robot Configure");
+	mMode = RunMode::stopped;
 	int errorCount = 0;
-	mReady = FALSE;
-	mName = config->GetName();
-	LOG4CXX_INFO(logger, "Starting Robot " << mName);
-	LOG4CXX_DEBUG(logger, "Found " << config->components.size() << " components in the config file");
-	vector<ComponentParameters*>::iterator componentIterator;
-	mMode = RunMode::starting;
-	/// Loops every Component defined in the Config class.
-	for (componentIterator = config->components.begin(); componentIterator != config->components.end(); ++componentIterator)
+	
+	mName = settings->GetRootString("name");
+	if (mName=="ERROR")
 	{
-		ComponentParameters* component = *componentIterator;
-		//cerr << "Adding component " << component->GetName() << " of type " << component->GetType() << endl;
-		/// Creates an component derived from Component and adds it to its components vector.
-		switch (component->GetType())
-		{
-		case camera:
-			errorCount=HandleCamera(component->GetName(),config->GetPhotoFileName(),errorCount,config->IsOnTestMode());
-			break;
-		case led:
-			errorCount=HandleLed(component->GetName(),component->GetPin(),errorCount,config->IsOnTestMode());
-			break;
-		case servo:
-			errorCount=HandleServo(component->GetName(),errorCount,config->IsOnTestMode());
-			break;
-		case button:
-			errorCount=HandleButton(component->GetName(),component->GetPin(),errorCount,config->IsOnTestMode());
-			break;
-		case arm:
-			errorCount=HandleArm(component->GetName(),errorCount,config->IsOnTestMode());
-			break;
-		case screen:
-			errorCount=HandleScreen(component->GetName(),errorCount,config->IsOnTestMode());
-			break;
-		case unknown:
-		default:
-			break;
-		}
-		if (errorCount>0)
-			return false;
-		LOG4CXX_DEBUG(logger, "Component " << component->GetName() << " added. ErrorCount=" << errorCount );
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Settings error (name): " << settings->GetErrorMessage());
 	}
-	/// if any of the created components reports an error, the state if the robot is set to 0. Main() must stop.
-	if (errorCount == 0) mReady = TRUE;
-	return mReady;
+	else
+		LOG4CXX_DEBUG(logger, "Robot name is " << GetName());
+		
+	mVersion = settings->GetRootString("version");
+	if (mVersion=="ERROR")
+	{
+		errorCount++;
+		LOG4CXX_ERROR(logger, "Settings error (version): " << settings->GetErrorMessage());
+	}
+	else
+		LOG4CXX_DEBUG(logger, "Robot version is " << GetVersion());
+
+	string test=settings->GetComponentString("ReadyIndicator","type");
+	LOG4CXX_DEBUG(logger, "Type of ReadyIndicator " << test);
+	int pin=settings->GetComponentInt("ReadyIndicator","pin");
+	
+	LOG4CXX_DEBUG(logger, "Pin of ReadyIndicator " << pin);
+	bool testState;
+	if (testState=mReadyIndicator.InitNamePin("ReadyIndicator", pin) == ERROR)
+		errorCount++;
+	mReadyIndicator.SetTestMode(settings->GetTest());
+	LOG4CXX_DEBUG(logger, "mReadyIndicator test mode = " << mReadyIndicator.IsOnTestMode() );
+
+	return true;
 }
+
 
 /**
  * Robot main destructor
@@ -119,6 +107,13 @@ string Robot::GetName()
 	LOG4CXX_TRACE(logger, "Robot GetName " << mName);
 	return mName;
 }
+
+string Robot::GetVersion()
+{
+	LOG4CXX_TRACE(logger, "Robot GetVersion " << mVersion);
+	return mVersion;
+}
+
 /**
  * Main event loop. 
  * If GetReady returns 0 the loop doesn't start.
@@ -127,7 +122,13 @@ string Robot::GetName()
 bool Robot::Run()
 {
 	LOG4CXX_TRACE(logger, "Robot Run");
-	mMode=WaitingMode();
+	mMode=WaitingMode();  // this lights the ready indicator
+	sleep(3);
+	mReadyIndicator.Off();
+	return true;
+	
+	
+	
 	//cerr << "waiting mode done" << endl;
 	
 	// mode changes on interruptios, when a button is pressed.
@@ -160,10 +161,10 @@ RunMode Robot::WaitingMode()
 	LOG4CXX_TRACE(logger, "Robot WaitingMode");
 	LOG4CXX_DEBUG(logger, mReadyIndicator.GetName());
 	mReadyIndicator.On();
-	mNeck.SetAngle(20.0);
-	mFace.SetNeutralFace();
-	mRightArm.SetNeutral();
-	mLeftArm.SetNeutral();
+//	mNeck.SetAngle(20.0);
+//	mFace.SetNeutralFace();
+//	mRightArm.SetNeutral();
+//	mLeftArm.SetNeutral();
 	return RunMode::waiting;
 }
 
