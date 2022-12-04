@@ -62,8 +62,6 @@ bool Robot::Configure(Settings* settings)
 	else
 		LOG4CXX_DEBUG(logger, "Robot version is " << GetVersion());
 
-	string test=settings->GetComponentString("ReadyIndicator","type");
-	LOG4CXX_DEBUG(logger, "Type of ReadyIndicator " << test);
 	int pin=settings->GetComponentInt("ReadyIndicator","pin");
 	
 	LOG4CXX_DEBUG(logger, "Pin of ReadyIndicator " << pin);
@@ -73,7 +71,16 @@ bool Robot::Configure(Settings* settings)
 	mReadyIndicator.SetTestMode(settings->GetTest());
 	LOG4CXX_DEBUG(logger, "mReadyIndicator test mode = " << mReadyIndicator.IsOnTestMode() );
 
-	return true;
+	pin=settings->GetComponentInt("WorkingIndicator","pin");
+	testState;
+	if (testState=mWorkingIndicator.InitNamePin("WorkingIndicator", pin) == ERROR)
+		errorCount++;
+	mWorkingIndicator.SetTestMode(settings->GetTest());
+	LOG4CXX_DEBUG(logger, "mWorkingIndicator test mode = " << mWorkingIndicator.IsOnTestMode() );
+	if (errorCount==0)
+		return true;
+	else
+		return false;
 }
 
 
@@ -124,7 +131,10 @@ bool Robot::Run()
 	LOG4CXX_TRACE(logger, "Robot Run");
 	mMode=WaitingMode();  // this lights the ready indicator
 	sleep(3);
+	mMode=DrawingMode(); // this lights the working indicator
+	sleep(3);
 	mReadyIndicator.Off();
+	mWorkingIndicator.Off();
 	return true;
 	
 	
@@ -172,6 +182,8 @@ RunMode Robot::DrawingMode()
 {
 	LOG4CXX_TRACE(logger, "Robot DrawingMode");
 	mWorkingIndicator.On();
+	return RunMode::drawing;
+	
 	mNeck.SetAngle(60);
 	mFace.SetStaringFace();
 	
