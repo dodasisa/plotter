@@ -84,6 +84,11 @@ int main(int argc, char **argv)
 		LOG4CXX_ERROR(logger, "The configuration file " << options.GetRobotOptionsFileName() << " has errors:" << settings.GetErrorMessage());
 		return EXIT_FAILURE;
 	}
+	
+    gpioSetMode(17,PI_OUTPUT);
+    gpioWrite(17,PI_HIGH);
+    sleep(3);
+	gpioWrite(17,PI_LOW);
 	// End Json parsing
 	Robot robot;//=new Robot();
 	bool robotConfigured=robot.Configure(&settings);

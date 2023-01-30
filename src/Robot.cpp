@@ -75,6 +75,7 @@ bool Robot::Configure(Settings* settings)
 	testState;
 	if (testState=mWorkingIndicator.InitNamePin("WorkingIndicator", pin) == ERROR)
 		errorCount++;
+	LOG4CXX_DEBUG(logger, "Pin of WorkingIndicator " << pin);
 	mWorkingIndicator.SetTestMode(settings->GetTest());
 	LOG4CXX_DEBUG(logger, "mWorkingIndicator test mode = " << mWorkingIndicator.IsOnTestMode() );
 	if (errorCount==0)
@@ -181,6 +182,7 @@ RunMode Robot::WaitingMode()
 RunMode Robot::DrawingMode()
 {
 	LOG4CXX_TRACE(logger, "Robot DrawingMode");
+	LOG4CXX_DEBUG(logger, mWorkingIndicator.GetName());
 	mWorkingIndicator.On();
 	return RunMode::drawing;
 	
